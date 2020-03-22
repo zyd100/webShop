@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zl.webshop.dao.UserDao">
+	<!-- 目的：为dao接口方法提供sql语句配置 -->
+	<select id="count" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+			COUNT(*)
+		FROM
+			user
+	</select>
+	<select id="queryById" resultType="User" parameterType="String">
+		<!-- 具体的sql -->
+		SELECT
+			*
+		FROM
+			user
+		WHERE
+			user_name = #{userName}
+	</select>
+	<select id="queryAll" resultType="User">
+		SELECT
+			*
+		FROM
+			user
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<insert id="addUser" parameterType="User">
+		INSERT ignore INTO 
+			`user` (`user_name`, `password`, `nick_name`,`email`) 
+			VALUES (#{user.userName},#{user.password},#{user.nickName},#{user.email});
+	</insert>
+	<delete id="deleteUser" parameterType="User">
+		DELETE 
+		FROM 
+			`user` 
+		WHERE 
+			(`user_name` = #{user.userName});
+	</delete>
+	
+	<update id="updateUser"  parameterType="User">
+		UPDATE user
+		SET 
+			`password` = #{user.password},
+			`nick_name` = #{user.nickName},
+			`email` = #{user.email}
+		WHERE
+			user_name = #{user.userName}
+	</update>
+</mapper>

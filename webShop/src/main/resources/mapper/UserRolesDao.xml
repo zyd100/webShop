@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zl.webshop.dao.UserRolesDao">
+	<!-- 目的：为dao接口方法提供sql语句配置 -->
+	<select id="count" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+			COUNT(*)
+		FROM
+			user_roles
+	</select>
+	<select id="queryAllByRole" resultType="UserRoles">
+		<!-- 具体的sql -->
+		SELECT
+			*
+		FROM
+			user_roles
+		WHERE
+			`role`= #{role}	
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<select id="queryAll" resultType="UserRoles">
+		SELECT
+			*
+		FROM
+			user_roles
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<select id="queryByUserName" resultType="UserRoles">
+		SELECT
+			*
+		FROM
+			user_roles
+		WHERE
+			user_name = #{userName}	
+	</select>
+	<insert id="addRole">
+		INSERT ignore INTO 
+			`user_roles` (`role`,`user_name`) 
+			VALUES (#{role},#{userName});
+	</insert>
+	<delete id="deleteRole" >
+		DELETE 
+		FROM 
+			`user_roles` 
+		WHERE 
+			(`user_name` = #{userName});
+	</delete>
+	
+	<update id="updateRole"  >
+		UPDATE user_roles
+		SET 
+			`role` = #{role}
+		WHERE
+			`user_name` = #{userName}
+	</update>
+</mapper>

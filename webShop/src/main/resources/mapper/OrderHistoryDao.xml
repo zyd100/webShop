@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zl.webshop.dao.OrderHistoryDao">
+	<!-- 目的：为dao接口方法提供sql语句配置 -->
+	<select id="count" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+		COUNT(*)
+		FROM
+		order_history
+	</select>
+	<select id="queryAll" resultType="OrderHistory">
+		SELECT
+			*
+		FROM
+			order_history
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<select id="queryById" resultType="OrderHistory">
+		SELECT
+			*
+		FROM
+			order_history
+		WHERE
+			`id` = #{id}	
+	</select>
+	<select id="queryByOrderNum" resultType="OrderHistory">
+		SELECT
+			*
+		FROM
+			order_history
+		WHERE
+			`order_num` = #{orderNum}	
+	</select>
+	<select id="queryAllByUpdateUserName" resultType="OrderHistory">
+		SELECT
+			*
+		FROM
+			order_history
+		WHERE
+			`update_user_name` = #{updateUserName}	
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<insert id="addOrderHistory">
+		INSERT ignore INTO 
+			`order_history` (`order_num`,`update_user_name`,`status`,`create_time`) 
+			VALUES 
+				(#{orderHistory.orderNum},#{orderHistory.updateUserName},
+				#{orderHistory.status},#{orderHistory.createTime});
+	</insert>
+	<delete id="deleteOrderHistory" >
+		DELETE 
+		FROM 
+			`order_history` 
+		WHERE 
+			(`id` = #{orderHistory.id} and `order_num` = #{orderHistory.orderNum});
+	</delete>
+	
+	<update id="updateOrderHistory"  >
+		UPDATE order_history
+		SET 
+			`update_user_name` = #{orderHistory.updateUserName},
+			`status` = #{orderHistory.status},
+			`create_time` = #{orderHistory.createTime}
+		WHERE
+			`id` = #{orderHistory.id} and `order_num` = #{orderHistory.orderNum}
+	</update>
+</mapper>

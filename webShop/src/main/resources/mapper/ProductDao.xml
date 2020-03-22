@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zl.webshop.dao.ProductDao">
+	<!-- 目的：为dao接口方法提供sql语句配置 -->
+	<select id="count" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+			COUNT(*)
+		FROM
+			product
+	</select>
+	<select id="fuzzyQueryAllByText" resultType="Product">
+		<!-- 具体的sql -->
+		SELECT
+			*
+		FROM
+			product
+		WHERE
+			`product_name` LIKE CONCAT(CONCAT('%', #{searchText}), '%')
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<select id="queryAll" resultType="Product">
+		SELECT
+			*
+		FROM
+			product
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<select id="queryById" resultType="Product">
+		SELECT
+			*
+		FROM
+			product
+		WHERE
+			`id` = #{id}	
+	</select>
+	<select id="queryByProductName" resultType="Product">
+		SELECT
+			*
+		FROM
+			product
+		WHERE
+			`product_name` = #{productName}	
+	</select>
+	<insert id="addProduct">
+		INSERT ignore INTO 
+			`product` (`product_name`,`explain`,`category_id`,`shop_price`,`price`,`quantity`,`image`,`create_user_name`,`update_user_name`) 
+			VALUES 
+				(#{product.productName},#{product.explain},
+				#{product.categoryId},#{product.shopPrice},
+				#{product.price},#{product.quantity},
+				#{product.image},#{product.createUserName},#{product.updateUserName});
+	</insert>
+	<delete id="deleteProduct" >
+		DELETE 
+		FROM 
+			`product` 
+		WHERE 
+			(`id` = #{product.id});
+	</delete>
+	
+	<update id="updateProduct"  >
+		UPDATE product
+		SET 
+			`product_name` = #{product.productName},
+			`explain` = #{product.explain},
+			`category_id` = #{product.categoryId},
+			`shop_price` = #{product.shopPrice},
+			`price` = #{product.price},
+			`quantity` = #{product.quantity},
+			`image` = #{product.image},
+			`create_user_name` = #{product.createUserName},
+			`update_user_name` = #{product.updateUserName}
+		WHERE
+			`id` = #{product.id}
+	</update>
+</mapper>

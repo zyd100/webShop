@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zl.webshop.dao.ProductCategoryDao">
+	<!-- 目的：为dao接口方法提供sql语句配置 -->
+	<select id="count" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+			COUNT(*)
+		FROM
+			product_category
+	</select>
+	<select id="queryAll" resultType="ProductCategory">
+		SELECT
+			*
+		FROM
+			product_category
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<select id="queryById" resultType="ProductCategory">
+		SELECT
+			*
+		FROM
+			product_category
+		WHERE
+			`id` = #{id}	
+	</select>
+	
+	<insert id="addProductCategory">
+		INSERT ignore INTO 
+			`product_category` (`category_name`,`sort_order`,`description`,`image`) 
+			VALUES 
+				(#{productCategory.categoryName},#{productCategory.sortOrder},
+				#{productCategory.description},#{productCategory.image});
+	</insert>
+	<delete id="deleteProductCategory" >
+		DELETE 
+		FROM 
+			`product_category` 
+		WHERE 
+			(`id` = #{productCategory.id});
+	</delete>
+	
+	<update id="updateProductCategory"  >
+		UPDATE product_category
+		SET 
+			`category_name` = #{productCategory.categoryName},
+			`sort_order` = #{productCategory.sortOrder},
+			`description` = #{productCategory.description},
+			`image` = #{productCategory.image}
+		WHERE
+			`id` = #{productCategory.id}
+	</update>
+</mapper>

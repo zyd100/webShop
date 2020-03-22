@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zl.webshop.dao.ContactDao">
+	<!-- 目的：为dao接口方法提供sql语句配置 -->
+	
+	<select id="queryByUserNameStatus" resultType="Contact">
+		SELECT
+			*
+		FROM
+			contact
+		WHERE
+			`user_name` = #{userName} AND `status`=#{status}	
+	</select>
+	<select id="queryAll" resultType="Contact">
+		SELECT
+			*
+		FROM
+			contact
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<select id="queryById" resultType="Contact">
+		SELECT
+			*
+		FROM
+			contact
+		WHERE
+			`id` = #{id}	
+	</select>
+	<select id="queryByUserName" resultType="Contact">
+		SELECT
+			*
+		FROM
+			contact
+		WHERE
+			`user_name` = #{userName}	
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<insert id="addContact">
+		INSERT ignore INTO 
+			`contact` (`user_name`,`contact_name`,`contact_mobile`,`contact_address`,`status`) 
+			VALUES 
+				(#{contact.userName},#{contact.contactName},
+				#{contact.contactMobile},#{contact.contactAddress},#{contact.status});
+	</insert>
+	<delete id="deleteContact" >
+		DELETE 
+		FROM 
+			`contact` 
+		WHERE 
+			(`id` = #{contact.id} AND `user_name` = #{contact.userName});
+	</delete>
+	<delete id="deleteContactByUserName" >
+		DELETE 
+		FROM 
+			`contact` 
+		WHERE 
+			(`user_name` = #{userName});
+	</delete>
+	<update id="updateContact"  >
+		UPDATE contact
+		SET 
+			`user_name` = #{contact.userName},
+			`contact_name` = #{contact.contactName},
+			`contact_mobile` = #{contact.contactMobile},
+			`contact_address` = #{contact.contactAddress},
+			`status` = #{contact.status}
+		WHERE
+			`id` = #{contact.id}
+	</update>
+</mapper>

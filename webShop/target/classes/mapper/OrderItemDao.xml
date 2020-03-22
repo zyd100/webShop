@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zl.webshop.dao.OrderItemDao">
+	<!-- 目的：为dao接口方法提供sql语句配置 -->
+	<select id="count" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+		COUNT(*)
+		FROM
+		order_item
+	</select>
+	<select id="countByOrderNum" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+		COUNT(*)
+		FROM
+		order_item
+		WHERE
+		`order_num` = #{orderNum}
+	</select>
+	<select id="queryByUserNameAndOrderNum" resultType="OrderItem">
+		SELECT
+		*
+		FROM
+		order_item
+		WHERE
+		`order_num` = #{orderNum} AND `user_name` = #{userName}
+		ORDER BY
+		`id`
+	</select>
+	<select id="queryById" resultType="OrderItem">
+		SELECT
+		*
+		FROM
+		order_item
+		WHERE
+		`id` = #{id}
+	</select>
+
+	<insert id="addOrderItem">
+		INSERT ignore INTO
+		`order_item`
+		(`order_num`,`user_name`,`product_id`,`product_name`,`price`,`quantity`)
+		VALUES
+		(#{orderItem.orderNum},#{orderItem.userName},
+		#{orderItem.productId},#{orderItem.productName},#{orderItem.price},#{orderItem.quantity});
+	</insert>
+	<delete id="deleteOrderItem">
+		DELETE
+		FROM
+		`order_item`
+		WHERE
+		(`id` = #{orderItem.id}
+		and `user_name` = #{orderItem.userName});
+	</delete>
+	<delete id="deleteOrderItemByProduct">
+		DELETE
+		FROM
+		`order_item`
+		WHERE
+		(`product_id` =
+		#{productId});
+	</delete>
+	<delete id="deleteOrderItemByUserName">
+		DELETE
+		FROM
+		`order_item`
+		WHERE
+		(`user_name` =
+		#{userName});
+	</delete>
+	<update id="updateOrderItem">
+		UPDATE order_item
+		SET
+		`order_num` =
+		#{orderItem.orderNum},
+		`user_name` = #{orderItem.userName},
+		`product_id` = #{orderItem.productId},
+		`product_name` =
+		#{orderItem.productName},
+		`price` = #{orderItem.price},
+		`quantity` =
+		#{orderItem.quantity}
+		WHERE
+		`id` = #{orderItem.id} and `user_name` =
+		#{orderItem.userName}
+	</update>
+	<update id="updateOrderItemByProduct">
+		UPDATE order_item
+		SET
+		`product_name` =
+		#{orderItem.productName},
+		`price` = #{orderItem.price},
+		`quantity` =
+		#{orderItem.quantity}
+		WHERE
+		`product_id` = #{productId}
+	</update>
+</mapper>
