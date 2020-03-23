@@ -85,7 +85,16 @@ public interface ProductDao {
    * @return 产品对象
    */
   Product queryById(@Param("id") long id);
-
+  /**
+   * 
+  *<p>Title: queryByCategoryId</p> 
+  *<p>Description: 根据产品类别获取产品</p> 
+  　 * @param categoryId 类别序号
+  　 * @param offset 查询起始位置
+  　 * @param limit 查询条数
+  　 * @return 产品列表
+   */
+   List<Product>queryByCategoryId(@Param("categoryId")long categoryId,@Param("offset") int offset, @Param("limit") int limit);
   /**
    * 
    * <p>
@@ -98,7 +107,7 @@ public interface ProductDao {
    * @param productName 产品名
    * @return 产品对象
    */
-  Product queryByProductName(@Param("productName") String productName);
+  List<Product> queryByProductName(@Param("productName") String productName);
 
   /**
    * 

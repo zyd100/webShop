@@ -42,7 +42,7 @@ public class ProductDaoTest extends BaseTest {
     int count=productDao.deleteProduct(product);
     System.out.println(count);
   }
-  @Test
+  @Test@Ignore
   public void testQueryById() {
     Product product=productDao.queryById(1);
     System.out.println(product);
@@ -50,6 +50,11 @@ public class ProductDaoTest extends BaseTest {
   @Test@Ignore
   public void testQueryAll() {
     List<Product>list=productDao.queryAll(0, 10);
+    System.out.println(list);
+  }
+  @Test@Ignore
+  public void testQueryByCategoryId() {
+    List<Product>list=productDao.queryByCategoryId(1, 0, 10);
     System.out.println(list);
   }
   @Test@Ignore

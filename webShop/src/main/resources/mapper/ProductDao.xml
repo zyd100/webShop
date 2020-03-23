@@ -40,6 +40,17 @@
 		WHERE
 			`id` = #{id}	
 	</select>
+	<select id="queryByCategoryId" resultType="Product">
+		SELECT
+			*
+		FROM
+			product
+		WHERE
+			`category_id` = #{categoryId}
+			ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}	
+	</select>
 	<select id="queryByProductName" resultType="Product">
 		SELECT
 			*

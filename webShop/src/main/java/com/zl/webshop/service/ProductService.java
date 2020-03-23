@@ -52,7 +52,7 @@ public interface ProductService {
    * Title: getProducts
    * </p>
    * <p>
-   * Description: 通过类别序号获取产品
+   * Description: 通过类别序号获取产品列表
    * </p>
    * 
    * @param categoryId 产品类别序号
@@ -77,4 +77,14 @@ public interface ProductService {
    * @return 产品列表
    */
   List<Product> searchByText(String searchText, int offset, int limit);
+  /**
+   * 
+  *<p>Title: getProduct</p> 
+  *<p>Description: 根据产品序号或者产品名获取产品，序号优先获取，获取失败则通过产品名获取</p> 
+  　 * @param productId 产品序号
+  　 * @param productName 产品名
+  　 * @return ProductExecution
+   */
+  ProductExecution getProduct(int productId,String productName);
+  
 }

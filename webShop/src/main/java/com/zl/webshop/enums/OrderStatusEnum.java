@@ -29,7 +29,7 @@ public enum OrderStatusEnum {
   /**
    * 已付款
    */
-  ORDER_PAYED(0, "未付款"),
+  ORDER_PAYED(0, "已付款"),
   /**
    * 已下单
    */

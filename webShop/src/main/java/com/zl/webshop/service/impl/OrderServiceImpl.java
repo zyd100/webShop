@@ -14,8 +14,6 @@
  */
 package com.zl.webshop.service.impl;
 
-
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.xpath;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -126,15 +124,15 @@ public class OrderServiceImpl implements OrderService {
         orderItem.setProductId(realProduct.getId());
         orderItem.setProductName(realProduct.getProductName());
         orderItem.setUserName(userName);
-        
+
         // 更新并存入数据库
         index += orderItemDao.addOrderItem(orderItem);
-     // 修改购物车总金额
+        // 修改购物车总金额
         OrderInfo orderInfo = orderInfoDao.queryByOrderNum(orderNum);
         orderInfo.setPrice(0);
         orderItemDao.queryByUserNameAndOrderNum(userName, orderNum).stream().forEach(
             x -> orderInfo.setPrice(orderInfo.getPrice() + x.getPrice() * x.getQuantity()));
-        index+=orderInfoDao.updateOrderInfo(orderInfo);
+        index += orderInfoDao.updateOrderInfo(orderInfo);
         if (index < standardCount) {
           throw new AddToCartException("add to Cart error");
         }
@@ -321,6 +319,15 @@ public class OrderServiceImpl implements OrderService {
       orderExecution.getOrderInfo().setOrderNum(orderNum);
       orderExecution.getOrderInfo().setStatus(OrderStatusEnum.ORDER_PAYED.getState());
       orderInfoDao.addOrderInfo(orderExecution.getOrderInfo());
+
+      // 删除购物车内选定要购买的产品
+      orderExecution.getOrderItemList().forEach(x -> orderItemDao.deleteOrderItem(x));
+      if (orderItemDao
+          .countByOrderNum(orderExecution.getOrderItemList().get(0).getOrderNum()) < 1) {
+        // 购物车内产品全清空，则删除订单
+        orderInfoDao.deleteOrderInfo(
+            orderInfoDao.queryByOrderNum(orderExecution.getOrderItemList().get(0).getOrderNum()));
+      }
       // 遍历要购买的产品
       float totalPrice = 0f;
       for (OrderItem orderItem : orderExecution.getOrderItemList()) {
@@ -331,7 +338,7 @@ public class OrderServiceImpl implements OrderService {
         }
         // 校正购买的产品数据
         orderItem.setOrderNum(orderNum);
-        orderItem.setPrice(product.getPrice());
+        orderItem.setPrice(product.getShopPrice());
         orderItem.setProductName(product.getProductName());
         orderItem.setUserName(orderExecution.getOrderInfo().getUserName());
         // 计算总价格
@@ -350,6 +357,9 @@ public class OrderServiceImpl implements OrderService {
       orderHistory.setOrderNum(orderNum);
       orderHistory.setStatus(OrderStatusEnum.ORDER_PAYED.getState());
       orderHistoryDao.addOrderHistory(orderHistory);
+      // 设置返回
+      result =
+          new OrderExecution(orderInfoDao.queryByOrderNum(orderNum), OrderStatusEnum.ORDER_PAYED);
 
     } catch (NotEnoughQuantityException e) {
       throw e;

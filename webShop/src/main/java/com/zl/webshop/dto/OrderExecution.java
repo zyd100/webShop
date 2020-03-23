@@ -121,7 +121,23 @@ public class OrderExecution {
     setState(orderStatusEnum.getState());
     setStateInfo(orderStatusEnum.getStateInfo());
   }
-
+  /**
+   * 
+  　 * <p>Title: 获取订单成功的构造器2</p> 
+  　 * <p>Description: 保存订单信息以及订单条目</p> 
+  　 * @param orderInfo 订单信息
+  　 * @param orderItems 订单条目列表
+  　 * @param orderStatusEnum 订单状态
+   */
+  public OrderExecution(OrderInfo orderInfo, List<OrderItem> orderItems,
+      OrderStatusEnum orderStatusEnum) {
+    setOrderInfo(orderInfo);
+    setOrderItemList(orderItems);
+    setOrderNum(orderInfo.getOrderNum());
+    setUserName(orderInfo.getUserName());
+    setState(orderStatusEnum.getState());
+    setStateInfo(orderStatusEnum.getStateInfo());
+  }
   /**
    * 
    * <p>
