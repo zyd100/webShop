@@ -16,7 +16,6 @@ package com.zl.webshop.service;
 
 import java.util.List;
 import com.zl.webshop.dto.ProductExecution;
-import com.zl.webshop.entity.Product;
 import com.zl.webshop.entity.ProductCategory;
 
 /**
@@ -60,7 +59,34 @@ public interface ProductService {
    * @param limit 查询条数
    * @return ProductExecution
    */
-  ProductExecution getProducts(int categoryId, int offset, int limit);
+  ProductExecution getProducts(long categoryId, int offset, int limit);
+
+  /**
+   * 
+   * <p>
+   * Title: getProductsRandom
+   * </p>
+   * <p>
+   * Description: 通过类别序号获取随机产品列表
+   * </p>
+   * 
+   * @param categoryId 产品类别序号 @param limit 查询条数 @return ProductExecution
+   */
+  ProductExecution getProductsRandom(long categoryId, int limit);
+
+  /**
+   * 
+   * <p>
+   * Title: getProductsRandom
+   * </p>
+   * <p>
+   * Description: 随机获取产品列表
+   * </p>
+   * 
+   * @param limit 查询条数
+   * @return ProductExecution
+   */
+  ProductExecution getProductsRandom(int limit);
 
   /**
    * 
@@ -76,15 +102,19 @@ public interface ProductService {
    * @param limit 查询条数
    * @return 产品列表
    */
-  List<Product> searchByText(String searchText, int offset, int limit);
+  ProductExecution searchByText(String searchText, int offset, int limit);
+
   /**
    * 
-  *<p>Title: getProduct</p> 
-  *<p>Description: 根据产品序号或者产品名获取产品，序号优先获取，获取失败则通过产品名获取</p> 
-  　 * @param productId 产品序号
-  　 * @param productName 产品名
-  　 * @return ProductExecution
+   * <p>
+   * Title: getProduct
+   * </p>
+   * <p>
+   * Description: 根据产品序号或者产品名获取产品，序号优先获取，获取失败则通过产品名获取
+   * </p>
+   * 
+   * @param productId 产品序号 @param productName 产品名 @return ProductExecution
    */
-  ProductExecution getProduct(int productId,String productName);
-  
+  ProductExecution getProduct(long productId, String productName);
+
 }

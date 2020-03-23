@@ -7,9 +7,31 @@
 	<select id="count" resultType="java.lang.Integer">
 		<!-- 具体的sql -->
 		SELECT
+			COUNT(*)
+		FROM
+			product
+	</select>
+	<select id="fuzzyCount" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
 		COUNT(*)
 		FROM
-		product
+			product
+		WHERE
+			`product_name` LIKE CONCAT('%',#{searchText},'%')
+	</select>
+	<select id="randomByCategoryId" resultType="Product">
+		<!-- 具体的sql -->
+		SELECT
+			*
+		FROM
+			product
+		WHERE
+			`category_id` = #{categoryId}
+		ORDER BY
+			RAND() 
+		LIMIT
+			#{limit}	
 	</select>
 	<select id="fuzzyQueryAllByText" resultType="Product">
 		<!-- 具体的sql -->
@@ -31,6 +53,15 @@
 		ORDER BY
 		`id`
 		LIMIT #{offset}, #{limit}
+	</select>
+	<select id="randomAll" resultType="Product">
+		SELECT
+		*
+		FROM
+		product
+		ORDER BY
+		RAND()
+		LIMIT #{limit}
 	</select>
 	<select id="queryById" resultType="Product">
 		SELECT

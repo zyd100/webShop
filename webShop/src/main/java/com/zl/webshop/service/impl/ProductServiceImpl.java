@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public ProductExecution getProducts(int categoryId, int offset, int limit) {
+  public ProductExecution getProducts(long categoryId, int offset, int limit) {
     ProductExecution productExecution = null;
     try {
       ProductCategory productCategory = productCategoryDao.queryById(categoryId);
@@ -83,13 +83,18 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public List<Product> searchByText(String searchText, int offset, int limit) {
+  public ProductExecution searchByText(String searchText, int offset, int limit) {
     List<Product> products = productDao.fuzzyQueryAllByText(searchText, offset, limit);
-    return products;
+    if(products.size()<1) {
+      throw new NoProductException("no product");
+    }
+    ProductExecution productExecution=new ProductExecution(products);
+    productExecution.setProductMaxCount(productDao.fuzzyCount(searchText));
+    return productExecution;
   }
 
   @Override
-  public ProductExecution getProduct(int productId, String productName) {
+  public ProductExecution getProduct(long productId, String productName) {
     ProductExecution productExecution = null;
     try {
       //先使用产品序号获取产品
@@ -116,6 +121,52 @@ public class ProductServiceImpl implements ProductService {
       throw e;
     }
     return productExecution;
+  }
+
+  @Override
+  public ProductExecution getProductsRandom(long categoryId,int limit) {
+    ProductExecution productExecution = null;
+    try {
+      ProductCategory productCategory = productCategoryDao.queryById(categoryId);
+      if (ObjectUtil.isNull(productCategory)) {
+        throw new NoCategoryException("no category");
+      }
+      List<Product> products = productDao.randomByCategoryId(categoryId, limit);
+      if (products.size() < 1) {
+        throw new NoProductException("no product");
+      }
+      productExecution =
+          new ProductExecution(categoryId, productCategory.getCategoryName(), products);
+    } catch (NoCategoryException e) {
+      throw e;
+    } catch (NoProductException e) {
+      throw e;
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      throw e;
+    }
+
+    return productExecution;
+  }
+
+  @Override
+  public ProductExecution getProductsRandom(int limit) {
+    ProductExecution productExecution = null;
+    try {
+      List<Product> products = productDao.randomAll(limit);
+      if (products.size() < 1) {
+        throw new NoProductException("no product");
+      }
+      productExecution =
+          new ProductExecution(products);
+    } catch (NoProductException e) {
+      throw e;
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      throw e;
+    }
+    return productExecution;
+  
   }
 
 }

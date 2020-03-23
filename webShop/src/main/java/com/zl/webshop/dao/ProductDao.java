@@ -31,14 +31,43 @@ public interface ProductDao {
   /**
    * 
    * <p>
+   * Title: randomByCategoryId
+   * </p>
+   * <p>
+   * Description: 随机获取相同类别的产品
+   * </p>
+   * 
+   * @param categoryId 产品类别序号
+   * @param limit 查询条数
+   * @return 产品列表
+   */
+  List<Product> randomByCategoryId(@Param("categoryId") long categoryId, @Param("limit") int limit);
+
+  /**
+   * 
+   * <p>
    * Title: count
    * </p>
    * <p>
    * Description: 获取产品总数
    * </p>
+   * 
    * @return 产品总数
    */
   int count();
+
+  /**
+   * 
+   * <p>
+   * Title: fuzzyCount
+   * </p>
+   * <p>
+   * Description: 获取模糊查询的个数
+   * </p>
+   * 
+   * @param searchText 搜索关键词 @return 个数
+   */
+  int fuzzyCount(@Param("searchText") String searchText);
 
   /**
    * 
@@ -54,6 +83,20 @@ public interface ProductDao {
    * @return 产品列表
    */
   List<Product> queryAll(@Param("offset") int offset, @Param("limit") int limit);
+
+  /**
+   * 
+   * <p>
+   * Title: randomAll
+   * </p>
+   * <p>
+   * Description: 随机获取产品
+   * </p>
+   * 
+   * @param limit 查询条数
+   * @return 产品列表
+   */
+  List<Product> randomAll(@Param("limit") int limit);
 
   /**
    * 
@@ -85,16 +128,21 @@ public interface ProductDao {
    * @return 产品对象
    */
   Product queryById(@Param("id") long id);
+
   /**
    * 
-  *<p>Title: queryByCategoryId</p> 
-  *<p>Description: 根据产品类别获取产品</p> 
-  　 * @param categoryId 类别序号
-  　 * @param offset 查询起始位置
-  　 * @param limit 查询条数
-  　 * @return 产品列表
+   * <p>
+   * Title: queryByCategoryId
+   * </p>
+   * <p>
+   * Description: 根据产品类别获取产品
+   * </p>
+   * 
+   * @param categoryId 类别序号 @param offset 查询起始位置 @param limit 查询条数 @return 产品列表
    */
-   List<Product>queryByCategoryId(@Param("categoryId")long categoryId,@Param("offset") int offset, @Param("limit") int limit);
+  List<Product> queryByCategoryId(@Param("categoryId") long categoryId, @Param("offset") int offset,
+      @Param("limit") int limit);
+
   /**
    * 
    * <p>

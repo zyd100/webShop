@@ -11,84 +11,116 @@
 		FROM
 			product
 	</select>
-	<select id="fuzzyQueryAllByText" resultType="Product">
+	<select id="fuzzyCount" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+		COUNT(*)
+		FROM
+			product
+		WHERE
+			`product_name` LIKE CONCAT('%',#{searchText},'%')
+	</select>
+	<select id="randomByCategoryId" resultType="Product">
 		<!-- 具体的sql -->
 		SELECT
 			*
 		FROM
 			product
 		WHERE
-			`product_name` LIKE CONCAT(CONCAT('%', #{searchText}), '%')
+			`category_id` = #{categoryId}
 		ORDER BY
-			`id`
+			RAND() 
+		LIMIT
+			#{limit}	
+	</select>
+	<select id="fuzzyQueryAllByText" resultType="Product">
+		<!-- 具体的sql -->
+		SELECT
+		*
+		FROM
+		product
+		WHERE
+		`product_name` LIKE CONCAT('%',#{searchText},'%')
+		ORDER BY
+		`id`
 		LIMIT #{offset}, #{limit}
 	</select>
 	<select id="queryAll" resultType="Product">
 		SELECT
-			*
+		*
 		FROM
-			product
+		product
 		ORDER BY
-			`id`
+		`id`
 		LIMIT #{offset}, #{limit}
+	</select>
+	<select id="randomAll" resultType="Product">
+		SELECT
+		*
+		FROM
+		product
+		ORDER BY
+		RAND()
+		LIMIT #{limit}
 	</select>
 	<select id="queryById" resultType="Product">
 		SELECT
-			*
+		*
 		FROM
-			product
+		product
 		WHERE
-			`id` = #{id}	
+		`id` = #{id}
 	</select>
 	<select id="queryByCategoryId" resultType="Product">
 		SELECT
-			*
+		*
 		FROM
-			product
+		product
 		WHERE
-			`category_id` = #{categoryId}
-			ORDER BY
-			`id`
-		LIMIT #{offset}, #{limit}	
+		`category_id` = #{categoryId}
+		ORDER BY
+		`id`
+		LIMIT #{offset}, #{limit}
 	</select>
 	<select id="queryByProductName" resultType="Product">
 		SELECT
-			*
+		*
 		FROM
-			product
+		product
 		WHERE
-			`product_name` = #{productName}	
+		`product_name` = #{productName}
 	</select>
 	<insert id="addProduct">
-		INSERT ignore INTO 
-			`product` (`product_name`,`explain`,`category_id`,`shop_price`,`price`,`quantity`,`image`,`create_user_name`,`update_user_name`) 
-			VALUES 
-				(#{product.productName},#{product.explain},
-				#{product.categoryId},#{product.shopPrice},
-				#{product.price},#{product.quantity},
-				#{product.image},#{product.createUserName},#{product.updateUserName});
+		INSERT ignore INTO
+		`product`
+		(`product_name`,`explain`,`category_id`,`shop_price`,`price`,`quantity`,`image`,`create_user_name`,`update_user_name`)
+		VALUES
+		(#{product.productName},#{product.explain},
+		#{product.categoryId},#{product.shopPrice},
+		#{product.price},#{product.quantity},
+		#{product.image},#{product.createUserName},#{product.updateUserName});
 	</insert>
-	<delete id="deleteProduct" >
-		DELETE 
-		FROM 
-			`product` 
-		WHERE 
-			(`id` = #{product.id});
-	</delete>
-	
-	<update id="updateProduct"  >
-		UPDATE product
-		SET 
-			`product_name` = #{product.productName},
-			`explain` = #{product.explain},
-			`category_id` = #{product.categoryId},
-			`shop_price` = #{product.shopPrice},
-			`price` = #{product.price},
-			`quantity` = #{product.quantity},
-			`image` = #{product.image},
-			`create_user_name` = #{product.createUserName},
-			`update_user_name` = #{product.updateUserName}
+	<delete id="deleteProduct">
+		DELETE
+		FROM
+		`product`
 		WHERE
-			`id` = #{product.id}
+		(`id` = #{product.id});
+	</delete>
+
+	<update id="updateProduct">
+		UPDATE product
+		SET
+		`product_name` = #{product.productName},
+		`explain` = #{product.explain},
+		`category_id` = #{product.categoryId},
+		`shop_price` = #{product.shopPrice},
+		`price` = #{product.price},
+		`quantity` = #{product.quantity},
+		`image` = #{product.image},
+		`create_user_name` = #{product.createUserName},
+		`update_user_name` = #{product.updateUserName}
+		WHERE
+		`id` = #{product.id}
 	</update>
 </mapper>
