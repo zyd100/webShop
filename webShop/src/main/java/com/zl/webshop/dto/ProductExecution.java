@@ -70,7 +70,12 @@ public class ProductExecution {
     setCategoryName(categoryName);
     setProductList(productList);
   }
-
+  /**
+   * 
+  　 * <p>Title: 默认构造器</p> 
+  　 * <p>Description: 默认构造器</p>
+   */
+  public ProductExecution() {};
   /**
    * 
    * <p>

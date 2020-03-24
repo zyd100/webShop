@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,7 +95,7 @@ public class HomeController {
       }
     }
     // 放入model
-    model.addAttribute("categories", categories);
+    model.addAttribute("categories", JSON.toJSONString(categories));
     model.addAttribute("rollProducts", rollProducts);
     model.addAttribute("randomProducts", randomProducts);
     // WEB-INF/jsp/home/homePage.jsp
@@ -111,7 +112,7 @@ public class HomeController {
   @RequestMapping(value = "/homePage/search/{searchText}", method = RequestMethod.GET)
   private String searchProduct(@PathVariable("searchText") String searchText, Model model) {
     ProductExecution productExecution = productService.searchByText(searchText, 0, 40);
-    model.addAttribute("products", productExecution);
+    model.addAttribute("products", JSON.toJSONString(productExecution));
     model.addAttribute("searchText", searchText);
     // WEB-INF/jsp/home/search.jsp
     return "/home/search";
@@ -146,5 +147,31 @@ public class HomeController {
     
     String resultJson=JSON.toJSONString(result);
     return resultJson;
+  }
+  @RequestMapping(value = "/homePage/put" ,method = RequestMethod.PUT,produces = {
+  "application/json; charset=utf-8" })
+  @ResponseBody private String testPut(@RequestBody ProductExecution productExecution) {
+    System.out.println("所有更新，返回更新结果");
+    System.out.println(JSON.toJSONString(productExecution));
+    return JSON.toJSONString(productExecution); 
+  }
+  @RequestMapping(value = "/homePage/put" ,method = RequestMethod.DELETE,produces = {
+  "application/json; charset=utf-8" })
+  @ResponseBody private String testDelete(@RequestBody ProductExecution productExecution) {
+    System.out.println("执行删除，返回删除结果");
+    System.out.println(JSON.toJSONString(productExecution));
+    return JSON.toJSONString(productExecution); 
+  }
+  @RequestMapping(value = "/homePage/put" ,method = RequestMethod.PATCH,produces = {
+  "application/json; charset=utf-8" })
+  @ResponseBody private String testPatch(@RequestBody ProductExecution productExecution) {
+    System.out.println("执行部分更新，返回删除结果");
+    System.out.println(JSON.toJSONString(productExecution));
+    return JSON.toJSONString(productExecution); 
+  }
+  @RequestMapping(value = "/homePage/put" ,method = RequestMethod.GET)
+  private String testGet() {
+    
+    return "/home/homePage"; 
   }
 }

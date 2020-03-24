@@ -21,7 +21,8 @@
 		</script>
 	</head>
 	<body>
-'${products.productList}'<br>
-<button onclick="searchNextClick()" style="width: auto;height: 20px;">查看offset=1，limit=2搜索出来的商品</button>
+	<p>简单展示后台返回的json字符串，正常使用需要先JSON.parse(str)转成json对象使用</p>
+'${products}'<br>
+<button onclick="searchNextClick()" style="width: auto;height: 20px;">查看offset=1，limit=2搜索出来的商品(因为我只添加了1个产品所以这里会报异常)</button>
 	</body>
 </html>

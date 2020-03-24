@@ -159,6 +159,7 @@ public class ProductServiceImpl implements ProductService {
       }
       productExecution =
           new ProductExecution(products);
+      
     } catch (NoProductException e) {
       throw e;
     } catch (Exception e) {
