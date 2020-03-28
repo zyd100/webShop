@@ -4,5 +4,7 @@ com.zl.webshop.dto
 com.zl.webshop.entity
 com.zl.webshop.enums
 com.zl.webshop.exception
+com.zl.webshop.interceptor
 com.zl.webshop.service
 com.zl.webshop.service.impl
+com.zl.webshop.web

@@ -57,4 +57,8 @@ public class OrderInfoTest extends BaseTest{
     int count = orderInfoDao.deleteOrderInfo(orderInfo);
     System.out.println(count);
   }
+  @Test
+  public void testDeleteByOrderNum() {
+    orderInfoDao.deleteByOrderNum("aaa");
+  }
 }

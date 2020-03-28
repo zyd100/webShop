@@ -59,6 +59,10 @@ public class OrderExecution {
    * 订单信息
    */
   private OrderInfo orderInfo;
+  /**
+   * 订单列表
+   */
+  private List<OrderInfo> orderInfos;
 
   /**
    * 
@@ -111,7 +115,7 @@ public class OrderExecution {
    * @param orderStatusEnum 订单状态
    * @param products 条目对应的产品信息
    */
-  public OrderExecution(OrderInfo orderInfo, List<OrderItem> orderItems,List<Product>products,
+  public OrderExecution(OrderInfo orderInfo, List<OrderItem> orderItems, List<Product> products,
       OrderStatusEnum orderStatusEnum) {
     setOrderInfo(orderInfo);
     setOrderItemList(orderItems);
@@ -121,13 +125,19 @@ public class OrderExecution {
     setState(orderStatusEnum.getState());
     setStateInfo(orderStatusEnum.getStateInfo());
   }
+
   /**
    * 
-  　 * <p>Title: 获取订单成功的构造器2</p> 
-  　 * <p>Description: 保存订单信息以及订单条目</p> 
-  　 * @param orderInfo 订单信息
-  　 * @param orderItems 订单条目列表
-  　 * @param orderStatusEnum 订单状态
+   * <p>
+   * Title: 获取订单成功的构造器2
+   * </p>
+   * <p>
+   * Description: 保存订单信息以及订单条目
+   * </p>
+   * 
+   * @param orderInfo 订单信息
+   * @param orderItems 订单条目列表
+   * @param orderStatusEnum 订单状态
    */
   public OrderExecution(OrderInfo orderInfo, List<OrderItem> orderItems,
       OrderStatusEnum orderStatusEnum) {
@@ -138,6 +148,7 @@ public class OrderExecution {
     setState(orderStatusEnum.getState());
     setStateInfo(orderStatusEnum.getStateInfo());
   }
+
   /**
    * 
    * <p>
@@ -156,6 +167,17 @@ public class OrderExecution {
     setOrderNum(orderNum);
     setOrderItemList(orderItems);
   }
+
+  /**
+   * 
+   * <p>
+   * Title: 默认构造器
+   * </p>
+   * <p>
+   * Description: 默认构造器
+   * </p>
+   */
+  public OrderExecution() {}
 
   /**
    * @return the orderNum
@@ -242,8 +264,8 @@ public class OrderExecution {
   }
 
   /**
-  * @return the productList 
-  */
+   * @return the productList
+   */
   public List<Product> getProductList() {
     return productList;
   }
@@ -256,13 +278,26 @@ public class OrderExecution {
   }
 
 
+  /**
+   * @return the orderInfos
+   */
+  public List<OrderInfo> getOrderInfos() {
+    return orderInfos;
+  }
+
+  /**
+   * @param orderInfos the orderInfos to set
+   */
+  public void setOrderInfos(List<OrderInfo> orderInfos) {
+    this.orderInfos = orderInfos;
+  }
+
   @Override
   public String toString() {
     return "OrderExecution [orderNum=" + orderNum + ", userName=" + userName + ", stateInfo="
         + stateInfo + ", state=" + state + ", orderItemList=" + orderItemList + ", productList="
         + productList + ", orderInfo=" + orderInfo + "]";
   }
-
 
 
 

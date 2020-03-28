@@ -64,6 +64,13 @@
 		WHERE 
 			(`id` = #{orderInfo.id} and `order_num` = #{orderInfo.orderNum});
 	</delete>
+	<delete id="deleteByOrderNum" >
+		DELETE 
+		FROM 
+			`order_info` 
+		WHERE 
+			( `order_num` = #{orderNum});
+	</delete>
 	<delete id="deleteOrderInfoByUserName" >
 		DELETE 
 		FROM 
@@ -82,6 +89,6 @@
 			`contact_address` = #{orderInfo.contactAddress},
 			`message` = #{orderInfo.message}
 		WHERE
-			`id` = #{orderInfo.id} and `order_num` = #{orderInfo.orderNum}
+			 `order_num` = #{orderInfo.orderNum}
 	</update>
 </mapper>

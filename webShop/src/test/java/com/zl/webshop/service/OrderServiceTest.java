@@ -59,7 +59,24 @@ public class OrderServiceTest extends BaseTest {
     orderItem.setQuantity(12);
     orderService.addToCart(orderItem, "testId");
   }
-
+  @Test@Ignore
+    public void testAddToStar() {
+      OrderItem orderItem = new OrderItem();
+      Product product = productDao.queryById(7);
+      orderItem.setProductName(product.getProductName());
+      orderItem.setProductId(product.getId());
+      orderItem.setPrice(product.getPrice());
+      orderService.addToStar(orderItem, "testId");
+    }
+  @Test@Ignore
+  public void testGetStar() {
+    orderService.getStar("testId").getOrderItemList().forEach(System.out::println);
+  }
+  @Test@Ignore
+  public void testRemoveFromStar() {
+    OrderItem orderItem = orderItemDao.queryById(22);
+    orderService.removeFromStar(orderItem, "testId");
+  }
   @Test
   @Ignore
   public void testRemoveFromCart() {
@@ -85,7 +102,7 @@ public class OrderServiceTest extends BaseTest {
     Contact contact=new Contact();
     orderService.buyOneNow(orderItem, orderItem.getUserName(), contact, "testMesssage");
   }
-  @Test
+  @Test@Ignore
   public void testBuyGoods() {
     OrderInfo orderInfo=new OrderInfo();
     orderInfo.setContactAddress("address");

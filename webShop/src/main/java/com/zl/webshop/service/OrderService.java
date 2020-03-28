@@ -17,6 +17,7 @@ package com.zl.webshop.service;
 import com.zl.webshop.dto.OrderExecution;
 import com.zl.webshop.entity.Contact;
 import com.zl.webshop.entity.OrderItem;
+import com.zl.webshop.enums.OrderStatusEnum;
 
 /**
  * <p>
@@ -43,9 +44,24 @@ public interface OrderService {
    * 
    * @param orderItem 商品以及购买数量
    * @param userName 用户名
-   * @return 大于等于0表示添加成功
+   * @return 大于0表示添加成功
    */
   int addToCart(OrderItem orderItem, String userName);
+
+  /**
+   * 
+   * <p>
+   * Title: addToStar
+   * </p>
+   * <p>
+   * Description: 添加商品入收藏夹
+   * </p>
+   * 
+   * @param orderItem 商品
+   * @param userName 用户名
+   * @return 大于0表示添加成功
+   */
+  int addToStar(OrderItem orderItem, String userName);
 
   /**
    * 
@@ -58,9 +74,24 @@ public interface OrderService {
    * 
    * @param orderItem 商品以及购买数量
    * @param userName 用户名
-   * @return 大于等于0表示添加成功
+   * @return 大于0表示添加成功
    */
   int removeFromCart(OrderItem orderItem, String userName);
+
+  /**
+   * 
+   * <p>
+   * Title: removeFromStar
+   * </p>
+   * <p>
+   * Description: 从收藏夹内删除一个商品
+   * </p>
+   * 
+   * @param orderItem 商品以及购买数量
+   * @param userName 用户名
+   * @return 大于0表示添加成功
+   */
+  int removeFromStar(OrderItem orderItem, String userName);
 
   /**
    * 
@@ -73,7 +104,7 @@ public interface OrderService {
    * 
    * @param orderItem 商品条目
    * @param userName 用户名
-   * @return 大于等于0表示更新成功
+   * @return 大于0表示更新成功
    */
   int updateProductQuantityInCart(OrderItem orderItem, String userName);
 
@@ -92,7 +123,7 @@ public interface OrderService {
    * @param message 备注
    * @return OrderExecution
    */
-  OrderExecution buyOneNow(OrderItem orderItem, String userName, Contact contact,String message);
+  OrderExecution buyOneNow(OrderItem orderItem, String userName, Contact contact, String message);
 
   /**
    * 
@@ -121,4 +152,64 @@ public interface OrderService {
    * @return OrderExecution
    */
   OrderExecution getCart(String userName);
+
+  /**
+   * 
+   * <p>
+   * Title: getStar
+   * </p>
+   * <p>
+   * Description: 获取收藏夹列表
+   * </p>
+   * 
+   * @param userName 用户名
+   * @return OrderExecution
+   */
+  OrderExecution getStar(String userName);
+
+  /**
+   * 
+   * <p>
+   * Title: getOderInfoByUserName
+   * </p>
+   * <p>
+   * Description: 根据用户名来查询订单信息，同时支持使用 OrderStatusEnum 来过滤订单
+   * </p>
+   * 
+   * @param userName 用户名
+   * @param status 订单状态
+   * @param offset 查询起始位置
+   * @param limit 查询条数
+   * @return OrderExecution
+   */
+  OrderExecution getOderInfoByUserName(String userName, OrderStatusEnum status, int offset,
+      int limit);
+
+  /**
+   * 
+   * <p>
+   * Title: getOrderDetail
+   * </p>
+   * <p>
+   * Description: 获取此订单编号的详细信息
+   * </p>
+   * 
+   * @param orderNum 订单编号
+   * @param userName 用户名
+   * @return OrderExecution
+   */
+  OrderExecution getOrderDetail(String orderNum,String userName);
+
+  /**
+   * 
+   * <p>
+   * Title: deleteOrder
+   * </p>
+   * <p>
+   * Description: 删除有关此订单的一切信息
+   * </p>
+   * @param orderNum 订单编号 
+   * @return 大于0表示删除成功
+   */
+  int deleteOrder(String orderNum);
 }

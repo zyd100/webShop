@@ -11,7 +11,7 @@
 		FROM
 			user
 	</select>
-	<select id="queryById" resultType="User" parameterType="String">
+	<select id="queryByUserName" resultType="User" parameterType="String">
 		<!-- 具体的sql -->
 		SELECT
 			*

@@ -196,7 +196,7 @@ public class OrderInfo {
   }
 
   /**
-   * @param createDateTime the createDateTime to set
+   * @param createTime the createTime to set
    */
   public void setCreateTime(LocalDateTime createTime) {
     this.createTime = createTime;

@@ -174,4 +174,18 @@ public interface OrderItemDao {
    * @return 如果影响行数等于大于1 表示更新的记录行数
    */
   int deleteOrderItemByUserName(@Param("userName") String userName);
+
+  /**
+   * 
+   * <p>
+   * Title: deleteOrderItemByOrderNum
+   * </p>
+   * <p>
+   * Description: 根据订单编号删除订单条目
+   * </p>
+   * 
+   * @param orderNum 订单编号
+   * @return 如果影响行数等于大于1 表示更新的记录行数
+   */
+  int deleteOrderItemByOrderNum(@Param("orderNum") String orderNum);
 }

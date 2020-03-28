@@ -31,7 +31,7 @@ public class UserDaoTest extends BaseTest{
   }
   @Test@Ignore
   public void testQueryById() {
-    User user=userDao.queryById("admin");
+    User user=userDao.queryByUserName("admin");
     System.out.println(user);
   }
   @Test@Ignore
@@ -52,14 +52,14 @@ public class UserDaoTest extends BaseTest{
   
   @Test@Ignore
   public void testUpdateUser() {
-    User user=userDao.queryById("zydadmin");
+    User user=userDao.queryByUserName("zydadmin");
     user.setEmail(null);
     int count=userDao.updateUser(user);
     System.out.println(count);
   }
   @Test@Ignore
   public void testDeleteUser() {
-    User user=userDao.queryById("zydadmin");
+    User user=userDao.queryByUserName("zydadmin");
     int count=userDao.deleteUser(user);
     System.out.println(count);
   }

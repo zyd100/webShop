@@ -145,4 +145,11 @@ public class UserExecution {
     this.users = users;
   }
 
+
+  @Override
+  public String toString() {
+    return "UserExecution [user=" + user + ", roleInfo=" + roleInfo + ", roleState=" + roleState
+        + ", users=" + users + "]";
+  }
+
 }

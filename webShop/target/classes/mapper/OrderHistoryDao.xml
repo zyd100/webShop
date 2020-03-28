@@ -13,62 +13,68 @@
 	</select>
 	<select id="queryAll" resultType="OrderHistory">
 		SELECT
-			*
+		*
 		FROM
-			order_history
+		order_history
 		ORDER BY
-			`id`
+		`id`
 		LIMIT #{offset}, #{limit}
 	</select>
 	<select id="queryById" resultType="OrderHistory">
 		SELECT
-			*
+		*
 		FROM
-			order_history
+		order_history
 		WHERE
-			`id` = #{id}	
+		`id` = #{id}
 	</select>
 	<select id="queryByOrderNum" resultType="OrderHistory">
 		SELECT
-			*
+		*
 		FROM
-			order_history
+		order_history
 		WHERE
-			`order_num` = #{orderNum}	
+		`order_num` = #{orderNum}
 	</select>
 	<select id="queryAllByUpdateUserName" resultType="OrderHistory">
 		SELECT
-			*
+		*
 		FROM
-			order_history
+		order_history
 		WHERE
-			`update_user_name` = #{updateUserName}	
+		`update_user_name` = #{updateUserName}
 		ORDER BY
-			`id`
+		`id`
 		LIMIT #{offset}, #{limit}
 	</select>
 	<insert id="addOrderHistory">
-		INSERT ignore INTO 
-			`order_history` (`order_num`,`update_user_name`,`status`,`create_time`) 
-			VALUES 
-				(#{orderHistory.orderNum},#{orderHistory.updateUserName},
-				#{orderHistory.status},#{orderHistory.createTime});
+		INSERT ignore INTO
+		`order_history` (`order_num`,`update_user_name`,`status`,`create_time`)
+		VALUES
+		(#{orderHistory.orderNum},#{orderHistory.updateUserName},
+		#{orderHistory.status},#{orderHistory.createTime});
 	</insert>
-	<delete id="deleteOrderHistory" >
-		DELETE 
-		FROM 
-			`order_history` 
-		WHERE 
-			(`id` = #{orderHistory.id} and `order_num` = #{orderHistory.orderNum});
-	</delete>
-	
-	<update id="updateOrderHistory"  >
-		UPDATE order_history
-		SET 
-			`update_user_name` = #{orderHistory.updateUserName},
-			`status` = #{orderHistory.status},
-			`create_time` = #{orderHistory.createTime}
+	<delete id="deleteOrderHistory">
+		DELETE
+		FROM
+		`order_history`
 		WHERE
-			`id` = #{orderHistory.id} and `order_num` = #{orderHistory.orderNum}
+		(`id` = #{orderHistory.id} and `order_num` = #{orderHistory.orderNum});
+	</delete>
+	<delete id="deleteByOrderNum">
+		DELETE
+		FROM
+		`order_history`
+		WHERE
+		(`order_num` = #{orderNum});
+	</delete>
+	<update id="updateOrderHistory">
+		UPDATE order_history
+		SET
+		`update_user_name` = #{orderHistory.updateUserName},
+		`status` = #{orderHistory.status},
+		`create_time` = #{orderHistory.createTime}
+		WHERE
+		`id` = #{orderHistory.id} and `order_num` = #{orderHistory.orderNum}
 	</update>
 </mapper>

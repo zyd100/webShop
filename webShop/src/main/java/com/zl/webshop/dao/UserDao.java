@@ -40,7 +40,7 @@ public interface UserDao {
   /**
    * 
    * <p>
-   * Title: queryById
+   * Title: queryByUserName
    * </p>
    * <p>
    * Description: 通过用户名查询单个用户信息
@@ -49,7 +49,7 @@ public interface UserDao {
    * @param userName 用户名
    * @return 用户信息
    */
-  User queryById(@Param("userName") String userName);
+  User queryByUserName(@Param("userName") String userName);
 
   /**
    * 

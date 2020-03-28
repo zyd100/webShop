@@ -14,6 +14,7 @@
  */
 package com.zl.webshop.service.impl;
 
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.zl.webshop.dao.UserDao;
 import com.zl.webshop.dao.UserRolesDao;
 import com.zl.webshop.dto.UserExecution;
 import com.zl.webshop.entity.User;
+import com.zl.webshop.entity.UserRoles;
 import com.zl.webshop.enums.UserRolesEnum;
 import com.zl.webshop.exception.DeleteException;
 import com.zl.webshop.exception.LoginException;
@@ -35,6 +37,7 @@ import com.zl.webshop.exception.RepeatRegisterException;
 import com.zl.webshop.exception.UpdateException;
 import com.zl.webshop.exception.WrongUserNamePwdException;
 import com.zl.webshop.service.UserService;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 
@@ -71,7 +74,7 @@ public class UserServiceImpl implements UserService {
   public UserExecution register(User applicant) throws RegisterException {
     UserExecution userExecution = null;
     try {
-      User user = userdao.queryById(applicant.getUserName());
+      User user = userdao.queryByUserName(applicant.getUserName());
       if (null != user) {
         // 已存在该用户
         throw new RepeatRegisterException("repeat register");
@@ -92,6 +95,9 @@ public class UserServiceImpl implements UserService {
             count = userRolesDao.addRole(applicant.getUserName(), rolesEnum.getStateInfo());
             if (count > 0) {
               // 添加权限成功
+              // 装填数据返回结果
+              // 过滤非必要数据
+              applicant.setPassword(null);
               userExecution = new UserExecution(applicant, rolesEnum);
             } else {
               // 添加权限失败
@@ -104,6 +110,8 @@ public class UserServiceImpl implements UserService {
         }
       }
     } catch (RepeatRegisterException e) {
+      throw e;
+    } catch (RegisterException e) {
       throw e;
     } catch (Exception e) {
       logger.error(e.getMessage());
@@ -121,7 +129,7 @@ public class UserServiceImpl implements UserService {
         index = false;
         throw new WrongUserNamePwdException("empty userName or password");
       }
-      User checkUser = userdao.queryById(user.getUserName());
+      User checkUser = userdao.queryByUserName(user.getUserName());
       if (null == checkUser) {
         // 查无此用户
         index = false;
@@ -157,7 +165,7 @@ public class UserServiceImpl implements UserService {
     // 删除累计行数
     int flag = 0;
     try {
-      User checkUser = userdao.queryById(user.getUserName());
+      User checkUser = userdao.queryByUserName(user.getUserName());
       if (null == checkUser) {
         // 查无此人
         throw new NoUserException("no user");
@@ -169,38 +177,25 @@ public class UserServiceImpl implements UserService {
       // 先删除子表数据后再删除用户表(主表)数据 主表必须在子表全部删除完毕后才能删除
       // 删除权限
       index = userRolesDao.deleteRole(user.getUserName());
-      if (index < 1) {
-        // 删除权限失败
-        throw new DeleteException("delete role failed");
-      }
+    
       flag += index;
       // 删除联系信息
       index = contactDao.deleteContactByUserName(user.getUserName());
-      if (index < 1) {
-        // 删除权限失败
-        throw new DeleteException("delete contact failed");
-      }
+      
+       
+      
       flag += index;
       // 删除订单条目
       index = orderItemDao.deleteOrderItemByUserName(user.getUserName());
-      if (index < 1) {
-        // 删除权限失败
-        throw new DeleteException("delete orderItem failed");
-      }
+      
       flag += index;
       // 删除订单信息
       index = orderInfoDao.deleteOrderInfoByUserName(user.getUserName());
-      if (index < 1) {
-        // 删除权限失败
-        throw new DeleteException("delete orderInfo failed");
-      }
+     
       flag += index;
       // 删除用户
       index = userdao.deleteUser(user);
-      if (index < 1) {
-        // 删除用户失败失败
-        throw new DeleteException("delete user failed");
-      }
+     
       flag += index;
     } catch (NoUserException e) {
       throw e;
@@ -218,8 +213,9 @@ public class UserServiceImpl implements UserService {
   public int updateUserInfo(User user) throws UpdateException {
     int index = 0;
     try {
-      // 密码加密
-      user.setPassword(DigestUtil.md5Hex(user.getPassword()));
+      // 防止覆盖原密码
+      User preUser = userdao.queryByUserName(user.getUserName());
+      user.setPassword(preUser.getPassword());
       index = userdao.updateUser(user);
       if (index < 1) {
         // 更新失败
@@ -230,6 +226,75 @@ public class UserServiceImpl implements UserService {
       throw new UpdateException("update user info inner error:" + e.getMessage());
     }
     return index;
+  }
+
+  @Override
+  public UserExecution getBasicInfo(String userName) {
+    UserExecution userExecution = null;
+    try {
+      User user = userdao.queryByUserName(userName);
+      UserRoles userRoles = userRolesDao.queryByUserName(userName);
+      if (ObjectUtil.isEmpty(user) || ObjectUtil.isEmpty(userRoles)) {
+        throw new NoUserException("no user");
+      }
+      // 过滤私密信息
+      user.setPassword(null);
+      // 装填信息
+      UserRolesEnum userRolesEnum = Stream.of(UserRolesEnum.values())
+          .filter(x -> x.getStateInfo().equals(userRoles.getRole())).findAny().get();
+      userExecution = new UserExecution(user, userRolesEnum);
+    } catch (NoUserException e) {
+      throw e;
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      throw e;
+    }
+    return userExecution;
+  }
+
+  @Override
+  @Transactional(rollbackFor = RuntimeException.class)
+  public int updatePassword(User user) {
+    int index = 0;
+    try {
+      User preUser = userdao.queryByUserName(user.getUserName());
+      if (preUser == null) {
+        throw new NoUserException("no user");
+      }
+      preUser.setPassword(DigestUtil.md5Hex(user.getPassword()));
+      index += userdao.updateUser(preUser);
+    } catch (NoUserException e) {
+      throw e;
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      throw new UpdateException("update password inner error:" + e.getMessage());
+    }
+    return index;
+  }
+
+  @Override
+  public boolean checkPassword(String userName, String password) {
+    boolean flag=false;
+    try {
+      User user=userdao.queryByUserName(userName);
+      if(user==null) {
+        throw new NoUserException("no user");
+      }
+      //加密密码
+      password=DigestUtil.md5Hex(password);
+      if(ObjectUtil.equal(password, user.getPassword())) {
+        flag=true;
+      }else {
+        flag=false;
+      }
+    }catch (NoUserException e) {
+      throw e;
+    } 
+    catch (Exception e) {
+     logger.error(e.getMessage());
+     throw e;
+    }
+    return flag;
   }
 
 }

@@ -70,7 +70,9 @@ public interface ProductService {
    * Description: 通过类别序号获取随机产品列表
    * </p>
    * 
-   * @param categoryId 产品类别序号 @param limit 查询条数 @return ProductExecution
+   * @param categoryId 产品类别序号
+   * @param limit 查询条数
+   * @return ProductExecution
    */
   ProductExecution getProductsRandom(long categoryId, int limit);
 
@@ -113,7 +115,9 @@ public interface ProductService {
    * Description: 根据产品序号或者产品名获取产品，序号优先获取，获取失败则通过产品名获取
    * </p>
    * 
-   * @param productId 产品序号 @param productName 产品名 @return ProductExecution
+   * @param productId 产品序号
+   * @param productName 产品名
+   * @return ProductExecution
    */
   ProductExecution getProduct(long productId, String productName);
 

@@ -65,4 +65,8 @@ public class OrderHistoryDaoTest extends BaseTest{
     List<OrderHistory>list=orderHistoryDao.queryAllByUpdateUserName("admin", 0, 10);
     System.out.println(list);
   }
+  @Test
+  public void testDeleteByOrderNum() {
+    orderHistoryDao.deleteByOrderNum("asd");
+  }
 }

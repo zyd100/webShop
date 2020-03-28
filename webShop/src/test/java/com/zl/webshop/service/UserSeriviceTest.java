@@ -45,7 +45,10 @@ public class UserSeriviceTest extends BaseTest {
     user.setPassword("123456");
     userService.register(user);
   }
-
+  @Test
+public void testgerBasicInfo() {
+  System.out.println(userService.getBasicInfo("testId"));
+}
   @Test@Ignore
   public void testLogin() {
     User user=new User();

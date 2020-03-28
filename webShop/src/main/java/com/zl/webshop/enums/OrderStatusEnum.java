@@ -45,8 +45,11 @@ public enum OrderStatusEnum {
   /**
    * 购物车
    */
-  SHOPPING_CART(4,"购物车");
-
+  SHOPPING_CART(4,"购物车"),
+  /**
+   * 收藏夹
+   */
+  STAR(5,"收藏夹");
   /**
    * 索引
    */

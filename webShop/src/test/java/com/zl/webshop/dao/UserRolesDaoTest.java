@@ -24,7 +24,7 @@ public class UserRolesDaoTest extends BaseTest {
   @Test
   @Ignore
   public void testAddRole() {
-    User user = userDao.queryById("admin");
+    User user = userDao.queryByUserName("admin");
     int count = userRolesDao.addRole(user.getUserName(), "ADMIN");
     System.out.println(count);
   }
@@ -32,7 +32,7 @@ public class UserRolesDaoTest extends BaseTest {
   @Test
   @Ignore
   public void testUpdateRole() {
-    User user = userDao.queryById("admin");
+    User user = userDao.queryByUserName("admin");
     int count = userRolesDao.updateRole(user.getUserName(), "CUSTOMER");
     System.out.println(count);
   }
@@ -40,7 +40,7 @@ public class UserRolesDaoTest extends BaseTest {
   @Test
   @Ignore
   public void testDeleteRole() {
-    User user = userDao.queryById("admin");
+    User user = userDao.queryByUserName("admin");
     int count = userRolesDao.deleteRole(user.getUserName());
     System.out.println(count);
   }
@@ -55,7 +55,7 @@ public class UserRolesDaoTest extends BaseTest {
   @Test
   @Ignore
   public void testQueryByUserName() {
-    User user = userDao.queryById("admin");
+    User user = userDao.queryByUserName("admin");
     UserRoles userRoles = userRolesDao.queryByUserName(user.getUserName());
     System.out.println(userRoles);
   }

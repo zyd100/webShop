@@ -40,9 +40,11 @@ public interface OrderHistoryDao {
    * <p>
    * Description: 获取用订单历史总数
    * </p>
+   * 
    * @return 订单历史总数
    */
   int count();
+
   /**
    * 
    * <p>
@@ -145,4 +147,17 @@ public interface OrderHistoryDao {
    */
   int deleteOrderHistory(@Param("orderHistory") OrderHistory orderHistory);
 
+  /**
+   * 
+   * <p>
+   * Title: deleteByOrderNum
+   * </p>
+   * <p>
+   * Description: 根据订单编号删除订单历史
+   * </p>
+   * 
+   * @param orderNum 订单编号
+   * @return 如果影响行数等于大于1 表示更新的记录行数
+   */
+  int deleteByOrderNum(@Param("orderNum") String orderNum);
 }

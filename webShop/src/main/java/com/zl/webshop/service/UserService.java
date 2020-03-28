@@ -31,6 +31,19 @@ import com.zl.webshop.entity.User;
  *         </p>
  */
 public interface UserService {
+  /**
+   * 
+   * <p>
+   * Title: getBasicInfo
+   * </p>
+   * <p>
+   * Description: 获取此用户的基本信息
+   * </p>
+   * 
+   * @param userName 用户名
+   * @return UserExecution
+   */
+  UserExecution getBasicInfo(String userName);
 
   /**
    * 
@@ -80,10 +93,40 @@ public interface UserService {
    * Title: updateUserInfo
    * </p>
    * <p>
-   * Description: 更新个人信息
+   * Description: 更新个人基本信息 邮箱 别名
    * </p>
-   * @param user 用户信息 
+   * 
+   * @param user 用户信息
    * @return 如果影响行数等于大于1 表示更新的记录行数
    */
   int updateUserInfo(User user);
+
+  /**
+   * 
+   * <p>
+   * Title: updatePassword
+   * </p>
+   * <p>
+   * Description:更新用户密码
+   * </p>
+   * 
+   * @param user 用户
+   * @return 如果影响行数等于大于1 表示更新的记录行数
+   */
+  int updatePassword(User user);
+
+  /**
+   * 
+   * <p>
+   * Title: checkPassword
+   * </p>
+   * <p>
+   * Description: 验证密码是否正确
+   * </p>
+   * 
+   * @param userName 用户名
+   * @param password 密码
+   * @return 验证结果
+   */
+  boolean checkPassword(String userName, String password);
 }
