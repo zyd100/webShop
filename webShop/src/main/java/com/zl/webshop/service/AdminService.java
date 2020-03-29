@@ -60,7 +60,7 @@ public interface AdminService {
    * Title: getCategories
    * </p>
    * <p>
-   * Description:
+   * Description:获取所有分类
    * </p>
    * 
    * @param offset 查询起始位置

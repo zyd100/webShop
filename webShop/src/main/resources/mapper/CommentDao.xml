@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zl.webshop.dao.CommentDao">
+	<!-- 目的：为dao接口方法提供sql语句配置 -->
+	
+
+	<select id="queryAll" resultType="Comment">
+		SELECT
+			*
+		FROM
+			comment
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<select id="queryById" resultType="Comment">
+		SELECT
+			*
+		FROM
+			comment
+		WHERE
+			`id`=#{id}
+	</select>
+	<select id="queryByProductId" resultType="Comment">
+		SELECT
+			*
+		FROM
+			comment
+		WHERE
+			`product_id` = #{productId}	
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}	
+	</select>
+	<select id="queryByUserName" resultType="Comment">
+		SELECT
+			*
+		FROM
+			comment
+		WHERE
+			`user_name` = #{userName}	
+		ORDER BY
+			`id`
+		LIMIT #{offset}, #{limit}
+	</select>
+	<insert id="addComment">
+		INSERT ignore INTO 
+			`comment` (`user_name`,`product_id`,`content`,`star`) 
+			VALUES 
+				(#{comment.userName},#{comment.productId},
+				#{comment.content},#{comment.star});
+	</insert>
+	<delete id="deleteComment" >
+		DELETE 
+		FROM 
+			`comment` 
+		WHERE 
+			(`id` = #{id} );
+	</delete>
+	<delete id="deleteCommentByUserName" >
+		DELETE 
+		FROM 
+			`comment` 
+		WHERE 
+			(`user_name` = #{userName});
+	</delete>
+	<delete id="deleteCommentByProductId" >
+		DELETE 
+		FROM 
+			`comment` 
+		WHERE 
+			(`product_id` = #{productId});
+	</delete>
+	<update id="updateComment"  >
+		UPDATE comment
+			<set>
+            <if test="comment.content != null">
+                content = #{comment.content},
+            </if>
+            <if test="comment.star != null">
+                star = #{comment.star},
+            </if>
+			</set>
+		WHERE
+			`id` = #{comment.id}
+	</update>
+</mapper>
