@@ -37,6 +37,7 @@ public class UserExecution {
   private String roleInfo;
   private int roleState;
   private List<User> users;
+  private int userMaxCount;
 
   /**
    * 
@@ -145,11 +146,24 @@ public class UserExecution {
     this.users = users;
   }
 
+  /**
+   * @return the userMaxCount
+   */
+  public int getUserMaxCount() {
+    return userMaxCount;
+  }
+
+  /**
+   * @param userMaxCount the userMaxCount to set
+   */
+  public void setUserMaxCount(int userMaxCount) {
+    this.userMaxCount = userMaxCount;
+  }
 
   @Override
   public String toString() {
     return "UserExecution [user=" + user + ", roleInfo=" + roleInfo + ", roleState=" + roleState
-        + ", users=" + users + "]";
+        + ", users=" + users + ", userMaxCount=" + userMaxCount + "]";
   }
 
 }

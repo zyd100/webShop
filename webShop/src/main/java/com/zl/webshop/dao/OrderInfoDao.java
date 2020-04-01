@@ -35,6 +35,36 @@ public interface OrderInfoDao {
   /**
    * 
    * <p>
+   * Title: fuzzyQueryAllByText
+   * </p>
+   * <p>
+   * Description: 模糊查询所有产品
+   * </p>
+   * 
+   * @param searchText 关键词
+   * @param offset 查询起始位置
+   * @param limit 查询条数
+   * @return 产品列表
+   */
+  List<OrderInfo> fuzzyQueryAllByText(@Param("searchText") String searchText,
+      @Param("offset") int offset, @Param("limit") int limit);
+
+  /**
+   * 
+   * <p>
+   * Title: fuzzyCount
+   * </p>
+   * <p>
+   * Description: 获取模糊查询的个数
+   * </p>
+   * 
+   * @param searchText 搜索关键词
+   * @return 个数
+   */
+  int fuzzyCount(@Param("searchText") String searchText);
+  /**
+   * 
+   * <p>
    * Title: count
    * </p>
    * <p>

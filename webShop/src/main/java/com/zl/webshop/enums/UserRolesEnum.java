@@ -69,7 +69,14 @@ public enum UserRolesEnum {
     }
     return null;
   }
-
+  public static UserRolesEnum stateOf(String index) {
+    for (UserRolesEnum state : values()) {
+      if (state.getStateInfo().equals(index)) {
+        return state;
+      }
+    }
+    return null;
+  }
   /**
    * @return the state
    */

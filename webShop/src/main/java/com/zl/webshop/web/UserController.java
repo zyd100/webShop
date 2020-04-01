@@ -191,16 +191,25 @@ public class UserController {
     UserExecution basicUserInfo = userService.getBasicInfo(userName);
     // 用户订单信息
     OrderExecution orderExecution = orderService.getOderInfoByUserName(userName, null, 0, 10);
+    List<OrderExecution>orderInfos=new ArrayList<OrderExecution>();
+    //过滤购物车收藏夹
     orderExecution
         .setOrderInfos(
             orderExecution.getOrderInfos().stream()
                 .filter(x -> x.getStatus() != OrderStatusEnum.SHOPPING_CART.getState()
                     && x.getStatus() != OrderStatusEnum.STAR.getState())
                 .collect(Collectors.toList()));
+    
+    orderExecution.getOrderInfos().stream().forEach(x->orderInfos.add(orderService.getOrderDetail(x.getOrderNum(), loginUserName)));
+    orderInfos.stream().forEach(x->{
+     x.setOrderItemList(CollUtil.sub(x.getOrderItemList(), 0, 1));
+     x.setProductList(CollUtil.sub(x.getProductList(), 0, 1));
+    });
     // 装填数据
     model.addAttribute("contacts", JSON.toJSONString(contacts));
     model.addAttribute("basicUserInfo", JSON.toJSONString(basicUserInfo));
-    model.addAttribute("orderInfos", JSON.toJSONString(orderExecution));
+    model.addAttribute("orderInfos", JSON.toJSONString(orderInfos));
+    System.out.println(JSON.toJSONString(orderInfos));
     // 前往个人中心页
     return "";
   }
@@ -221,6 +230,7 @@ public class UserController {
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   private String tryLogin(User user, HttpServletRequest request) {
     boolean flag = false;
+    System.out.println(user);
     try {
       flag = userService.login(user);
     } catch (Exception e) {
@@ -289,6 +299,7 @@ public class UserController {
       result = new Result<>(true, orderExecution);
     }
     model.addAttribute("carts", JSON.toJSONString(result));
+    System.out.println(JSON.toJSONString(result));
     // 前往购物车页面
     return "";
   }

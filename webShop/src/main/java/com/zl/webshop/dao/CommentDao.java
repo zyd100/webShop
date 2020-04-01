@@ -22,6 +22,18 @@ public interface CommentDao {
   /**
    * 
    * <p>
+   * Title: count
+   * </p>
+   * <p>
+   * Description: 获取评论总数
+   * </p>
+   * 
+   * @return 评论总数
+   */
+  int count();
+  /**
+   * 
+   * <p>
    * Title: queryAll
    * </p>
    * <p>

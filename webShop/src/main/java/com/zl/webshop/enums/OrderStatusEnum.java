@@ -83,7 +83,14 @@ public enum OrderStatusEnum {
     }
     return null;
   }
-
+  public static OrderStatusEnum stateOf(String index) {
+    for (OrderStatusEnum state : values()) {
+      if (state.getStateInfo().equals(index)) {
+        return state;
+      }
+    }
+    return null;
+  }
   /**
    * @return the state
    */

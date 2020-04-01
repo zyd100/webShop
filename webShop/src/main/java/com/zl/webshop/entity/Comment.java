@@ -54,6 +54,18 @@ public class Comment {
    * 创建时间
    */
   private LocalDateTime createTime;
+  /**
+   * 审核状态
+   */
+  private int audit;
+  
+  public int getAudit() {
+    return audit;
+  }
+
+  public void setAudit(int audit) {
+    this.audit = audit;
+  }
 
   /**
    * @return the id
@@ -142,7 +154,8 @@ public class Comment {
   @Override
   public String toString() {
     return "Comment [id=" + id + ", userName=" + userName + ", productId=" + productId
-        + ", content=" + content + ", star=" + star + ", createTime=" + createTime + "]";
+        + ", content=" + content + ", star=" + star + ", createTime=" + createTime + ", audit="
+        + audit + "]";
   }
 
 }

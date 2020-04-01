@@ -1,52 +1,27 @@
-/**
- * <p>
- * Title: CommentStarEnum.java
- * </p>
- * <p>
- * Description:
- * </p>
- * @author zyd
- * <p>
- * 创建日期：2020年3月29日
- * </p>
- * @version 1.0
- */
+/** 
+　 * <p>Title: CommentAuditEnum.java</p> 
+　 * <p>Description: </p> 
+　 * @author zyd 
+　 * <p>创建日期：2020年3月31日 </p>
+　 * @version 1.0 
+*/
 package com.zl.webshop.enums;
 
-/**
- * <p>
- * Title: CommentStarEnum
- * </p>
- * <p>
- * Description: 评论推荐星级枚举类
- * </p>
- * @author zyd
- * <p>
- * 创建日期：2020年3月29日
- * </p>
- */
-public enum CommentStarEnum {
+/** 
+　 * <p>Title: CommentAuditEnum</p> 
+　 * <p>Description: 评论审批枚举</p> 
+　 * @author zyd 
+　 * <p>创建日期：2020年3月31日 </p>
+*/
+public enum CommentAuditEnum {
   /**
-   * 一星
+   * 审批中
    */
-  ONE(1, "一星"),
+  AUDIT(1,"审批中"),
   /**
-   * 二星
+   * 批准
    */
-  TWO(2, "二星"),
-  /**
-   * 三星
-   */
-  THREE(3, "三星"),
-  /**
-   * 四星
-   */
-  FOUR(4, "四星"),
-  /**
-   * 五星
-   */
-  FIVE(5, "五星");
-
+  RATIFY(2,"批准");
   /**
    * 索引
    */
@@ -56,7 +31,7 @@ public enum CommentStarEnum {
    */
   private String stateInfo;
 
-  private CommentStarEnum(int state, String stateInfo) {
+  private CommentAuditEnum(int state, String stateInfo) {
     setState(state);
     setStateInfo(stateInfo);
   }
@@ -73,16 +48,17 @@ public enum CommentStarEnum {
    * @param index 索引
    * @return 订单状态枚举
    */
-  public static CommentStarEnum stateOf(int index) {
-    for (CommentStarEnum state : values()) {
+  public static CommentAuditEnum stateOf(int index) {
+    for (CommentAuditEnum state : values()) {
       if (state.getState() == index) {
         return state;
       }
     }
     return null;
   }
-  public static CommentStarEnum stateOf(String index) {
-    for (CommentStarEnum state : values()) {
+
+  public static CommentAuditEnum stateOf(String index) {
+    for (CommentAuditEnum state : values()) {
       if (state.getStateInfo().equals(index)) {
         return state;
       }

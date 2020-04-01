@@ -37,6 +37,17 @@ public class User {
    */
   private LocalDateTime registerTime;
   /**
+   * Í·Ïñ
+   */
+  private String image;
+  
+  public String getImage() {
+    return image;
+  }
+  public void setImage(String image) {
+    this.image = image;
+  }
+  /**
   * @return the id ÐòºÅ
   */
   public long getId() {
@@ -112,7 +123,8 @@ public class User {
   @Override
   public String toString() {
     return "User [id=" + id + ", userName=" + userName + ", password=" + password + ", nickName="
-        + nickName + ", email=" + email + ", registerTime=" + registerTime + "]";
+        + nickName + ", email=" + email + ", registerTime=" + registerTime + ", image=" + image
+        + "]";
   }
 
 }

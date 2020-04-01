@@ -611,7 +611,10 @@ public class OrderServiceImpl implements OrderService {
   public OrderExecution getOrderDetail(String orderNum,String userName) {
     OrderInfo orderInfo=orderInfoDao.queryByOrderNum(orderNum);
     List<OrderItem>orderItems=orderItemDao.queryByUserNameAndOrderNum(userName, orderNum);
+    List<Product> products = new ArrayList<Product>();
+    orderItems.forEach(x -> products.add(productDao.queryById(x.getProductId())));
     OrderExecution orderExecution=new OrderExecution(orderInfo, orderItems, OrderStatusEnum.stateOf(orderInfo.getStatus()));
+    orderExecution.setProductList(products);
     return orderExecution;
   }
 

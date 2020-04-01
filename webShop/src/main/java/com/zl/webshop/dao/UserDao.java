@@ -22,8 +22,10 @@ import com.zl.webshop.entity.User;
  * Description: 用户表Dao接口
  * </p>
  * 
- * @author zyd 
- * <p>创建日期：2020年3月12日</p>
+ * @author zyd
+ *         <p>
+ *         创建日期：2020年3月12日
+ *         </p>
  */
 public interface UserDao {
   /**
@@ -34,9 +36,11 @@ public interface UserDao {
    * <p>
    * Description: 获取用户总数
    * </p>
+   * 
    * @return 用户总数
    */
   int count();
+
   /**
    * 
    * <p>
@@ -109,4 +113,35 @@ public interface UserDao {
    * @return 如果影响行数等于大于1 表示更新的记录行数
    */
   int updateUser(@Param("user") User user);
+
+  /**
+   * 
+   * <p>
+   * Title: fuzzyQueryAllByText
+   * </p>
+   * <p>
+   * Description: 模糊查询所有产品
+   * </p>
+   * 
+   * @param searchText 关键词
+   * @param offset 查询起始位置
+   * @param limit 查询条数
+   * @return 产品列表
+   */
+  List<User> fuzzyQueryAllByText(@Param("searchText") String searchText,
+      @Param("offset") int offset, @Param("limit") int limit);
+
+  /**
+   * 
+   * <p>
+   * Title: fuzzyCount
+   * </p>
+   * <p>
+   * Description: 获取模糊查询的个数
+   * </p>
+   * 
+   * @param searchText 搜索关键词
+   * @return 个数
+   */
+  int fuzzyCount(@Param("searchText") String searchText);
 }

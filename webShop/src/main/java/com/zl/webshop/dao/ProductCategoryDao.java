@@ -25,7 +25,9 @@ import com.zl.webshop.entity.ProductCategory;
  * </p>
  * 
  * @author zyd
- * <p>创建日期：2020年3月13日</p>
+ *         <p>
+ *         创建日期：2020年3月13日
+ *         </p>
  */
 public interface ProductCategoryDao {
   /**
@@ -36,9 +38,11 @@ public interface ProductCategoryDao {
    * <p>
    * Description: 获取产品类别总数
    * </p>
+   * 
    * @return 产品类别总数
    */
   int count();
+
   /**
    * 
    * <p>
@@ -53,6 +57,23 @@ public interface ProductCategoryDao {
    * @return 类别列表
    */
   List<ProductCategory> queryAll(@Param("offset") int offset, @Param("limit") int limit);
+
+  /**
+   * 
+   * <p>
+   * Title: fuzzyQueryAllByText
+   * </p>
+   * <p>
+   * Description: 模糊查询所有产品
+   * </p>
+   * 
+   * @param searchText 关键词
+   * @param offset 查询起始位置
+   * @param limit 查询条数
+   * @return 产品列表
+   */
+  List<ProductCategory> fuzzyQueryAllByText(@Param("searchText") String searchText,
+      @Param("offset") int offset, @Param("limit") int limit);
 
   /**
    * 

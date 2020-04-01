@@ -69,7 +69,14 @@ public enum ContactStatusEnum {
     }
     return null;
   }
-
+  public static ContactStatusEnum stateOf(String index) {
+    for (ContactStatusEnum state : values()) {
+      if (state.getStateInfo().equals(index)) {
+        return state;
+      }
+    }
+    return null;
+  }
   /**
    * @return the state
    */
