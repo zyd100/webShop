@@ -67,4 +67,8 @@ public class CommentDaoTest extends BaseTest{
   public void testQueryById() {
     System.out.println(commentDao.queryById(4));
   }
+  @Test
+  public void testCount() {
+    System.out.println(commentDao.count());
+  }
 }

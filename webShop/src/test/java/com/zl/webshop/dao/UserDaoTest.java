@@ -24,7 +24,7 @@ import com.zl.webshop.entity.User;
 public class UserDaoTest extends BaseTest{
   @Autowired
   private UserDao userDao;
-  @Test
+  @Test@Ignore
   public void testCount() {
     int count=userDao.count();
     System.out.println(count);
@@ -42,25 +42,39 @@ public class UserDaoTest extends BaseTest{
   @Test@Ignore
   public void testAddUser() {
     User user=new User();
-    user.setEmail("1019661738@qq.com");
-    user.setNickName("ddd");
-    user.setUserName("zydadmin");
-    user.setPassword("admin");
+    //user.setEmail("1019661738@qq.com");
+    //user.setNickName("ddd");
+    user.setUserName("testimage");
+    user.setPassword("123456");
+    user.setImage("image");
     int count=userDao.addUser(user);
     System.out.println(count);
   }
   
-  @Test@Ignore
+  @Test
   public void testUpdateUser() {
-    User user=userDao.queryByUserName("zydadmin");
+   /* User user=userDao.queryByUserName("zydadmin");
     user.setEmail(null);
     int count=userDao.updateUser(user);
-    System.out.println(count);
+    System.out.println(count);*/
+    User user=new User();
+    user.setUserName("testimage");
+    user.setImage("23");
+    //user.setNickName("admin");
+    userDao.updateUser(user);
   }
   @Test@Ignore
   public void testDeleteUser() {
     User user=userDao.queryByUserName("zydadmin");
     int count=userDao.deleteUser(user);
     System.out.println(count);
+  }
+  @Test@Ignore
+  public void testFuzzyCount() {
+   System.out.println(userDao.fuzzyCount("d"));
+  }
+  @Test@Ignore
+  public void testFuzzyQuuery() {
+    System.out.println(userDao.fuzzyQueryAllByText("d", 0,10));
   }
 }

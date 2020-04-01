@@ -46,10 +46,15 @@ public class OrderInfoTest extends BaseTest{
   }
   @Test@Ignore
   public void testUpdateOrderInfo() {
-    OrderInfo orderInfo=orderInfoDao.queryByOrderNum("000000");
+    /*OrderInfo orderInfo=orderInfoDao.queryByOrderNum("000000");
     orderInfo.setMessage("aoaoao");
     int count = orderInfoDao.updateOrderInfo(orderInfo);
-    System.out.println(count);
+    System.out.println(count);*/
+    OrderInfo orderInfo=new OrderInfo();
+    orderInfo.setOrderNum("dd337ef2d1134475a00e20257515e0fa");
+    orderInfo.setStatus(-1);
+    orderInfo.setMessage("");
+    orderInfoDao.updateOrderInfo(orderInfo);
   }
   @Test@Ignore
   public void testDeleteOrderInfo() {
@@ -57,8 +62,13 @@ public class OrderInfoTest extends BaseTest{
     int count = orderInfoDao.deleteOrderInfo(orderInfo);
     System.out.println(count);
   }
-  @Test
+  @Test@Ignore
   public void testDeleteByOrderNum() {
     orderInfoDao.deleteByOrderNum("aaa");
+  }
+  @Test
+  public void testFuzzy() {
+    System.out.println(orderInfoDao.fuzzyQueryAllByText("d",0,10));
+    System.out.println(orderInfoDao.fuzzyCount("d"));
   }
 }

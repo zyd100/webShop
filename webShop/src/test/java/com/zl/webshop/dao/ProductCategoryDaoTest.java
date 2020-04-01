@@ -30,10 +30,14 @@ public class ProductCategoryDaoTest extends BaseTest{
   }
   @Test@Ignore
   public void testUpdateProductCategory() {
-    ProductCategory productCategory=productCategoryDao.queryById(2);
+  /*  ProductCategory productCategory=productCategoryDao.queryById(2);
     productCategory.setDescription("手机一条龙");
-    int count=productCategoryDao.updateProductCategory(productCategory);
-    System.out.println(count);
+    int count=productCategoryDao.updateProductCategory(productCategory);*/
+   // System.out.println(count);
+    ProductCategory category=new ProductCategory();
+    category.setId(1);
+    category.setSortOrder(6);
+    productCategoryDao.updateProductCategory(category);
   }
   @Test@Ignore
   public void testQueryAll() {
@@ -45,10 +49,14 @@ public class ProductCategoryDaoTest extends BaseTest{
     ProductCategory productCategory=productCategoryDao.queryById(2);
     System.out.println(productCategory);
   }
-  @Test
+  @Test@Ignore
   public void testDeleteProductCategory() {
     ProductCategory productCategory=productCategoryDao.queryById(2);
     int count=productCategoryDao.deleteProductCategory(productCategory);
     System.out.println(count);
+  }
+  @Test@Ignore
+  public void testFuzzySearch() {
+    System.out.println(productCategoryDao.fuzzyQueryAllByText("装", 0, 10));
   }
 }

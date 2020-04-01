@@ -65,8 +65,13 @@ public class OrderHistoryDaoTest extends BaseTest{
     List<OrderHistory>list=orderHistoryDao.queryAllByUpdateUserName("admin", 0, 10);
     System.out.println(list);
   }
-  @Test
+  @Test@Ignore
   public void testDeleteByOrderNum() {
     orderHistoryDao.deleteByOrderNum("asd");
+  }
+  @Test@Ignore
+  public void testFuzzy() {
+    System.out.println(orderHistoryDao.fuzzyQueryAllByText("d",0,10));
+    System.out.println(orderHistoryDao.fuzzyCount("d"));
   }
 }

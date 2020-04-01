@@ -31,8 +31,12 @@ public class ProductDaoTest extends BaseTest {
   }
   @Test@Ignore
   public void testUpdateProduct() {
-    Product product=productDao.queryById(1);
-    product.setCategoryId(2);
+    /*Product product=productDao.queryById(1);
+    product.setCategoryId(2);*/
+    Product product=new Product();
+    product.setId(7);
+    product.setPrice(89);
+    System.out.println(product);
     int count=productDao.updateProduct(product);
     System.out.println(count);
   }
@@ -64,14 +68,14 @@ public class ProductDaoTest extends BaseTest {
   }
   @Test@Ignore
   public void testFuzzyQueryAllByText() {
-    List<Product>list=productDao.fuzzyQueryAllByText("D…Ã", 0, 10);
+    List<Product>list=productDao.fuzzyQueryAllByText("µÁ", 0, 10);
     System.out.println(list);
   }
   @Test@Ignore
   public void testCount() {
     System.out.println(productDao.fuzzyCount("µÁƒ‘"));
   }
-  @Test
+  @Test@Ignore
   public void testRandomAll() {
     System.out.println(productDao.randomAll(2));
   }
