@@ -967,7 +967,10 @@ public class UserController {
       contact.setContactAddress(orderExecution.getOrderInfo().getContactAddress());
       contact.setContactMobile(orderExecution.getOrderInfo().getContactMobile());
       contact.setContactName(orderExecution.getOrderInfo().getContactName());
-      if (orderExecution.getOrderItemList().size() < 2) {
+      
+      //根据商品数量设置不同购买方式
+      int minSize=2;
+      if (orderExecution.getOrderItemList().size() < minSize) {
         // 立即下单购买一个商品
         result = new Result<OrderExecution>(true,
             orderService.buyOneNow(orderExecution.getOrderItemList().get(0), userName, contact,

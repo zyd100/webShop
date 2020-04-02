@@ -35,6 +35,7 @@ import com.zl.webshop.dto.Result;
 import com.zl.webshop.entity.Comment;
 import com.zl.webshop.entity.Product;
 import com.zl.webshop.entity.ProductCategory;
+import com.zl.webshop.enums.CommentAuditEnum;
 import com.zl.webshop.exception.NoCategoryException;
 import com.zl.webshop.exception.NoProductException;
 import com.zl.webshop.service.CommentService;
@@ -227,29 +228,35 @@ public class HomeController {
       @PathVariable(value = "offset") int offset, @PathVariable(value = "limit") int limit) {
     Result<List<CommentExecution>> result = null;
     try {
-      result = new Result<List<CommentExecution>>(true,
-          commentService.getcommentsByProductId(productId, offset, limit));
+      List<CommentExecution> commentExecutions =
+          commentService.getcommentsByProductId(productId, offset, limit).stream()
+              .filter(x -> x.getState() != CommentAuditEnum.AUDIT.getState())
+              .collect(Collectors.toList());
+      result = new Result<List<CommentExecution>>(true, commentExecutions);
     } catch (Exception e) {
       logger.error(e.getMessage());
       result = new Result<>(false, e.getMessage());
     }
     return JSON.toJSONString(result);
   }
-  @RequestMapping(value = "/products/comments",
-      method = RequestMethod.POST, produces = {"application/json; charset=utf-8"})
+
+  @RequestMapping(value = "/products/comments", method = RequestMethod.POST,
+      produces = {"application/json; charset=utf-8"})
   @ResponseBody
   private String addComment(@RequestBody Comment comment) {
-    Result<Comment>result=null;
-    Comment resultComment=null;
+    Result<Comment> result = null;
+    Comment resultComment = null;
     try {
-      resultComment=commentService.addComment(comment.getProductId(), comment.getContent(), comment.getUserName(), comment.getStar());
-      result=new Result<Comment>(true, resultComment);
+      resultComment = commentService.addComment(comment.getProductId(), comment.getContent(),
+          comment.getUserName(), comment.getStar());
+      result = new Result<Comment>(true, resultComment);
     } catch (Exception e) {
       logger.error(e.getMessage());
-      result=new Result<>(false, e.getMessage());
+      result = new Result<>(false, e.getMessage());
     }
     return JSON.toJSONString(result);
   }
+
   /**
    * 
    * <p>

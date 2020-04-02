@@ -56,9 +56,8 @@ public class TestController {
   @Autowired
   private ProductService productService;
 
-  /*
-   * @Autowired private UserService userService;
-   */
+  
+   
   /**
    * 
    * <p>
@@ -88,7 +87,8 @@ public class TestController {
     // 获取随机展示商品
     List<ProductExecution> randomProducts = new ArrayList<ProductExecution>();
     // 随机8个种类 再从各个种类的类别里随机出4个商品
-    for (ProductCategory category : RandomUtil.randomEles(categories, 8)) {
+    int categoriesCount=8;
+    for (ProductCategory category : RandomUtil.randomEles(categories, categoriesCount)) {
       try {
         productExecution = productService.getProductsRandom(category.getId(), 4);
         randomProducts.add(productExecution);

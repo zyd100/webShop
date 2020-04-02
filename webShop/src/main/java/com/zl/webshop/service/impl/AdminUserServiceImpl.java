@@ -96,8 +96,12 @@ public class AdminUserServiceImpl implements AdminUserService {
   public UserExecution updateUser(User user) {
     UserExecution userExecution = null;
     try {
+      //不允许更新密码
+      user.setPassword(null);
       userDao.updateUser(user);
       User newUser = userDao.queryByUserName(user.getUserName());
+      //过滤密码
+      newUser.setPassword(null);
       UserRoles role = userRolesDao.queryByUserName(user.getUserName());
       userExecution = new UserExecution(newUser, UserRolesEnum.stateOf(role.getRole()));
     } catch (Exception e) {

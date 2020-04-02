@@ -1,0 +1,756 @@
+{
+	"info": {
+		"_postman_id": "2ed26025-c42a-43a7-b2f6-8252c2ca08a6",
+		"name": "webshop-admin",
+		"description": "网上商城后台管理系统",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "跳转至登录页或主页",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "退出登录事件，并跳转至登录页",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/logoff",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"logoff"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取评论审核状态枚举",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/enums/commentaudit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"enums",
+								"commentaudit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取订单状态枚举",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/enums/orderstatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"enums",
+								"orderstatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ajax 获取商品分类",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/categories?offset=0&limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "searchText",
+									"value": "%E8%A3%85",
+									"description": "搜索关键词可以不给",
+									"disabled": true
+								}
+							]
+						},
+						"description": "url: /admin/categories\n  searchText可以不给。\n  offset limit 必须要给。"
+					},
+					"response": []
+				},
+				{
+					"name": "ajax 获取用户",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/users?offset=0&limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"users"
+							],
+							"query": [
+								{
+									"key": "searchText",
+									"value": null,
+									"description": "选填",
+									"disabled": true
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "必填"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "必填"
+								}
+							]
+						},
+						"description": "/admin/users"
+					},
+					"response": []
+				},
+				{
+					"name": "ajax 获取商品",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/products?offset=0&limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"products"
+							],
+							"query": [
+								{
+									"key": "searchText",
+									"value": "%E7%94%B5%E8%84%91",
+									"description": "选填",
+									"disabled": true
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "必填"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "必填"
+								}
+							]
+						},
+						"description": "/admin/products"
+					},
+					"response": []
+				},
+				{
+					"name": "ajax 获取订单",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/orders?offset=0&limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "searchText",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ajax 获取评论",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/comments?offset=0&limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "必填"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "必填"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "PUT",
+			"item": [
+				{
+					"name": "ajax 修改一个分类",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":43,\n\t\"categoryName\":\"修改分类名\",\n\t\"description\":\"修改分类概述\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"categories"
+							]
+						},
+						"description": "id 必填"
+					},
+					"response": []
+				},
+				{
+					"name": "ajax 修改用户基本信息",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\":\"testId\",\n\t\"nickName\":\"update\",\n\t\"email\":\"update@qq.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"users"
+							]
+						},
+						"description": "userName 用于确定要对哪位用户作更新操作 \n暂时只支持修改别名和邮箱"
+					},
+					"response": []
+				},
+				{
+					"name": "ajax 更新一个订单的状态",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "orderNum",
+									"value": "9e8984babd1684cabc6dda3193c83c5e",
+									"description": "必填",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "5",
+									"description": "订单状态",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ajax 更新一个订单的状态",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "orderNum",
+											"value": "9e8984babd1684cabc6dda3193c83c5e",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "5",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/webShop/admin/orders",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"webShop",
+										"admin",
+										"orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "237"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 02 Apr 2020 12:41:28 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\\"data\\\":{\\\"orderInfo\\\":{\\\"createTime\\\":\\\"2020-03-28T11:14:40\\\",\\\"id\\\":17,\\\"orderNum\\\":\\\"9e8984babd1684cabc6dda3193c83c5e\\\",\\\"price\\\":0.0,\\\"status\\\":5,\\\"userName\\\":\\\"testId\\\"},\\\"state\\\":5,\\\"stateInfo\\\":\\\"收藏夹\\\"},\\\"success\\\":true}\""
+						}
+					]
+				},
+				{
+					"name": "ajax 更新评论状态",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "auditState",
+									"value": "2",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"comments"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ajax 更新评论状态",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "auditState",
+											"value": "2",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/webShop/admin/comments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"webShop",
+										"admin",
+										"comments"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "266"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 02 Apr 2020 12:48:15 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\\"data\\\":{\\\"comment\\\":{\\\"audit\\\":2,\\\"content\\\":\\\"testcomment\\\",\\\"createTime\\\":\\\"2020-04-01T18:15:12\\\",\\\"id\\\":7,\\\"productId\\\":7,\\\"star\\\":3,\\\"userName\\\":\\\"testId\\\"},\\\"starState\\\":3,\\\"starStateInfo\\\":\\\"三星\\\",\\\"state\\\":2,\\\"stateInfo\\\":\\\"批准\\\"},\\\"success\\\":true}\""
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "ajax 删除一个分类",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":43\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"categories"
+							]
+						},
+						"description": "id 必填 返回分类表数目"
+					},
+					"response": []
+				},
+				{
+					"name": "ajax 删除一个用户",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\":\"aaa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"users"
+							]
+						},
+						"description": "根据用户名删除用户所有相关信息 慎用"
+					},
+					"response": []
+				},
+				{
+					"name": "ajax 删除一个订单",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "orderNum",
+									"value": "asdasdas1",
+									"description": "必填",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"orders"
+							]
+						},
+						"description": "返回订单历史表的数目"
+					},
+					"response": []
+				},
+				{
+					"name": "删除一个评论",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":7\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"comments"
+							]
+						},
+						"description": "返回评论表数目"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "登录事件 表单提交",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "userName",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ajax 新增一个产品分类",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"categoryName\":\"分类名必须有\",\n\t\"description\":\"分类概述选填\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"categories"
+							]
+						},
+						"description": "categoryName 必填\ndescription 选填\nsortOrder 选填"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
