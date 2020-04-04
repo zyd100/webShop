@@ -674,6 +674,36 @@
 						"description": "返回评论表数目"
 					},
 					"response": []
+				},
+				{
+					"name": "删除一个商品",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":18\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"products"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -745,6 +775,141 @@
 							]
 						},
 						"description": "categoryName 必填\ndescription 选填\nsortOrder 选填"
+					},
+					"response": []
+				},
+				{
+					"name": "使用ajax 提交表单  新增一个产品",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productName",
+									"value": "测试添加商品",
+									"type": "text"
+								},
+								{
+									"key": "categoryId",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "shopPrice",
+									"value": "500",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "60",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "600",
+									"type": "text"
+								},
+								{
+									"key": "explain",
+									"value": "超级好用实惠便宜",
+									"type": "text"
+								},
+								{
+									"key": "imageFile",
+									"description": "商品图片 仅能保存一张",
+									"type": "file",
+									"src": "/D:/123/1.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ajax提交表单 更新一个商品",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "18",
+									"type": "text"
+								},
+								{
+									"key": "explain",
+									"value": "更新商品概述 测试",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "300",
+									"type": "text"
+								},
+								{
+									"key": "shopPrice",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "200",
+									"type": "text"
+								},
+								{
+									"key": "categoryId",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "imageFile",
+									"description": "商品图 选填 只能一张图",
+									"type": "file",
+									"src": "/D:/123/4.jpg"
+								},
+								{
+									"key": "otherImages",
+									"description": "商品的其他图片 选填 可多张图 ，更新后会删除原来的所有图片，保留新增的图片",
+									"type": "file",
+									"src": [
+										"/D:/123/2.jpg",
+										"/D:/123/4.jpg"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/admin/products/18",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"admin",
+								"products",
+								"18"
+							]
+						},
+						"description": "/admin/products/{productId}"
 					},
 					"response": []
 				}

@@ -14,6 +14,7 @@
  */
 package com.zl.webshop.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +25,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.zl.webshop.dto.ProductExecution;
 import com.zl.webshop.dto.Result;
 import com.zl.webshop.entity.Product;
+import com.zl.webshop.entity.ProductImage;
 import com.zl.webshop.service.AdminProductService;
+import com.zl.webshop.service.FileService;
 
 /**
  * <p>
@@ -50,6 +54,9 @@ public class AdminProductController {
 
   @Autowired
   private AdminProductService adminProductService;
+  @Autowired
+  private FileService fileService;
+
 
   /**
    * 
@@ -68,7 +75,8 @@ public class AdminProductController {
   @RequestMapping(value = "", method = RequestMethod.GET,
       produces = {"application/json; charset=utf-8"})
   @ResponseBody
-  private String getProducts(@RequestParam(value = "searchText",required = false) String searchText,
+  private String getProducts(
+      @RequestParam(value = "searchText", required = false) String searchText,
       @RequestParam("offset") int offset, @RequestParam("limit") int limit) {
     Result<List<ProductExecution>> result = null;
     try {
@@ -103,6 +111,104 @@ public class AdminProductController {
     } catch (Exception e) {
       logger.error(e.getMessage());
       result = new Result<>(false, e.getMessage());
+    }
+    return JSON.toJSONString(result);
+  }
+
+  /**
+   * 
+   * <p>
+   * Title: addProducts
+   * </p>
+   * <p>
+   * Description: 添加商品
+   * </p>
+   * 
+   * @param product 商品对象，请不要存图片名img
+   * @param otherImagesFiles 商品的其他图片
+   * @param imageFile 商品图
+   * @return 添加结果
+   */
+  @RequestMapping(value = "", method = RequestMethod.POST,
+      produces = {"application/json; charset=utf-8"})
+  @ResponseBody
+  private String addProducts(Product product,
+      
+      @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) {
+    Result<ProductExecution> result = null;
+    try {
+      // 防止图片保存冲突
+      product.setImage(null);
+      if (imageFile != null) {
+        // 预先添加图片
+        product.setImage(fileService.upLoadFile(imageFile));
+      }
+      result =
+          new Result<ProductExecution>(true, adminProductService.addProduct(product));
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      result = new Result<>(false, e.getMessage());
+      // 发生异常删除预先添加好的图片
+      if (product.getImage() != null) {
+        fileService.deleteFile(product.getImage());
+      }
+    }
+    return JSON.toJSONString(result);
+  }
+
+  /**
+   * 
+   * <p>
+   * Title: updateProducts
+   * </p>
+   * <p>
+   * Description: 更新商品
+   * </p>
+   * 
+   * @param product 商品对象，请不要存图片名img
+   * @param otherImagesFiles 商品的其他图片
+   * @param imageFile 商品图
+   * @return 更新结果
+   */
+  @RequestMapping(value = "/{productId}", method = RequestMethod.POST,
+      produces = {"application/json; charset=utf-8"})
+  @ResponseBody
+  private String updateProducts(Product product,
+      @RequestParam(value = "otherImages", required = false) MultipartFile[] otherImagesFiles,
+      @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) {
+    Result<ProductExecution> result = null;
+    List<ProductImage> otherImages = new ArrayList<ProductImage>();
+    ProductImage productImage = null;
+    try {
+      // 防止图片保存冲突
+      product.setImage(null);
+      if (otherImagesFiles != null && otherImagesFiles.length > 0) {
+
+        for (int i = 0; i < otherImagesFiles.length; i++) {
+          // 预先添加图片
+          productImage = new ProductImage();
+          productImage.setId(product.getId());
+          productImage.setImage(fileService.upLoadFile(otherImagesFiles[i]));
+          otherImages.add(productImage);
+        }
+      }
+      if (imageFile != null) {
+        // 预先添加图片
+        product.setImage(fileService.upLoadFile(imageFile));
+      }
+      result = new Result<ProductExecution>(true,
+          adminProductService.updateProduct(product, otherImages));
+
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      result = new Result<>(false, e.getMessage());
+      // 发生异常删除预先添加好的图片
+      if (otherImages.size() > 0) {
+        otherImages.stream().forEach(x -> fileService.deleteFile(x.getImage()));
+      }
+      if (product.getImage() != null) {
+        fileService.deleteFile(product.getImage());
+      }
     }
     return JSON.toJSONString(result);
   }

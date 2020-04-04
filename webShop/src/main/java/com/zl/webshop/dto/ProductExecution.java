@@ -16,6 +16,7 @@ package com.zl.webshop.dto;
 
 import java.util.List;
 import com.zl.webshop.entity.Product;
+import com.zl.webshop.entity.ProductImage;
 
 /**
  * <p>
@@ -51,6 +52,10 @@ public class ProductExecution {
    * 单个产品
    */
   private Product product;
+  /**
+   * 单个产品的其他图片
+   */
+  private List<ProductImage>productImages;
 
   /**
    * 
@@ -180,11 +185,17 @@ public class ProductExecution {
     this.product = product;
   }
 
+  public List<ProductImage> getProductImages() {
+    return productImages;
+  }
+  public void setProductImages(List<ProductImage> productImages) {
+    this.productImages = productImages;
+  }
   @Override
   public String toString() {
     return "ProductExecution [categoryName=" + categoryName + ", categoryId=" + categoryId
         + ", productMaxCount=" + productMaxCount + ", productList=" + productList + ", product="
-        + product + "]";
+        + product + ", productImages=" + productImages + "]";
   }
 
 }

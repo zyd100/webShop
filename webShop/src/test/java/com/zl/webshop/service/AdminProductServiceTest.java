@@ -36,14 +36,14 @@ public class AdminProductServiceTest extends BaseTest {
     product.setId(7);
     product.setShopPrice(-100);
     product.setCategoryId(1);
-    productService.updateProduct(product);
+    productService.updateProduct(product,null);
   }
 
   @Test
-  @Ignore
+  //@Ignore
   public void testDeleteProduct() {
     Product product = new Product();
-    product.setId(11);
+    product.setId(12);
     productService.deleteProduct(product);
   }
 

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.zl.webshop.dao.ProductCategoryDao;
 import com.zl.webshop.dao.ProductDao;
+import com.zl.webshop.dao.ProductImageDao;
 import com.zl.webshop.dto.ProductExecution;
 import com.zl.webshop.entity.Product;
 import com.zl.webshop.entity.ProductCategory;
@@ -49,6 +50,8 @@ public class ProductServiceImpl implements ProductService {
   private ProductCategoryDao productCategoryDao;
   @Autowired
   private ProductDao productDao;
+  @Autowired
+  private ProductImageDao productImageDao;
 
   @Override
   public List<ProductCategory> getCategories() {
@@ -85,10 +88,10 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public ProductExecution searchByText(String searchText, int offset, int limit) {
     List<Product> products = productDao.fuzzyQueryAllByText(searchText, offset, limit);
-    if(products.size()<1) {
+    if (products.size() < 1) {
       throw new NoProductException("no product");
     }
-    ProductExecution productExecution=new ProductExecution(products);
+    ProductExecution productExecution = new ProductExecution(products);
     productExecution.setProductMaxCount(productDao.fuzzyCount(searchText));
     return productExecution;
   }
@@ -97,12 +100,12 @@ public class ProductServiceImpl implements ProductService {
   public ProductExecution getProduct(long productId, String productName) {
     ProductExecution productExecution = null;
     try {
-      //先使用产品序号获取产品
+      // 先使用产品序号获取产品
       Product product = productDao.queryById(productId);
       if (ObjectUtil.isNull(product)) {
-        //失败则尝试使用产品名进行获取
-        product=productDao.queryByProductName(productName).stream().findAny().get();
-        if(ObjectUtil.isNull(product)) {
+        // 失败则尝试使用产品名进行获取
+        product = productDao.queryByProductName(productName).stream().findAny().get();
+        if (ObjectUtil.isNull(product)) {
           throw new NoProductException("no product");
         }
       }
@@ -112,6 +115,8 @@ public class ProductServiceImpl implements ProductService {
       }
       productExecution =
           new ProductExecution(productCategory.getId(), productCategory.getCategoryName(), product);
+      //添加商品其他图片
+      productExecution.setProductImages(productImageDao.queryByProductId(productId));
     } catch (NoCategoryException e) {
       throw e;
     } catch (NoProductException e) {
@@ -124,7 +129,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public ProductExecution getProductsRandom(long categoryId,int limit) {
+  public ProductExecution getProductsRandom(long categoryId, int limit) {
     ProductExecution productExecution = null;
     try {
       ProductCategory productCategory = productCategoryDao.queryById(categoryId);
@@ -152,14 +157,14 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public ProductExecution getProductsRandom(int limit) {
     ProductExecution productExecution = null;
+
     try {
       List<Product> products = productDao.randomAll(limit);
       if (products.size() < 1) {
         throw new NoProductException("no product");
       }
-      productExecution =
-          new ProductExecution(products);
-      
+      productExecution = new ProductExecution(products);
+
     } catch (NoProductException e) {
       throw e;
     } catch (Exception e) {
@@ -167,7 +172,7 @@ public class ProductServiceImpl implements ProductService {
       throw e;
     }
     return productExecution;
-  
+
   }
 
 }
