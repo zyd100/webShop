@@ -60,6 +60,7 @@ public interface AdminProductService {
    * </p>
    * 
    * @param product 商品对象
+   * @param otherImages 商品的其他图片
    * @return 更新成功后的产品数据
    */
   ProductExecution updateProduct(Product product, List<ProductImage> otherImages);

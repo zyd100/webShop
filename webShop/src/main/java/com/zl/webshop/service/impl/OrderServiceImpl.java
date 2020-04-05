@@ -48,6 +48,7 @@ import com.zl.webshop.exception.ProductLostException;
 import com.zl.webshop.exception.StarStatusException;
 import com.zl.webshop.exception.UpdateException;
 import com.zl.webshop.service.OrderService;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -405,6 +406,8 @@ public class OrderServiceImpl implements OrderService {
       if (orderItems.size() < 1) {
         throw new NoCartException("no cart");
       }
+      //限制购物车长度
+      orderItems=CollUtil.sub(orderItems, 0, 12);
       List<Product> products = new ArrayList<Product>();
       orderItems.forEach(x -> products.add(productDao.queryById(x.getProductId())));
       if (orderItems.size() != products.size()) {
@@ -570,7 +573,7 @@ public class OrderServiceImpl implements OrderService {
         // 获取用户失败
         throw new NoUserException("no User");
       }
-      // 购物车编号由‘111111’+userName组成
+      // 收藏夹编号由‘111111’+userName组成
       String orderNum = DigestUtil.md5Hex("111111" + userName);
       OrderInfo orderInfo = orderInfoDao.queryByOrderNum(orderNum);
       if (orderInfo == null) {

@@ -36,6 +36,7 @@ import com.zl.webshop.exception.RegisterException;
 import com.zl.webshop.exception.RepeatRegisterException;
 import com.zl.webshop.exception.UpdateException;
 import com.zl.webshop.exception.WrongUserNamePwdException;
+import com.zl.webshop.service.FileService;
 import com.zl.webshop.service.UserService;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -68,6 +69,8 @@ public class UserServiceImpl implements UserService {
   private OrderItemDao orderItemDao;
   @Autowired
   private OrderInfoDao orderInfoDao;
+  @Autowired
+  private FileService fileService;
 
   @Override
   @Transactional(rollbackFor = RuntimeException.class)
@@ -295,6 +298,17 @@ public class UserServiceImpl implements UserService {
      throw e;
     }
     return flag;
+  }
+
+  @Override
+  public int updateUserImage(String userName, String image) {
+    User user=userdao.queryByUserName(userName);
+    int count=0;
+    count=userdao.updateUserImage(userName, image);
+    if(user!=null&&user.getImage()!=null&&count!=0) {
+      fileService.deleteFile(user.getImage());
+    }
+    return count;
   }
 
 }

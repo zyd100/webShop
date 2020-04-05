@@ -129,4 +129,19 @@ public interface UserService {
    * @return 验证结果
    */
   boolean checkPassword(String userName, String password);
+
+  /**
+   * 
+   * <p>
+   * Title: updateUserImage
+   * </p>
+   * <p>
+   * Description: 更新用户头像图片
+   * </p>
+   * 
+   * @param userName 用户名
+   * @param image 图片
+   * @return 返回更新行数
+   */
+  int updateUserImage(String userName, String image);
 }

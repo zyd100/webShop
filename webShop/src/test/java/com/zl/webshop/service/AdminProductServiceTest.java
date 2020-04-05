@@ -40,7 +40,7 @@ public class AdminProductServiceTest extends BaseTest {
   }
 
   @Test
-  //@Ignore
+  @Ignore
   public void testDeleteProduct() {
     Product product = new Product();
     product.setId(12);

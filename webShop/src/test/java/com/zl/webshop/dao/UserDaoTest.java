@@ -51,7 +51,7 @@ public class UserDaoTest extends BaseTest{
     System.out.println(count);
   }
   
-  @Test
+  @Test@Ignore
   public void testUpdateUser() {
    /* User user=userDao.queryByUserName("zydadmin");
     user.setEmail(null);
@@ -76,5 +76,9 @@ public class UserDaoTest extends BaseTest{
   @Test@Ignore
   public void testFuzzyQuuery() {
     System.out.println(userDao.fuzzyQueryAllByText("d", 0,10));
+  }
+  @Test
+  public void testUpdateImage() {
+    userDao.updateUserImage("admin", "abc.jpg");
   }
 }

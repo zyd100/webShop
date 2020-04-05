@@ -28,14 +28,21 @@ public interface FileService {
    * 
    * @param upload 文件
    * @return 返回上传成功的文件名
-   * @throws Exception
+   * @throws Exception 文件上传的异常
    */
   String upLoadFile(MultipartFile upload) throws Exception;
+
   /**
    * 
-  *<p>Title: deleteFile</p> 
-  *<p>Description: 删除文件</p> 
-  　 * @param fileName 文件名 包含后缀
+   * <p>
+   * Title: deleteFile
+   * </p>
+   * <p>
+   * Description: 删除文件
+   * </p>
+   * @param fileName 文件名 包含后缀
+   * 
+   * @return 返回boolean
    */
   boolean deleteFile(String fileName);
 }

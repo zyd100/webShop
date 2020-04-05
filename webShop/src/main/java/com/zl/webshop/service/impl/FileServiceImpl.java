@@ -31,7 +31,7 @@ private static final String PATH = "D:\\javaproject\\webShop\\src\\main\\webapp\
     if (upload != null && upload.getOriginalFilename() != null
         && upload.getOriginalFilename().length() > 0) {
       // 图片上传物理路径
-      String img_path = PATH;
+      String imgPath = PATH;
       // 获取图片原始名称
       String originalFilename = upload.getOriginalFilename();
 
@@ -40,7 +40,7 @@ private static final String PATH = "D:\\javaproject\\webShop\\src\\main\\webapp\
       newFileName =
           IdUtil.simpleUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
       // 新图片
-      File newFile = new File(img_path + newFileName);
+      File newFile = new File(imgPath + newFileName);
 
       // 将内存中的数据写入磁盘
       try {

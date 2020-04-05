@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.zl.webshop.dto.OrderExecution;
 import com.zl.webshop.dto.Result;
@@ -53,7 +54,9 @@ import com.zl.webshop.exception.RepeatRegisterException;
 import com.zl.webshop.exception.UpdateException;
 import com.zl.webshop.exception.WrongUserNamePwdException;
 import com.zl.webshop.service.ContactService;
+import com.zl.webshop.service.FileService;
 import com.zl.webshop.service.OrderService;
+import com.zl.webshop.service.ProductService;
 import com.zl.webshop.service.UserService;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -86,6 +89,10 @@ public class UserController {
   private OrderService orderService;
   @Autowired
   private ContactService contactService;
+  @Autowired
+  private ProductService productService;
+  @Autowired
+  private FileService fileService;
 
   /**
    * 
@@ -191,19 +198,20 @@ public class UserController {
     UserExecution basicUserInfo = userService.getBasicInfo(userName);
     // 用户订单信息
     OrderExecution orderExecution = orderService.getOderInfoByUserName(userName, null, 0, 10);
-    List<OrderExecution>orderInfos=new ArrayList<OrderExecution>();
-    //过滤购物车收藏夹
+    List<OrderExecution> orderInfos = new ArrayList<OrderExecution>();
+    // 过滤购物车收藏夹
     orderExecution
         .setOrderInfos(
             orderExecution.getOrderInfos().stream()
                 .filter(x -> x.getStatus() != OrderStatusEnum.SHOPPING_CART.getState()
                     && x.getStatus() != OrderStatusEnum.STAR.getState())
                 .collect(Collectors.toList()));
-    
-    orderExecution.getOrderInfos().stream().forEach(x->orderInfos.add(orderService.getOrderDetail(x.getOrderNum(), loginUserName)));
-    orderInfos.stream().forEach(x->{
-     x.setOrderItemList(CollUtil.sub(x.getOrderItemList(), 0, 1));
-     x.setProductList(CollUtil.sub(x.getProductList(), 0, 1));
+
+    orderExecution.getOrderInfos().stream()
+        .forEach(x -> orderInfos.add(orderService.getOrderDetail(x.getOrderNum(), loginUserName)));
+    orderInfos.stream().forEach(x -> {
+      x.setOrderItemList(CollUtil.sub(x.getOrderItemList(), 0, 1));
+      x.setProductList(CollUtil.sub(x.getProductList(), 0, 1));
     });
     // 装填数据
     model.addAttribute("contacts", JSON.toJSONString(contacts));
@@ -289,6 +297,7 @@ public class UserController {
     }
     try {
       result = new Result<OrderExecution>(true, orderService.getCart(userName));
+
     } catch (NoCartException e) {
       orderExecution = new OrderExecution();
       orderExecution.setOrderItemList(new ArrayList<OrderItem>());
@@ -936,6 +945,11 @@ public class UserController {
       // 重定向至登录页
       return "redirect: /webShop/users";
     }
+    // 传入产品相关数据
+    List<Product> products = new ArrayList<Product>();
+    orderExecution.getOrderItemList().stream().forEach(x -> products
+        .add(productService.getProduct(x.getProductId(), x.getProductName()).getProduct()));
+    orderExecution.setProductList(products);
     model.addAttribute("orderExecution", JSON.toJSONString(orderExecution));
     logger.debug(JSON.toJSONString(orderExecution));
     // 前往订单支付页
@@ -967,9 +981,9 @@ public class UserController {
       contact.setContactAddress(orderExecution.getOrderInfo().getContactAddress());
       contact.setContactMobile(orderExecution.getOrderInfo().getContactMobile());
       contact.setContactName(orderExecution.getOrderInfo().getContactName());
-      
-      //根据商品数量设置不同购买方式
-      int minSize=2;
+
+      // 根据商品数量设置不同购买方式
+      int minSize = 2;
       if (orderExecution.getOrderItemList().size() < minSize) {
         // 立即下单购买一个商品
         result = new Result<OrderExecution>(true,
@@ -990,6 +1004,30 @@ public class UserController {
     } catch (Exception e) {
       logger.error(e.getMessage());
       result = new Result<>(false, e.getMessage());
+    }
+    return JSON.toJSONString(result);
+  }
+
+  @RequestMapping(value = "/{userName}/images", method = RequestMethod.POST,
+      produces = {"application/json; charset=utf-8"})
+  @ResponseBody
+  private String updateUserImage(MultipartFile image, @PathVariable("userName") String userName) {
+    Result<Integer> result = null;
+    String imageName = null;
+    try {
+      imageName = fileService.upLoadFile(image);
+      result = new Result<Integer>(true, userService.updateUserImage(userName, imageName));
+      if(result.getData()==0) {
+        //更像失败
+        fileService.deleteFile(imageName);
+        result=new Result<>(false, "update image error");
+      }
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      result = new Result<Integer>(false, e.getMessage());
+      if (imageName != null) {
+        fileService.deleteFile(imageName);
+      }
     }
     return JSON.toJSONString(result);
   }

@@ -94,4 +94,14 @@
 		WHERE
 		user_name = #{user.userName}
 	</update>
+	<update id="updateUserImage">
+		UPDATE user
+		<set>
+			<if test="image != null">
+				`image` = #{image}
+			</if>
+		</set>
+		WHERE
+		user_name = #{userName}
+	</update>
 </mapper>

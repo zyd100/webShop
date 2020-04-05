@@ -1,0 +1,1119 @@
+{
+	"info": {
+		"_postman_id": "515eb415-306c-479a-a373-ae06e9873e70",
+		"name": "webshop",
+		"description": "程设电子商城",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "前往主页",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/home",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"home"
+							]
+						},
+						"description": "/home"
+					},
+					"response": []
+				},
+				{
+					"name": "搜索框输入关键词并跳转",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/search?searchText=%E7%94%B5%E8%84%91",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"search"
+							],
+							"query": [
+								{
+									"key": "searchText",
+									"value": "%E7%94%B5%E8%84%91"
+								}
+							]
+						},
+						"description": "使用表单提交"
+					},
+					"response": []
+				},
+				{
+					"name": "前往登录注册页",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "前往商品详情页",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/products/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"products",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "前往个人中心页面",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取此用户所有的联系信息",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/contacts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"contacts"
+							]
+						},
+						"description": "ajax get方式获取 返回json字符串"
+					},
+					"response": []
+				},
+				{
+					"name": "获取收藏夹列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/stars/0/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"stars",
+								"0",
+								"10"
+							]
+						},
+						"description": "ajax get方式获取/users/{userName}/stars/{offset}/{limit}"
+					},
+					"response": []
+				},
+				{
+					"name": "获取历史订单列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "offset",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/orderHistory",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"orderHistory"
+							]
+						},
+						"description": "ajax get方式获取"
+					},
+					"response": []
+				},
+				{
+					"name": "前往购物车页面",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/carts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"carts"
+							]
+						},
+						"description": "/users/{userName}/carts"
+					},
+					"response": []
+				},
+				{
+					"name": "前往收藏夹页面",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/stars",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"stars"
+							]
+						},
+						"description": "/users/{userName}/stars"
+					},
+					"response": []
+				},
+				{
+					"name": "跳转至订单详情页",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/orderHistory/9e8984babd1684cabc6dda3193c83c5e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"orderHistory",
+								"9e8984babd1684cabc6dda3193c83c5e"
+							]
+						},
+						"description": "/users/{userName}/orderHistory/{orderNum}"
+					},
+					"response": []
+				},
+				{
+					"name": "搜索页ajax搜索商品",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/search/%E7%94%B5%E8%84%91/0/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"search",
+								"%E7%94%B5%E8%84%91",
+								"0",
+								"10"
+							]
+						},
+						"description": "search/{searchText}/{offset}/{limit}"
+					},
+					"response": []
+				},
+				{
+					"name": "ajax获取商品评论",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/products/7/comments/0/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"products",
+								"7",
+								"comments",
+								"0",
+								"10"
+							]
+						},
+						"description": "/products/{productId}/comments/{offset}/{limit}"
+					},
+					"response": [
+						{
+							"name": "ajax获取商品评论",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/webShop/products/7/comments/0/10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"webShop",
+										"products",
+										"7",
+										"comments",
+										"0",
+										"10"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "271"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Apr 2020 10:39:26 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\\"data\\\":[{\\\"comment\\\":{\\\"audit\\\":1,\\\"content\\\":\\\"testcomment\\\",\\\"createTime\\\":\\\"2020-04-01T18:15:12\\\",\\\"id\\\":7,\\\"productId\\\":7,\\\"star\\\":3,\\\"userName\\\":\\\"testId\\\"},\\\"starState\\\":3,\\\"starStateInfo\\\":\\\"三星\\\",\\\"state\\\":1,\\\"stateInfo\\\":\\\"审批中\\\"}],\\\"success\\\":true}\""
+						}
+					]
+				}
+			],
+			"description": "GET请求",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "POST ",
+			"item": [
+				{
+					"name": "注册用户",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\tuserName:\"testweb\",\n\tpassword:\"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users"
+							]
+						},
+						"description": "ajax  post\n注意事项:\ncontentType: \"application/json; charset=utf-8\",\nJSON.stringify(data)"
+					},
+					"response": []
+				},
+				{
+					"name": "登录事件",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "userName",
+									"value": "testId",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"login"
+							]
+						},
+						"description": "表单post"
+					},
+					"response": []
+				},
+				{
+					"name": "登出事件",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"logout"
+							]
+						},
+						"description": "登出事件。表单提交， 不能使用ajax。登出后跳转页面"
+					},
+					"response": []
+				},
+				{
+					"name": "新增一个联系地址",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\":\"testId\",\n\t\"contactName\":\"nametest\",\n\t\"contactAddress\":\"testaddress\",\n\t\"contactMobile\":\"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/contacts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"contacts"
+							]
+						},
+						"description": "ajax post。\r\n注意事项：\r\ncontentType: \"application/json; charset=utf-8\",\r\n\t\t\t\tdata: JSON.stringify(data)。"
+					},
+					"response": []
+				},
+				{
+					"name": "添加商品进购物车",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"productId\":7,\n\t\"quantity\":10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/carts/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"carts",
+								"7"
+							]
+						},
+						"description": "ajax post。\r\n注意事项：\r\ncontentType: \"application/json; charset=utf-8\",\r\n\t\t\t\tdata: JSON.stringify(data)。"
+					},
+					"response": []
+				},
+				{
+					"name": "收藏一个商品",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/stars/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"stars",
+								"7"
+							]
+						},
+						"description": "ajax post。/users/{userName}/stars/{productId}"
+					},
+					"response": []
+				},
+				{
+					"name": "购物车页面点击支付跳转至订单支付页面",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "useName",
+									"value": "testId",
+									"type": "text"
+								},
+								{
+									"key": "orderItemList[0].id",
+									"value": "26",
+									"type": "text"
+								},
+								{
+									"key": "orderItemList[1].id",
+									"value": "27",
+									"type": "text"
+								},
+								{
+									"key": "orderItemList[0].productId",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "orderItemList[1].productId",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "orderItemList[0].quantity",
+									"value": "1000",
+									"type": "text"
+								},
+								{
+									"key": "orderItemList[1].quantity",
+									"value": "1000",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/carts/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"carts",
+								"order"
+							]
+						},
+						"description": "表单提交\n/users/{userName}/carts/order"
+					},
+					"response": []
+				},
+				{
+					"name": "购买商品",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"orderInfo\":{\"contactAddress\":\"\",\"contactMobile\":\"\",\"contactName\":\"\",\"userName\":\"testId\",\"message\":\"\"},\n\t\"orderItemList\":[{\"productId\":7,\"quantity\":10},{\"productId\":7,\"quantity\":10}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"order"
+							]
+						},
+						"description": "ajax 订单支付页面点击支付按钮\ncontentType: \"application/json; charset=utf-8\",\n\t\t\t\t  data: JSON.stringify(data),"
+					},
+					"response": []
+				},
+				{
+					"name": "新增一个评论",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"productId\":7,\n\t\"content\":\"五星好评，实惠便宜\",\n\t\"userName\":\"testId\",\n\t\"star\":5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/products/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"products",
+								"comments"
+							]
+						},
+						"description": "注意事项： contentType: \"application/json; charset=utf-8\", data: JSON.stringify(data)\n\n\t\n\turl: /products/comments"
+					},
+					"response": [
+						{
+							"name": "新增一个评论",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"productId\":7,\n\t\"content\":\"五星好评，实惠便宜\",\n\t\"userName\":\"testId\",\n\t\"star\":5\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/webShop/products/comments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"webShop",
+										"products",
+										"comments"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "147"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Apr 2020 11:41:31 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\\"data\\\":{\\\"audit\\\":1,\\\"content\\\":\\\"五星好评，实惠便宜\\\",\\\"id\\\":0,\\\"productId\\\":7,\\\"star\\\":5,\\\"userName\\\":\\\"testId\\\"},\\\"success\\\":true}\""
+						}
+					]
+				},
+				{
+					"name": "ajax 更新用户头像",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"description": "用户头像 只能传一张",
+									"type": "file",
+									"src": "/D:/123/b9014a90f603738d810cedbfb81bb051f919eced.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/admin/images",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"admin",
+								"images"
+							]
+						},
+						"description": "/users/{userName}/images"
+					},
+					"response": []
+				}
+			],
+			"description": "POST请求 如果使用ajax，请记得type: \"post\"\n如果提交的数据是json类型，请务必标注contentType: \"application/json; charset=utf-8\",并且data: JSON.stringify(data)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5410ae8d-fe90-4d20-ace1-7d54e0290fdf",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "16763d7a-49ad-4e9e-a0c7-dd85e9420ac6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "PUT",
+			"item": [
+				{
+					"name": "更新个人基本信息",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\":\"testId\",\n\t\"nickName\": \"testnick\",\n\t\"email\":\"1019661738@qq.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId"
+							]
+						},
+						"description": "ajax put。\r\ncontentType: \"application/json; charset=utf-8\",\r\n\t\t\t\t  data: JSON.stringify(data),"
+					},
+					"response": []
+				},
+				{
+					"name": "更新密码",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "oldPassword",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "newPassword",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"password"
+							]
+						},
+						"description": "ajax put"
+					},
+					"response": []
+				}
+			],
+			"description": "PUT请求 如果使用ajax，请记得type: \"put\"，表单的话记得加隐藏的<input type=\"hidden\" name=\"_method\" value=\"PUT\">\n如果提交的数据是json类型，请务必标注contentType: \"application/json; charset=utf-8\",并且data: JSON.stringify(data)\n",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7fee450c-8629-4830-957a-551c75f89f90",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "25120298-0d8b-4a23-b320-4996c1d22a39",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "用户注销账号",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "user.password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "user.userName",
+									"value": "testweb",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testweb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testweb"
+							]
+						},
+						"description": "表格提交 注销后跳转至登录页"
+					},
+					"response": []
+				},
+				{
+					"name": "删除一个地址",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":8,\n\t\"userName\":\"testId\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/contacts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"contacts"
+							]
+						},
+						"description": "Ajax 。contentType: \"application/json; charset=utf-8\",\r\n\t\t\t\t  data: JSON.stringify(data),"
+					},
+					"response": []
+				},
+				{
+					"name": "删除购物车内的一些商品",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"orderItemList\":[{\"productId\":7,\"id\":23,\"userName\":\"testId\"}]\n\t\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/carts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"carts"
+							]
+						},
+						"description": "contentType: \"application/json; charset=utf-8\",\r\n\t\t\t\t  data: JSON.stringify(data),\r\n\t\t\t\t  \r\n\t\t\t\t  \r\n\t\t\t\t  orderItemList:存放你想要删除的产品\r\n\t\t\t\t  返回结果：返回最新的购物车清单"
+					},
+					"response": []
+				},
+				{
+					"name": "删除收藏夹商品",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"orderItemList\":[{\"userName\":\"testId\",\"id\":24,\"productId\":7},{\"userName\":\"testId\",\"id\":25,\"productId\":7}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/stars",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"stars"
+							]
+						},
+						"description": "contentType: \"application/json; charset=utf-8\",\r\n\t\t\t\t  data: JSON.stringify(data),\r\n\t\t\t\t  \r\n\t\t\t\t  orderItemList:存放你想要删除的收藏夹商品"
+					},
+					"response": []
+				},
+				{
+					"name": "删除历史订单",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"orderInfos\":[{\"orderNum\":\"f25090dabc7d4c759ae9bbea507f1c3c\"}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/webShop/users/testId/orderHistory",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"webShop",
+								"users",
+								"testId",
+								"orderHistory"
+							]
+						},
+						"description": "contentType: \"application/json; charset=utf-8\",\r\n\t\t\t\t  data: JSON.stringify(data),\r\n\t\t\t\t  \r\n\t\t\t\t  orderInfos:存放你想删除的订单列表"
+					},
+					"response": []
+				}
+			],
+			"description": "DELETE请求 如果使用ajax，请记得type: \"delete\" ，表单的话记得加隐藏的<input type=\"hidden\" name=\"_method\" value=\"DELETE\">\n如果提交的数据是json类型，请务必标注contentType: \"application/json; charset=utf-8\",并且data: JSON.stringify(data)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7382be74-6a80-4cc9-8ba5-89f6596817d5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c18df39-fec2-4102-8293-cfc6a29ceae2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

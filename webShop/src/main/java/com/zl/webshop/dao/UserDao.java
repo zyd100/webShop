@@ -117,6 +117,21 @@ public interface UserDao {
   /**
    * 
    * <p>
+   * Title: updateUserImage
+   * </p>
+   * <p>
+   * Description: 更新用户图片
+   * </p>
+   * 
+   * @param userName 用户名
+   * @param image 图片名
+   * @return 如果影响行数等于大于1 表示更新的记录行数
+   */
+  int updateUserImage(@Param("userName") String userName, @Param("image") String image);
+
+  /**
+   * 
+   * <p>
    * Title: fuzzyQueryAllByText
    * </p>
    * <p>

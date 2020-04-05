@@ -42,7 +42,10 @@ public interface AdminUserService {
    * Description: 获取用户列表
    * </p>
    * 
-   * @param searchText 搜索关键词 选填 @param offset 查询起始位置 @param limit 查询条数 @return 用户列表
+   * @param searchText 搜索关键词 选填
+   * @param offset 查询起始位置
+   * @param limit 查询条数
+   * @return 用户列表
    */
   List<UserExecution> getUsers(String searchText, int offset, int limit);
 
@@ -55,7 +58,8 @@ public interface AdminUserService {
    * Description: 删除用户
    * </p>
    * 
-   * @param user 用户 @return 最新用户表总数
+   * @param user 用户
+   * @return 最新用户表总数
    */
   int deleteUser(User user);
 

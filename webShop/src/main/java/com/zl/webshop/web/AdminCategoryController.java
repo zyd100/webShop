@@ -115,7 +115,7 @@ public class AdminCategoryController {
    * Description: 更新分类基本信息
    * </p>
    * 
-   * @param user 分类
+   * @param category 分类
    * @return 更新结果
    */
   @RequestMapping(value = "", method = RequestMethod.PUT,

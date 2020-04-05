@@ -48,10 +48,15 @@ public interface AdminService {
 
   /**
    * 
-  *<p>Title: register</p> 
-  *<p>Description: 管理员注册</p> 
-  　 * @param register 注册对象
-  　 * @return 注册结果
+   * <p>
+   * Title: register
+   * </p>
+   * <p>
+   * Description: 管理员注册
+   * </p>
+   * 
+   * @param register 注册对象
+   * @return 注册结果
    */
   boolean register(User register);
 }

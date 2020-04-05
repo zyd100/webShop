@@ -58,7 +58,6 @@ public class AdminCommentController {
    * Description: 获取订单列表
    * </p>
    * 
-   * @param searchText 搜索关键词 可不填
    * @param offset 查询起始位置
    * @param limit 查询条数
    * @return 查询结果
@@ -113,8 +112,8 @@ public class AdminCommentController {
    * Description: 更新评论状态
    * </p>
    * 
-   * @param orderNum 订单编号
-   * @param status 订单状态
+   * @param id 序号
+   * @param auditState 评论审核状态
    * @return 更新结果
    */
   @RequestMapping(value = "", method = RequestMethod.PUT,

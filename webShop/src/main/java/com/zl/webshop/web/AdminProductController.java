@@ -125,7 +125,6 @@ public class AdminProductController {
    * </p>
    * 
    * @param product 商品对象，请不要存图片名img
-   * @param otherImagesFiles 商品的其他图片
    * @param imageFile 商品图
    * @return 添加结果
    */
