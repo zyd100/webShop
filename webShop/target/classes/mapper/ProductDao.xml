@@ -7,43 +7,55 @@
 	<select id="count" resultType="java.lang.Integer">
 		<!-- 具体的sql -->
 		SELECT
-			COUNT(*)
+		COUNT(*)
 		FROM
-			product
+		product
 	</select>
 	<select id="fuzzyCount" resultType="java.lang.Integer">
 		<!-- 具体的sql -->
 		SELECT
 		COUNT(*)
 		FROM
-			product
-		WHERE
-			`product_name` LIKE CONCAT('%',#{searchText},'%')
+		product a inner join product_category b on
+		a.category_id = b.id
+
+		<if test="searchText != null">
+			WHERE
+			a.product_name LIKE CONCAT('%',#{searchText},'%') OR b.category_name
+			LIKE CONCAT('%',#{searchText},'%')
+		</if>
 	</select>
 	<select id="randomByCategoryId" resultType="Product">
-		<!-- 具体的sql -->
-		SELECT
-			*
-		FROM
-			product
-		WHERE
-			`category_id` = #{categoryId}
-		ORDER BY
-			RAND() 
-		LIMIT
-			#{limit}	
-	</select>
-	<select id="fuzzyQueryAllByText" resultType="Product">
 		<!-- 具体的sql -->
 		SELECT
 		*
 		FROM
 		product
 		WHERE
-		`product_name` LIKE CONCAT('%',#{searchText},'%')
+		`category_id` = #{categoryId}
+		ORDER BY
+		RAND()
+		LIMIT
+		#{limit}
+	</select>
+	<select id="fuzzyQueryAllByText" resultType="Product">
+		<!-- 具体的sql -->
+		SELECT
+		a.id,a.product_name,a.explain,a.category_id,
+		a.shop_price,a.price,a.quantity,a.image,a.create_time,a.update_time,
+		a.create_user_name,a.update_user_name
+		FROM
+		product a inner join product_category b on a.category_id = b.id
+
+		<if test="searchText != null">
+			WHERE
+			a.product_name LIKE CONCAT('%',#{searchText},'%') OR b.category_name
+			LIKE CONCAT('%',#{searchText},'%')
+		</if>
 		ORDER BY
 		`id`
-		LIMIT #{offset}, #{limit}
+		LIMIT
+		#{offset}, #{limit}
 	</select>
 	<select id="queryAll" resultType="Product">
 		SELECT
@@ -69,7 +81,8 @@
 		FROM
 		product
 		WHERE
-		`id` = #{id}
+		`id` =
+		#{id}
 	</select>
 	<select id="queryByCategoryId" resultType="Product">
 		SELECT
@@ -80,7 +93,8 @@
 		`category_id` = #{categoryId}
 		ORDER BY
 		`id`
-		LIMIT #{offset}, #{limit}
+		LIMIT #{offset},
+		#{limit}
 	</select>
 	<select id="queryByProductName" resultType="Product">
 		SELECT
@@ -110,16 +124,35 @@
 
 	<update id="updateProduct">
 		UPDATE product
-		SET
-		`product_name` = #{product.productName},
-		`explain` = #{product.explain},
-		`category_id` = #{product.categoryId},
-		`shop_price` = #{product.shopPrice},
-		`price` = #{product.price},
-		`quantity` = #{product.quantity},
-		`image` = #{product.image},
-		`create_user_name` = #{product.createUserName},
-		`update_user_name` = #{product.updateUserName}
+		<set>
+			<if test="product.productName != null">
+				`product_name` = #{product.productName},
+			</if>
+			<if test="product.explain != null">
+				`explain` = #{product.explain},
+			</if>
+			<if test="product.categoryId != null and product.categoryId gte 0">
+				`category_id` = #{product.categoryId},
+			</if>
+			<if test="product.shopPrice != null and product.shopPrice gte 0">
+				`shop_price` = #{product.shopPrice},
+			</if>
+			<if test="product.price != null and product.price gte 0">
+				`price` = #{product.price},
+			</if>
+			<if test="product.quantity != null and product.quantity gte 0">
+				`quantity` = #{product.quantity},
+			</if>
+			<if test="product.image != null">
+				`image` = #{product.image},
+			</if>
+			<if test="product.createUserName != null">
+				`create_user_name` = #{product.createUserName},
+			</if>
+			<if test="product.updateUserName != null">
+				`update_user_name` = #{product.updateUserName}
+			</if>
+		</set>
 		WHERE
 		`id` = #{product.id}
 	</update>

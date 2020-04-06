@@ -1,0 +1,339 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+	width: 1899px;
+}
+
+a {
+	text-decoration: none;
+}
+
+/*正常的未被访问过的链接*/
+a:link {
+	text-decoration: none;
+}
+
+/*已经访问过的链接*/
+a:visited {
+	text-decoration: none;
+}
+
+/*鼠标划过(停留)的链接*/
+a:hover {
+	text-decoration: none;
+}
+
+/* 正在点击的链接*/
+a:active {
+	text-decoration: none;
+}
+
+h3 {
+	text-align: center;
+	line-height: 70px;
+}
+
+ul,
+li {
+	padding: 0;
+	margin: 0;
+	list-style: none
+}
+
+p {
+	padding: 0;
+	margin: 0;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+#wd_container {
+	background-color: #F6F6F6;
+}
+
+#wd_left {
+	/*border: solid 2px saddlebrown;*/
+}
+
+#wd_center {
+	/*border: solid 2px skyblue;*/
+	margin: 0 auto;
+}
+
+#wd_right {
+	/*border: solid 2px lawngreen;*/
+}
+
+#wd_top {
+	height: 150px;
+	margin-bottom: 10px;
+	background-color: #FFFFFF;
+	border-bottom: solid 5px steelblue;
+}
+
+#wd_center_infor {
+	height: 650px;
+	background-color: #FFFFFF;
+	border: solid 1px bisque;
+}
+
+#wd_center_intro {
+	height: 100px;
+	background-color: #FFFFFF;
+	margin-bottom: 100px;
+	border: solid 1px bisque;
+}
+
+#wd_center_footer {
+	height: 120px;
+	background-color: #FFFFFF;
+	border: solid 1px bisque;
+}
+
+#wd_logo {
+	width: 250px;
+	height: 90px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+#wd_search {
+	height: 130px;
+}
+
+#wd_search div {
+	margin-top: 40px;
+}
+
+.textRule {
+	display: block;
+	height: 47px;
+	box-shadow: 3px 3px 5px #F5DEB3;
+}
+
+.infor_img {
+	height: 640px;
+}
+
+.infor_img div:first-child {
+	width: 500px;
+	height: 640px;
+	margin: 0 auto;
+}
+
+.bigImg {
+	width: 500px;
+	height: 500px;
+	padding: 20px;
+}
+
+.bigImg:hover {
+	border: solid 1px #FF5000;
+}
+
+.smallImgDiv {
+	width: 80%;
+	margin: 15px auto;
+}
+
+.smallImg {
+	width: 80px;
+	height: 80px;
+	border: solid 2px white;
+	vertical-align: middle;
+}
+
+.infor_text {
+	height: 510px;
+}
+
+.infor_text div:first-child {
+	width: 670px;
+	height: 500px;
+}
+
+.infor_text p {
+	font-family: arial;
+	font-size: 16px;
+	font-weight: bold;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+#floatSection {
+	height: 50px;
+	background-color: #2DA77A;
+}
+
+.char {
+	color: white;
+	font-family: arial;
+	font-size: 25px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 50px;
+}
+
+#priceDiv {
+	background-color: #E5E4E4;
+	height: 120px;
+}
+
+#priceDiv ul>li {
+	margin-bottom: 20px;
+	font-size: 15px;
+}
+
+.newPrice {
+	color: red;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.volaccess {
+	display: inline-block;
+	width: 330px;
+	height: 50px;
+	border: dashed 1.2px #E1E1E1;
+	margin-top: 20px;
+	text-align: center;
+	line-height: 40px;
+}
+
+#storeDiv {
+	margin: 20px 5px;
+}
+
+#storeDiv input {
+	width: 55px;
+	height: :;
+	px;
+}
+
+.serviceNode {
+	margin: 20px;
+}
+
+.serviceNode p {
+	font-size: 15px;
+	color: #999999;
+}
+
+.buyBtns {
+	margin-top: 40px;
+}
+
+button#buyBtn {
+	width: 200px;
+	height: 50px;
+	border: solid 1px #C40000;
+	background-color: #FFEDED;
+	color: #C40000;
+	font-family: arial;
+	font-size: 16px;
+	border-radius: 5px;
+	margin-left: 50px;
+}
+
+button#addCart {
+	width: 200px;
+	height: 50px;
+	background-color: #C40000;
+	color: white;
+	font-family: arial;
+	font-size: 16px;
+	border-radius: 5px;
+	margin-left: 50px;
+}
+
+button#addCollect {
+	width: 100px;
+	height: 50px;
+	background-color: #C40000;
+	color: white;
+	font-family: arial;
+	font-size: 14px;
+	border-radius: 5px;
+	margin-left: 50px;
+}
+
+li a {
+	display: inline-block;
+	width: 120px;
+	line-height: 46px;
+	font-size: 15px;
+	font-family: arial;
+	color: #000000;
+	text-align: center;
+	border-left: solid 1px #cfbfb1;
+	border-right: solid 1px #CFBFB1;
+}
+
+ul.nav li.active {
+	display: inline-block;
+	border-top: solid 3px #b10000;
+	color: #b10000;
+	font-weight: bold;
+}
+
+.introImage {
+	margin: 0 auto;
+	width: 1200px;
+}
+
+.introAccess {
+	padding-top: 0px;
+	display: none;
+}
+
+.accessView {
+	height: 150px;
+	border-bottom: solid 1px #E3E3E3;
+}
+
+.accessView div {
+	font-size: 15px;
+	font-family: arial;
+	padding-left: 130px;
+}
+
+.accessView div:first-child {
+	margin-top: 10px;
+	margin-bottom: 50px;
+}
+
+.accessView div:last-child {
+	margin-top: 20px;
+}
+
+div nav {
+	text-align: center;
+}
+
+.backTop {
+	width: 80px;
+	height: 100px;
+	position: fixed;
+	bottom: 60px;
+	right: 35px;
+}
+
+#wd_personal {
+	width: 55px;
+	height: 250px;
+	border: solid 2px sandybrown;
+	position: fixed;
+	top: 220px;
+	right: 100px;
+	border-radius: 15px;
+}
+
+#wd_personal div {
+	width: 50px;
+	height: 45px;
+	margin: 10px;
+}

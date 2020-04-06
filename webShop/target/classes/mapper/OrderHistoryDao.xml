@@ -11,12 +11,41 @@
 		FROM
 		order_history
 	</select>
+	<select id="fuzzyCount" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+		COUNT(*)
+		FROM
+		order_history
+		
+		<if test="searchText != null">
+		WHERE
+			`order_num` LIKE CONCAT('%',#{searchText},'%')
+		</if>
+	</select>
+	<select id="fuzzyQueryAllByText" resultType="OrderHistory">
+		<!-- 具体的sql -->
+		SELECT
+		*
+		FROM
+		order_history
+		
+		<if test="searchText != null">
+		WHERE
+			`order_num` LIKE CONCAT('%',#{searchText},'%')
+		</if>
+		ORDER BY
+		`id`
+		LIMIT
+		#{offset}, #{limit}
+	</select>
 	<select id="queryAll" resultType="OrderHistory">
 		SELECT
 		*
 		FROM
 		order_history
-		ORDER BY
+		ORDER
+		BY
 		`id`
 		LIMIT #{offset}, #{limit}
 	</select>
@@ -49,7 +78,8 @@
 	</select>
 	<insert id="addOrderHistory">
 		INSERT ignore INTO
-		`order_history` (`order_num`,`update_user_name`,`status`,`create_time`)
+		`order_history`
+		(`order_num`,`update_user_name`,`status`,`create_time`)
 		VALUES
 		(#{orderHistory.orderNum},#{orderHistory.updateUserName},
 		#{orderHistory.status},#{orderHistory.createTime});
@@ -59,22 +89,34 @@
 		FROM
 		`order_history`
 		WHERE
-		(`id` = #{orderHistory.id} and `order_num` = #{orderHistory.orderNum});
+		(`id` =
+		#{orderHistory.id} and `order_num` = #{orderHistory.orderNum});
 	</delete>
 	<delete id="deleteByOrderNum">
 		DELETE
 		FROM
 		`order_history`
 		WHERE
-		(`order_num` = #{orderNum});
+		(`order_num` =
+		#{orderNum});
 	</delete>
 	<update id="updateOrderHistory">
 		UPDATE order_history
-		SET
-		`update_user_name` = #{orderHistory.updateUserName},
-		`status` = #{orderHistory.status},
-		`create_time` = #{orderHistory.createTime}
+		<set>
+			<if
+				test="orderHistory.status != null and orderHistory.status gte 0">
+				`status` = #{orderHistory.status},
+			</if>
+			<if test="orderHistory.updateUserName != null">
+				`update_user_name` =
+				#{orderHistory.updateUserName},
+			</if>
+
+			<if test="orderHistory.createTime != null">
+				`create_time` = #{orderHistory.createTime}
+			</if>
+		</set>
 		WHERE
-		`id` = #{orderHistory.id} and `order_num` = #{orderHistory.orderNum}
+		`order_num` = #{orderHistory.orderNum}
 	</update>
 </mapper>

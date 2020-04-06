@@ -7,88 +7,130 @@
 	<select id="count" resultType="java.lang.Integer">
 		<!-- 具体的sql -->
 		SELECT
-			COUNT(*)
+		COUNT(*)
 		FROM
-			order_info
+		order_info
 	</select>
-		<select id="countByUserName" resultType="java.lang.Integer">
+	<select id="fuzzyCount" resultType="java.lang.Integer">
 		<!-- 具体的sql -->
 		SELECT
-			COUNT(*)
+		COUNT(*)
 		FROM
-			order_info
+		order_info
+		
+		<if test="searchText != null">
 		WHERE
-			`user_name` = #{userName}	
+			`order_num` LIKE CONCAT('%',#{searchText},'%')
+		</if>
+	</select>
+	<select id="fuzzyQueryAllByText" resultType="OrderInfo">
+		<!-- 具体的sql -->
+		SELECT
+		*
+		FROM
+		order_info
+		
+		<if test="searchText != null">
+		WHERE
+			`order_num` LIKE CONCAT('%',#{searchText},'%')
+		</if>
+		ORDER BY
+		`id`
+		LIMIT
+		#{offset}, #{limit}
+	</select>
+	<select id="countByUserName" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+		COUNT(*)
+		FROM
+		order_info
+		WHERE
+		`user_name` = #{userName}
 	</select>
 	<select id="queryAll" resultType="OrderInfo">
 		SELECT
-			*
+		*
 		FROM
-			order_info
+		order_info
 		ORDER BY
-			`id`
+		`id`
 		LIMIT #{offset}, #{limit}
 	</select>
 	<select id="queryByOrderNum" resultType="OrderInfo">
 		SELECT
-			*
+		*
 		FROM
-			order_info
+		order_info
 		WHERE
-			`order_num` = #{orderNum}	
+		`order_num` = #{orderNum}
 	</select>
 	<select id="queryByUserName" resultType="OrderInfo">
 		SELECT
-			*
+		*
 		FROM
-			order_info
+		order_info
 		WHERE
-			`user_name` = #{userName}	
+		`user_name` = #{userName}
 		ORDER BY
-			`id`
+		`id`
 		LIMIT #{offset}, #{limit}
 	</select>
 	<insert id="addOrderInfo">
-		INSERT ignore INTO 
-			`order_info` (`order_num`,`user_name`,`price`,`status`,`contact_name`,`contact_mobile`,`contact_address`,`message`) 
-			VALUES 
-				(#{orderInfo.orderNum},#{orderInfo.userName},
-				#{orderInfo.price},#{orderInfo.status},
-				#{orderInfo.contactName},#{orderInfo.contactMobile},
-				#{orderInfo.contactAddress},#{orderInfo.message});
+		INSERT ignore INTO
+		`order_info`
+		(`order_num`,`user_name`,`price`,`status`,`contact_name`,`contact_mobile`,`contact_address`,`message`)
+		VALUES
+		(#{orderInfo.orderNum},#{orderInfo.userName},
+		#{orderInfo.price},#{orderInfo.status},
+		#{orderInfo.contactName},#{orderInfo.contactMobile},
+		#{orderInfo.contactAddress},#{orderInfo.message});
 	</insert>
-	<delete id="deleteOrderInfo" >
-		DELETE 
-		FROM 
-			`order_info` 
-		WHERE 
-			(`id` = #{orderInfo.id} and `order_num` = #{orderInfo.orderNum});
-	</delete>
-	<delete id="deleteByOrderNum" >
-		DELETE 
-		FROM 
-			`order_info` 
-		WHERE 
-			( `order_num` = #{orderNum});
-	</delete>
-	<delete id="deleteOrderInfoByUserName" >
-		DELETE 
-		FROM 
-			`order_info` 
-		WHERE 
-			(`user_name` = #{userName});
-	</delete>
-	
-	<update id="updateOrderInfo"  >
-		UPDATE order_info
-		SET 
-			`price` = #{orderInfo.price},
-			`status` = #{orderInfo.status},
-			`contact_name` = #{orderInfo.contactName},
-			`contact_mobile` = #{orderInfo.contactMobile},
-			`contact_address` = #{orderInfo.contactAddress},
-			`message` = #{orderInfo.message}
+	<delete id="deleteOrderInfo">
+		DELETE
+		FROM
+		`order_info`
 		WHERE
-			 `order_num` = #{orderInfo.orderNum}
+		(`id` = #{orderInfo.id} and `order_num` = #{orderInfo.orderNum});
+	</delete>
+	<delete id="deleteByOrderNum">
+		DELETE
+		FROM
+		`order_info`
+		WHERE
+		( `order_num` = #{orderNum});
+	</delete>
+	<delete id="deleteOrderInfoByUserName">
+		DELETE
+		FROM
+		`order_info`
+		WHERE
+		(`user_name` = #{userName});
+	</delete>
+
+	<update id="updateOrderInfo">
+		UPDATE order_info
+		<set>
+			<if test="orderInfo.status != null and orderInfo.status gte 0">
+				`status` = #{orderInfo.status},
+			</if>
+			<if test="orderInfo.price != null and orderInfo.price != 0">
+				`price` = #{orderInfo.price},
+			</if>
+			<if test="orderInfo.contactName != null">
+				`contact_name` = #{orderInfo.contactName},
+			</if>
+			<if test="orderInfo.contactMobile != null">
+				`contact_mobile` = #{orderInfo.contactMobile},
+			</if>
+			<if test="orderInfo.contactAddress != null">
+				`contact_address` = #{orderInfo.contactAddress},
+			</if>
+			<if test="orderInfo.message != null">
+				`message` = #{orderInfo.message}
+			</if>
+		</set>
+		WHERE
+		`order_num` = #{orderInfo.orderNum}
 	</update>
 </mapper>

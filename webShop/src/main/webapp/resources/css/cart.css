@@ -1,0 +1,238 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+	width: 1899px;
+}
+
+a {
+	text-decoration: none;
+}
+
+/*正常的未被访问过的链接*/
+a:link {
+	text-decoration: none;
+}
+
+/*已经访问过的链接*/
+a:visited {
+	text-decoration: none;
+}
+
+/*鼠标划过(停留)的链接*/
+a:hover {
+	text-decoration: none;
+}
+
+/* 正在点击的链接*/
+a:active {
+	text-decoration: none;
+}
+
+h3 {
+	text-align: center;
+	line-height: 70px;
+}
+
+ul,
+li {
+	padding: 0;
+	margin: 0;
+	list-style: none
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+#c_container {
+	background-color: #F6F6F6;
+}
+
+#c_left {
+	/*border: solid 2px saddlebrown;*/
+}
+
+#c_center {
+	/*border: solid 2px skyblue;*/
+	margin: 0 auto;
+}
+
+#c_right {
+	/*border: solid 2px lawngreen;*/
+}
+
+#c_top {
+	height: 150px;
+	margin-bottom: 10px;
+	background-color: #FFFFFF;
+	border-bottom: solid 5px steelblue;
+}
+
+#c_wares {
+	background-color: #FFFFFF;
+	margin-bottom: 100px;
+	/*border: solid 2px fuchsia;*/
+}
+
+#c_center_footer {
+	height: 120px;
+	background-color: #FFFFFF;
+	border: solid 1px bisque;
+}
+
+#c_logo {
+	width: 250px;
+	height: 90px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	/*border: solid 2px springgreen;*/
+}
+
+#c_search {
+	height: 130px;
+	/*border: solid 2px slateblue;*/
+}
+
+#c_search div {
+	margin-top: 40px;
+}
+
+.textRule {
+	display: block;
+	height: 47px;
+	box-shadow: 3px 3px 5px #F5DEB3;
+}
+
+tr th {
+	height: 45px;
+	text-align: center;
+	font-size: 16px;
+	font-family: arial;
+}
+
+tr td {
+	height: 200px;
+	text-align: center;
+}
+
+td input:first-child {
+	width: 20px;
+	height: 20px;
+}
+
+td a>img {
+	display: inline-block;
+	width: 160px;
+	height: 160px;
+	padding: 5px;
+	float: left;
+}
+
+td a>img:hover {
+	border: solid 1px #FF5000;
+}
+
+td p {
+	display: inline-block;
+	font-size: 20px;
+	font-family: arial;
+	font-weight: bold;
+}
+
+#count {
+	width: 70px;
+	height: 40px;
+}
+
+td span {
+	font-size: 16px;
+	font-family: arial;
+	font-weight: bold;
+	color: red;
+}
+
+td button {
+	width: 90px;
+	height: 40px;
+	font-size: 16px;
+	font-family: arial;
+	color: #FFFFFF;
+	background-color: #D9534F;
+	border-radius: 5px;
+	border: 0px;
+}
+
+div.waresCount {
+	height: 80px;
+	padding-top: 8px;
+	/*border: solid 2px firebrick;*/
+}
+
+button#checkedDeleteBtn {
+	width: 80px;
+	height: 40px;
+	font-size: 15px;
+	font-family: arial;
+	color: #FFFFFF;
+	background-color: #D9534F;
+	border-radius: 5px;
+	border: 0px;
+	margin-top: 10px;
+}
+
+div.checkedDelete {
+	height: 80px;
+	padding-top: 8px;
+	/*border: solid 2px firebrick;*/
+}
+
+div.waresCount p {
+	font-size: 14px;
+	font-family: arial;
+}
+
+p span#waresCount,
+p span#postage,
+p span#fee {
+	font-size: 16px;
+	font-family: arial;
+	font-weight: bold;
+	color: red;
+}
+
+button#orderNow {
+	width: 200px;
+	height: 50px;
+	background-color: #C40000;
+	color: white;
+	font-family: arial;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 0;
+}
+
+.backTop {
+	width: 80px;
+	height: 100px;
+	position: fixed;
+	bottom: 60px;
+	right: 35px;
+}
+
+#c_personal {
+	width: 55px;
+	height: 250px;
+	border: solid 2px sandybrown;
+	position: fixed;
+	top: 220px;
+	right: 100px;
+	border-radius: 15px;
+}
+
+#c_personal div {
+	width: 50px;
+	height: 45px;
+	margin: 10px;
+}

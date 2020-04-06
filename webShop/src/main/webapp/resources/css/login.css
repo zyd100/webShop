@@ -1,0 +1,85 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+	width: 1899px;
+}
+
+a {
+	text-decoration: none;
+}
+
+/*正常的未被访问过的链接*/
+a:link {
+	text-decoration: none;
+}
+
+/*已经访问过的链接*/
+a:visited {
+	text-decoration: none;
+}
+
+/*鼠标划过(停留)的链接*/
+a:hover {
+	text-decoration: none;
+}
+
+/* 正在点击的链接*/
+a:active {
+	text-decoration: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+#l_top {
+	height: 140px;
+	/*background-color: beige;
+	opacity: 0.7;*/
+	/*border: solid 2px aquamarine;*/
+	border-bottom: solid 5px steelblue;
+}
+
+#l_logo {
+	width: 250px;
+	height: 80px;
+	margin-top: 30px;
+	/*border: solid 2px springgreen;*/
+}
+
+#foot {
+	height: 120px;
+	background-color: #FFFFFF;
+	border: solid 1px bisque;
+}
+
+
+#registerDiv {
+	width: 600px;
+	height: 250px;
+	margin: 0 auto;
+	display: none;
+}
+
+#loginDiv {
+	width: 300px;
+	height: 200px;
+	margin: 0 auto;
+}
+
+h3 {
+	text-align: center;
+	padding: 10px;
+}
+
+#registerDiv h3,
+#loginDiv h3 {
+	border-top: solid 2px darkseagreen;
+}
+
+.bgColor {
+	height: 680px;
+
+}
