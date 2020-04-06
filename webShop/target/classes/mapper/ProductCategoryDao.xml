@@ -7,51 +7,78 @@
 	<select id="count" resultType="java.lang.Integer">
 		<!-- 具体的sql -->
 		SELECT
-			COUNT(*)
+		COUNT(*)
 		FROM
-			product_category
+		product_category
+	</select>
+	<select id="fuzzyQueryAllByText" resultType="ProductCategory">
+		<!-- 具体的sql -->
+		SELECT
+		*
+		FROM
+		product_category
+		<if test="searchText != null">
+		WHERE
+			category_name LIKE CONCAT('%',#{searchText},'%')
+		</if>
+		ORDER BY
+		`id`
+		LIMIT
+		#{offset}, #{limit}
 	</select>
 	<select id="queryAll" resultType="ProductCategory">
 		SELECT
-			*
+		*
 		FROM
-			product_category
+		product_category
 		ORDER BY
-			`id`
+		`id`
 		LIMIT #{offset}, #{limit}
 	</select>
 	<select id="queryById" resultType="ProductCategory">
 		SELECT
-			*
+		*
 		FROM
-			product_category
+		product_category
 		WHERE
-			`id` = #{id}	
+		`id` = #{id}
 	</select>
-	
+
 	<insert id="addProductCategory">
-		INSERT ignore INTO 
-			`product_category` (`category_name`,`sort_order`,`description`,`image`) 
-			VALUES 
-				(#{productCategory.categoryName},#{productCategory.sortOrder},
-				#{productCategory.description},#{productCategory.image});
+		INSERT ignore INTO
+		`product_category`
+		(`category_name`,`sort_order`,`description`,`image`)
+		VALUES
+		(#{productCategory.categoryName},#{productCategory.sortOrder},
+		#{productCategory.description},#{productCategory.image});
 	</insert>
-	<delete id="deleteProductCategory" >
-		DELETE 
-		FROM 
-			`product_category` 
-		WHERE 
-			(`id` = #{productCategory.id});
-	</delete>
-	
-	<update id="updateProductCategory"  >
-		UPDATE product_category
-		SET 
-			`category_name` = #{productCategory.categoryName},
-			`sort_order` = #{productCategory.sortOrder},
-			`description` = #{productCategory.description},
-			`image` = #{productCategory.image}
+	<delete id="deleteProductCategory">
+		DELETE
+		FROM
+		`product_category`
 		WHERE
-			`id` = #{productCategory.id}
+		(`id` =
+		#{productCategory.id});
+	</delete>
+
+	<update id="updateProductCategory">
+		UPDATE product_category
+		<set>
+			<if test="productCategory.categoryName != null">
+				`category_name` = #{productCategory.categoryName},
+			</if>
+			<if
+				test="productCategory.sortOrder != null and productCategory.sortOrder != 0">
+				`sort_order` = #{productCategory.sortOrder},
+			</if>
+			<if test="productCategory.description != null">
+				`description` = #{productCategory.description},
+			</if>
+			<if test="productCategory.image != null">
+				`image` = #{productCategory.image}
+			</if>
+		</set>
+		WHERE
+		`id` = #{productCategory.id}
 	</update>
 </mapper>

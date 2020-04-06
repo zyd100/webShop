@@ -7,48 +7,101 @@
 	<select id="count" resultType="java.lang.Integer">
 		<!-- 具体的sql -->
 		SELECT
-			COUNT(*)
+		COUNT(*)
 		FROM
-			user
+		user
 	</select>
-	<select id="queryByUserName" resultType="User" parameterType="String">
+	<select id="queryByUserName" resultType="User"
+		parameterType="String">
 		<!-- 具体的sql -->
 		SELECT
-			*
+		*
 		FROM
-			user
+		user
 		WHERE
-			user_name = #{userName}
+		user_name = #{userName}
 	</select>
 	<select id="queryAll" resultType="User">
 		SELECT
-			*
+		*
 		FROM
-			user
+		user
 		ORDER BY
-			`id`
+		`id`
 		LIMIT #{offset}, #{limit}
 	</select>
+	<select id="fuzzyCount" resultType="java.lang.Integer">
+		<!-- 具体的sql -->
+		SELECT
+		COUNT(*)
+		FROM
+		user
+		<if test="searchText != null">
+			WHERE
+			`user_name` LIKE CONCAT('%',#{searchText},'%') OR
+			`nick_name` LIKE
+			CONCAT('%',#{searchText},'%')
+		</if>
+	</select>
+	<select id="fuzzyQueryAllByText" resultType="User">
+		<!-- 具体的sql -->
+		SELECT
+		*
+		FROM
+		user
+		<if test="searchText != null">
+			WHERE
+			`user_name` LIKE CONCAT('%',#{searchText},'%') OR
+			`nick_name` LIKE
+			CONCAT('%',#{searchText},'%')
+		</if>
+		ORDER BY
+		`id`
+		LIMIT
+		#{offset}, #{limit}
+	</select>
 	<insert id="addUser" parameterType="User">
-		INSERT ignore INTO 
-			`user` (`user_name`, `password`, `nick_name`,`email`) 
-			VALUES (#{user.userName},#{user.password},#{user.nickName},#{user.email});
+		INSERT ignore INTO
+		`user`
+		(`user_name`, `password`, `nick_name`,`email`,`image`)
+		VALUES
+		(#{user.userName},#{user.password},#{user.nickName},#{user.email},#{user.image});
 	</insert>
 	<delete id="deleteUser" parameterType="User">
-		DELETE 
-		FROM 
-			`user` 
-		WHERE 
-			(`user_name` = #{user.userName});
-	</delete>
-	
-	<update id="updateUser"  parameterType="User">
-		UPDATE user
-		SET 
-			`password` = #{user.password},
-			`nick_name` = #{user.nickName},
-			`email` = #{user.email}
+		DELETE
+		FROM
+		`user`
 		WHERE
-			user_name = #{user.userName}
+		(`user_name` = #{user.userName});
+	</delete>
+
+	<update id="updateUser" parameterType="User">
+		UPDATE user
+		<set>
+			<if test="user.password != null">
+				`password` = #{user.password},
+			</if>
+			<if test="user.nickName != null">
+				`nick_name` = #{user.nickName},
+			</if>
+			<if test="user.email != null">
+				`email` = #{user.email}
+			</if>
+			<if test="user.image != null">
+				`image` = #{user.image}
+			</if>
+		</set>
+		WHERE
+		user_name = #{user.userName}
+	</update>
+	<update id="updateUserImage">
+		UPDATE user
+		<set>
+			<if test="image != null">
+				`image` = #{image}
+			</if>
+		</set>
+		WHERE
+		user_name = #{userName}
 	</update>
 </mapper>

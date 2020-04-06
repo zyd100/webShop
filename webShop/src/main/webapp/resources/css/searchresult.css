@@ -1,0 +1,185 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+	width: 1899px;
+}
+
+a {
+	text-decoration: none;
+}
+
+/*正常的未被访问过的链接*/
+a:link {
+	text-decoration: none;
+}
+
+/*已经访问过的链接*/
+a:visited {
+	text-decoration: none;
+}
+
+/*鼠标划过(停留)的链接*/
+a:hover {
+	text-decoration: none;
+}
+
+/* 正在点击的链接*/
+a:active {
+	text-decoration: none;
+}
+
+h3 {
+	text-align: center;
+	line-height: 70px;
+}
+
+ul,
+li {
+	padding: 0;
+	margin: 0;
+	list-style: none
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+#sr_container {
+	background-color: #F6F6F6;
+}
+
+#sr_left {
+	/*border: solid 2px saddlebrown;*/
+}
+
+#sr_center {
+	/*border: solid 2px skyblue;*/
+	margin: 0 auto;
+}
+
+#sr_right {
+	/*border: solid 2px lawngreen;*/
+}
+
+#sr_top {
+	height: 150px;
+	margin-bottom: 10px;
+	background-color: #FFFFFF;
+	border-bottom: solid 5px steelblue;
+}
+
+#sr_center_wares {
+	margin-bottom: 15px;
+	background-color: #FFFFFF;
+	border: solid 1px bisque;
+}
+
+#sr_center_footer {
+	height: 120px;
+	background-color: #FFFFFF;
+	border: solid 1px bisque;
+}
+
+#sr_logo {
+	width: 250px;
+	height: 90px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	/*border: solid 2px springgreen;*/
+}
+
+#sr_search {
+	height: 130px;
+	/*border: solid 2px slateblue;*/
+}
+
+#sr_search div {
+	margin-top: 40px;
+}
+
+.textRule {
+	display: block;
+	height: 47px;
+	box-shadow: 3px 3px 5px #F5DEB3;
+}
+
+#sr_failed {
+	height: 600px;
+	/*查询无结果改display为block*/
+	display: none;
+}
+
+#sr_failed p {
+	font-style: italic;
+	font-size: 40px;
+	font-family: "楷体";
+	text-align: center;
+	margin-top: 50px;
+}
+
+.bd {
+	height: 480px;
+	margin-top: 20px;
+}
+
+.bd:hover {
+	border: solid 2px #FF5000;
+}
+
+.waresImg {
+	width: 350px;
+	height: 350px;
+}
+
+.mgImg {
+	margin-top: 10px;
+}
+
+.hvImg:hover {
+	transform: scale(1.05);
+	transition: 0.4s linear;
+}
+
+.textFont {
+	font-size: 20px;
+	font-family: "宋体";
+	color: black;
+}
+
+.fade {
+	opacity: 0;
+}
+
+.show {
+	opacity: 1;
+}
+
+div nav {
+	text-align: center;
+}
+
+.backTop {
+	width: 80px;
+	height: 100px;
+	position: fixed;
+	bottom: 60px;
+	right: 35px;
+}
+
+#sr_personal {
+	width: 55px;
+	height: 250px;
+	border: solid 2px sandybrown;
+	position: fixed;
+	top: 220px;
+	right: 100px;
+	border-radius: 15px;
+}
+
+#sr_personal div {
+	width: 50px;
+	height: 45px;
+	margin: 10px;
+}

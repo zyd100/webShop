@@ -1,0 +1,220 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+	width: 1899px;
+}
+
+a {
+	text-decoration: none;
+}
+
+/*正常的未被访问过的链接*/
+a:link {
+	text-decoration: none;
+}
+
+/*已经访问过的链接*/
+a:visited {
+	text-decoration: none;
+}
+
+/*鼠标划过(停留)的链接*/
+a:hover {
+	text-decoration: none;
+}
+
+/* 正在点击的链接*/
+a:active {
+	text-decoration: none;
+}
+
+h3 {
+	text-align: center;
+	line-height: 70px;
+}
+
+ul,
+li {
+	padding: 0;
+	margin: 0;
+	list-style: none
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+#op_container {
+	background-color: #F6F6F6;
+	height: 1200px;
+}
+
+#op_left {
+	/*border: solid 2px saddlebrown;*/
+}
+
+#op_center {
+	/*border: solid 2px skyblue;*/
+	margin: 0 auto;
+}
+
+#op_right {
+	/*border: solid 2px lawngreen;*/
+}
+
+#op_top {
+	height: 150px;
+	margin-bottom: 10px;
+	background-color: #FFFFFF;
+	border-bottom: solid 5px steelblue;
+}
+
+#op_wares {
+	background-color: #FFFFFF;
+	margin-bottom: 100px;
+	/*border: solid 2px fuchsia;*/
+}
+
+#op_center_footer {
+	height: 120px;
+	background-color: #FFFFFF;
+	border: solid 1px bisque;
+}
+
+#op_logo {
+	width: 250px;
+	height: 90px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	/*border: solid 2px springgreen;*/
+}
+
+#op_search {
+	height: 130px;
+	/*border: solid 2px slateblue;*/
+}
+
+#ho_search div {
+	margin-top: 40px;
+}
+
+.textRule {
+	display: block;
+	height: 47px;
+	box-shadow: 3px 3px 5px #F5DEB3;
+}
+
+.detailTitle {
+	display: block;
+	width: 200px;
+	height: 30px;
+	font-size: 18px;
+	font-family: arial;
+	text-align: center;
+	line-height: 30px;
+	color: #FFFFFF;
+	background-color: #D9534F;
+	border-left: solid 5px darkseagreen;
+	margin-top: 10px;
+}
+
+.addressSlected select {
+	font-size: 16px;
+	font-family: arial;
+}
+
+div.waresPaid {
+	margin-top: 30px;
+}
+
+#nhr {
+	color: red;
+	font-size: 25px;
+	font-family: arial;
+}
+
+button#payNow {
+	width: 200px;
+	height: 50px;
+	background-color: #C40000;
+	color: white;
+	font-family: arial;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 0;
+}
+
+tr th {
+	height: 45px;
+	text-align: center;
+	font-size: 16px;
+	font-family: arial;
+}
+
+tr td {
+	height: 200px;
+	text-align: center;
+}
+
+td input:first-child {
+	width: 20px;
+	height: 20px;
+}
+
+td a>img {
+	display: inline-block;
+	width: 160px;
+	height: 160px;
+	padding: 5px;
+	margin-left: 15px;
+	float: left;
+}
+
+td a>img:hover {
+	border: solid 1px #FF5000;
+}
+
+td p {
+	display: inline-block;
+	font-size: 20px;
+	font-family: arial;
+	font-weight: bold;
+}
+
+#count {
+	width: 70px;
+	height: 40px;
+}
+
+td span {
+	font-size: 16px;
+	font-family: arial;
+	font-weight: bold;
+	color: red;
+}
+
+.backTop {
+	width: 80px;
+	height: 100px;
+	position: fixed;
+	bottom: 60px;
+	right: 35px;
+}
+
+#op_personal {
+	width: 55px;
+	height: 250px;
+	border: solid 2px sandybrown;
+	position: fixed;
+	top: 220px;
+	right: 100px;
+	border-radius: 15px;
+}
+
+#op_personal div {
+	width: 50px;
+	height: 45px;
+	margin: 10px;
+}

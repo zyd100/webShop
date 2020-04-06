@@ -24,6 +24,35 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `shoppingmall` /*!40100 DEFAULT CHARACT
 USE `shoppingmall`;
 
 --
+-- Table structure for table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comment` (
+  `id` bigint(10) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(16) NOT NULL COMMENT '用户名',
+  `product_id` bigint(10) NOT NULL COMMENT '产品序号',
+  `content` varchar(255) NOT NULL COMMENT '评论内容',
+  `star` int(1) NOT NULL COMMENT '好评度（1-5星）',
+  `audit` int(1) NOT NULL DEFAULT '1' COMMENT '审核状态',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=gb2312 COMMENT='评论表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comment`
+--
+
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO `comment` VALUES (8,'testId',7,'五星好评，实惠便宜',5,1,'2020-04-01 11:41:30');
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `contact`
 --
 
@@ -40,7 +69,7 @@ CREATE TABLE `contact` (
   PRIMARY KEY (`id`),
   KEY `contact_ibfk_1_idx` (`user_name`),
   CONSTRAINT `contact_ibfk_1` FOREIGN KEY (`user_name`) REFERENCES `user` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=gb2312 COMMENT='联系信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=gb2312 COMMENT='联系信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,6 +78,7 @@ CREATE TABLE `contact` (
 
 LOCK TABLES `contact` WRITE;
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
+INSERT INTO `contact` VALUES (9,'testId','nametest','12345678','testaddress',1);
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +96,7 @@ CREATE TABLE `order_history` (
   `status` int(11) NOT NULL COMMENT '状态（未付款0/已下单1/已寄送2/已寄到3/购物车4）',
   `create_time` timestamp NULL DEFAULT NULL COMMENT '订单创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=gb2312 COMMENT='订单历史表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=gb2312 COMMENT='订单历史表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +120,7 @@ CREATE TABLE `order_info` (
   `order_num` varchar(32) NOT NULL COMMENT '订单编号',
   `user_name` varchar(16) NOT NULL COMMENT '用户名',
   `price` float DEFAULT NULL COMMENT '合计金额',
-  `status` int(11) NOT NULL COMMENT '状态（未付款0/已下单1/已寄送2/已寄到3/购物车4）',
+  `status` int(11) NOT NULL COMMENT '状态（未付款0/已下单1/已寄送2/已寄到3/购物车4/收藏夹5）',
   `contact_name` varchar(45) DEFAULT NULL COMMENT '联系人',
   `contact_mobile` varchar(45) DEFAULT NULL COMMENT '联系电话',
   `contact_address` varchar(255) DEFAULT NULL COMMENT '寄送地址',
@@ -100,7 +130,7 @@ CREATE TABLE `order_info` (
   UNIQUE KEY `order_num_UNIQUE` (`order_num`),
   KEY `order_info_ibfk_1_idx` (`user_name`),
   CONSTRAINT `order_info_ibfk_1` FOREIGN KEY (`user_name`) REFERENCES `user` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=gb2312 COMMENT='订单信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=gb2312 COMMENT='订单信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,6 +139,7 @@ CREATE TABLE `order_info` (
 
 LOCK TABLES `order_info` WRITE;
 /*!40000 ALTER TABLE `order_info` DISABLE KEYS */;
+INSERT INTO `order_info` VALUES (16,'3a50ea39c626f330fb66887bdf1c5e3d','testId',11000,4,NULL,NULL,NULL,NULL,'2020-03-28 03:10:27'),(17,'9e8984babd1684cabc6dda3193c83c5e','testId',0,5,NULL,NULL,NULL,NULL,'2020-03-28 03:14:40');
 /*!40000 ALTER TABLE `order_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +161,7 @@ CREATE TABLE `order_item` (
   PRIMARY KEY (`id`),
   KEY `order_item_ibfk_1_idx` (`order_num`),
   CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`order_num`) REFERENCES `order_info` (`order_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=gb2312 COMMENT='订单条目表';
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=gb2312 COMMENT='订单条目表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,6 +170,7 @@ CREATE TABLE `order_item` (
 
 LOCK TABLES `order_item` WRITE;
 /*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
+INSERT INTO `order_item` VALUES (26,'3a50ea39c626f330fb66887bdf1c5e3d','testId',7,'电脑产品',1000,10),(27,'9e8984babd1684cabc6dda3193c83c5e','testId',7,'电脑产品',1000,1),(28,'3a50ea39c626f330fb66887bdf1c5e3d','testId',7,'电脑产品',1000,1),(41,'9e8984babd1684cabc6dda3193c83c5e','testId',7,'电脑产品',1000,1);
 /*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +197,7 @@ CREATE TABLE `product` (
   PRIMARY KEY (`id`),
   KEY `product_ibfk_1_idx` (`category_id`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `product_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=gb2312 COMMENT='产品表';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=gb2312 COMMENT='产品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,7 +206,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (7,'电脑产品',NULL,1,1000,899,584,NULL,'2020-03-22 08:28:46','2020-03-23 05:11:34','admin',NULL);
+INSERT INTO `product` VALUES (7,'电脑产品',NULL,1,1000,899,600,NULL,'2020-03-22 08:28:46','2020-04-01 09:44:41','admin',NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,7 +226,7 @@ CREATE TABLE `product_category` (
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `category_name_UNIQUE` (`category_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=gb2312 COMMENT='产品类别表';
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=gb2312 COMMENT='产品类别表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -203,8 +235,34 @@ CREATE TABLE `product_category` (
 
 LOCK TABLES `product_category` WRITE;
 /*!40000 ALTER TABLE `product_category` DISABLE KEYS */;
-INSERT INTO `product_category` VALUES (1,'电脑',5,'电脑硬件等',NULL,'2020-03-13 07:15:28'),(3,'其他',999,'其他类别',NULL,'2020-03-23 07:50:57');
+INSERT INTO `product_category` VALUES (1,'电脑',6,'电脑硬件等',NULL,'2020-03-31 06:28:22'),(3,'其他',999,'其他类别',NULL,'2020-03-23 07:50:57'),(4,'休闲食品',4,NULL,NULL,'2020-03-26 01:32:21'),(5,'罐装食品',5,NULL,NULL,'2020-03-26 01:32:21'),(6,'酒水饮料',6,NULL,NULL,'2020-03-26 01:32:21'),(7,'奶制品',7,NULL,NULL,'2020-03-26 01:32:21'),(8,'粮油',8,NULL,NULL,'2020-03-26 01:32:21'),(9,'厨房调料',9,NULL,NULL,'2020-03-26 01:32:21'),(10,'女装',10,NULL,NULL,'2020-03-26 01:32:21'),(11,'男装',11,NULL,NULL,'2020-03-26 01:32:21'),(12,'童装',12,NULL,NULL,'2020-03-26 01:32:21'),(13,'内衣裤',13,NULL,NULL,'2020-03-26 01:32:21'),(14,'运动类',14,NULL,NULL,'2020-03-26 01:32:21'),(15,'配饰',15,NULL,NULL,'2020-03-26 01:32:21'),(16,'男鞋',16,NULL,NULL,'2020-03-26 01:32:21'),(17,'女鞋',17,NULL,NULL,'2020-03-26 01:32:21'),(18,'车饰',18,NULL,NULL,'2020-03-26 01:32:21'),(19,'玩具',19,NULL,NULL,'2020-03-26 01:32:21'),(20,'床品',20,NULL,NULL,'2020-03-26 01:32:21'),(21,'文化体育',21,NULL,NULL,'2020-03-26 01:32:21'),(22,'婴儿专用',22,NULL,NULL,'2020-03-26 01:32:21'),(23,'洗护用品',23,NULL,NULL,'2020-03-26 01:32:21'),(24,'卫生用品',24,NULL,NULL,'2020-03-26 01:32:21'),(25,'居室日用',25,NULL,NULL,'2020-03-26 01:32:21'),(26,'家装软饰',26,NULL,NULL,'2020-03-26 01:32:21'),(27,'数码产品',27,NULL,NULL,'2020-03-26 01:32:21'),(28,'数码配件',28,NULL,NULL,'2020-03-26 01:32:21'),(29,'小家电',29,NULL,NULL,'2020-03-26 01:32:21'),(30,'大家电',30,NULL,NULL,'2020-03-26 01:32:21'),(31,'面部保养',31,NULL,NULL,'2020-03-26 01:32:21'),(32,'彩妆香水',32,NULL,NULL,'2020-03-26 01:32:21'),(33,'箱包皮具',33,NULL,NULL,'2020-03-26 01:32:21'),(34,'医药',34,NULL,NULL,'2020-03-26 05:25:02'),(35,'厨房生鲜',35,NULL,NULL,'2020-03-26 05:25:02'),(36,'保健',36,NULL,NULL,'2020-03-26 05:25:02'),(37,'通信器材',37,NULL,NULL,'2020-03-26 05:25:02'),(38,'运动穿搭',38,NULL,NULL,'2020-03-26 05:25:02'),(39,'生活家电',39,NULL,NULL,'2020-03-26 05:25:02');
 /*!40000 ALTER TABLE `product_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product_image`
+--
+
+DROP TABLE IF EXISTS `product_image`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `product_image` (
+  `id` bigint(10) NOT NULL AUTO_INCREMENT COMMENT '序号',
+  `product_id` bigint(10) NOT NULL COMMENT '产品序号',
+  `image` varchar(255) NOT NULL COMMENT '图片名字',
+  PRIMARY KEY (`id`),
+  KEY `product_image_ibfk_1_idx` (`product_id`),
+  CONSTRAINT `product_image_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=gb2312 COMMENT='产品图片表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_image`
+--
+
+LOCK TABLES `product_image` WRITE;
+/*!40000 ALTER TABLE `product_image` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_image` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -221,9 +279,10 @@ CREATE TABLE `user` (
   `nick_name` varchar(8) DEFAULT NULL COMMENT '昵称',
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `register_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
+  `image` varchar(255) DEFAULT NULL COMMENT '用户头像',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name_UNIQUE` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=gb2312 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=gb2312 COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +291,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (10,'admin','21232f297a57a5a743894a0e4a801fc3',NULL,NULL,'2020-03-19 06:38:09'),(11,'testId','e10adc3949ba59abbe56e057f20f883e',NULL,NULL,'2020-03-19 06:38:43');
+INSERT INTO `user` VALUES (10,'admin','21232f297a57a5a743894a0e4a801fc3','admin',NULL,'2020-03-19 06:38:09',NULL),(11,'testId','e10adc3949ba59abbe56e057f20f883e','update','update@qq.com','2020-03-19 06:38:43',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,7 +309,7 @@ CREATE TABLE `user_roles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name_UNIQUE` (`user_name`),
   CONSTRAINT `user_name` FOREIGN KEY (`user_name`) REFERENCES `user` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=gb2312 COMMENT='用户权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=gb2312 COMMENT='用户权限表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,4 +331,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-23 19:45:03
+-- Dump completed on 2020-04-04 17:39:54
