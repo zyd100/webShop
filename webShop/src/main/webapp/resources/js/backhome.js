@@ -167,7 +167,7 @@ function userModHide() {
 /* 板块数据填入事件 */
 $(document).ready(function() {
 	/* 获取订单状态枚举 */
-	/*$.ajax({
+	$.ajax({
 		type: "get",
 		url: "${pageContext.request.contextPath }/admin/enums/commentaudit",
 		success:function(data){
@@ -175,10 +175,10 @@ $(document).ready(function() {
 				accessStatus=JSON.parse(data).data;
 			}
 		}
-	});*/
+	});
 
 	/* 获取评论状态枚举 */
-	/*$.ajax({
+	$.ajax({
 		type: "get",
 		url: "${pageContext.request.contextPath }/admin/enums/orderstatus",
 		success:function(data){
@@ -186,10 +186,10 @@ $(document).ready(function() {
 				orderStatus=JSON.parse(data).data;
 			}
 		}
-	});*/
+	});
 
 	/* 打开主页载入商品数据 */
-	/*$.ajax({
+	$.ajax({
 		type: "get",
 		url: "${pageContext.request.contextPath }/admin/products?offset=0&limit=10",
 		success: function(data) {
@@ -216,7 +216,7 @@ $(document).ready(function() {
 				$("div#product div#paging").attr("page",1);
 			}
 		}
-	});*/
+	});
 
 	/* 分类 数据 */
 	$("ul.nav").on("click", "li.sortLi", function() {
@@ -271,9 +271,9 @@ $(document).ready(function() {
 							registerTime + "</td><td>" + userchar + "</td><td><button type='button' class='userModify'>修改</button>" +
 							"<button class='userDelete' type='button'>删除</button></td></tr>";
 						var modtrHtml =
-							"<tr><td>昵称:<input type='name' class='form-control' id='uNickName' maxlength='8' name='uNickName' value='" +
+							"<tr><td>昵称:<input type='text' class='form-control' id='uNickName' maxlength='8' name='uNickName' value='" +
 							nickName + "'></td>" +
-							"<td>名称:<input type='name' class='form-control' id='uName' required='true' maxlength='5' name='uName' value='" +
+							"<td>名称:<input type='text' class='form-control' id='uName' required='required' maxlength='5' name='uName' value='" +
 							userName + "'></td>" +
 							"<td>邮箱:<input type='email' class='form-control' id='uEmail' name='uEmail' value='" + email + "'></td>" +
 							"<td colspan='4'><button type='button' class='saveChange' userId='" + userId + "'>保存</button></td></tr>";
@@ -399,7 +399,7 @@ $(document).ready(function() {
 	});
 
 	/* 下拉框分类数据 */
-	/*$.ajax({
+	$.ajax({
 		type: "get",
 		url: "${pageContext.request.contextPath }/admin/categories?offset=0&limit=1000",
 		success: function(data) {
@@ -414,7 +414,7 @@ $(document).ready(function() {
 				}
 			}
 		}
-	});*/
+	});
 });
 
 /* 管理类功能实现 */
@@ -754,8 +754,8 @@ $(document).ready(function() {
 							registerTime + "</td><td>" + userchar + "</td><td><button type='button' class='userModify'>修改</button>" +
 							"<button class='userDelete' type='button'>删除</button></td></tr>";
 						var modtrHtml =
-							"<tr><td>昵称:<input type='name' class='form-control' id='uNickName' maxlength='8' name='uNickName'></td>" +
-							"<td>名称:<input type='name' class='form-control' id='uName' required='true' maxlength='5' name='uName'></td>" +
+							"<tr><td>昵称:<input type='text' class='form-control' id='uNickName' maxlength='8' name='uNickName'></td>" +
+							"<td>名称:<input type='text' class='form-control' id='uName' required='required' maxlength='5' name='uName'></td>" +
 							"<td>邮箱:<input type='email' class='form-control' id='uEmail' name='uEmail'></td>" +
 							"<td colspan='4'><button type='button' class='saveChange' userId='" + userId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;
@@ -988,8 +988,8 @@ $(document).ready(function() {
 							registerTime + "</td><td>" + userchar + "</td><td><button type='button' class='userModify'>修改</button>" +
 							"<button class='userDelete' type='button'>删除</button></td></tr>";
 						var modtrHtml =
-							"<tr><td>昵称:<input type='name' class='form-control' id='uNickName' maxlength='8' name='uNickName'></td>" +
-							"<td>名称:<input type='name' class='form-control' id='uName' required='true' maxlength='5' name='uName'></td>" +
+							"<tr><td>昵称:<input type='text' class='form-control' id='uNickName' maxlength='8' name='uNickName'></td>" +
+							"<td>名称:<input type='text' class='form-control' id='uName' required='required' maxlength='5' name='uName'></td>" +
 							"<td>邮箱:<input type='email' class='form-control' id='uEmail' name='uEmail'></td>" +
 							"<td colspan='4'><button type='button' class='saveChange' userId='" + userId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;
@@ -1029,8 +1029,8 @@ $(document).ready(function() {
 							registerTime + "</td><td>" + userchar + "</td><td><button type='button' class='userModify'>修改</button>" +
 							"<button class='userDelete' type='button'>删除</button></td></tr>";
 						var modtrHtml =
-							"<tr><td>昵称:<input type='name' class='form-control' id='uNickName' maxlength='8' name='uNickName'></td>" +
-							"<td>名称:<input type='name' class='form-control' id='uName' required='true' maxlength='5' name='uName'></td>" +
+							"<tr><td>昵称:<input type='text' class='form-control' id='uNickName' maxlength='8' name='uNickName'></td>" +
+							"<td>名称:<input type='text' class='form-control' id='uName' required='required' maxlength='5' name='uName'></td>" +
 							"<td>邮箱:<input type='email' class='form-control' id='uEmail' name='uEmail'></td>" +
 							"<td colspan='4'><button type='button' class='saveChange' userId='" + userId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;

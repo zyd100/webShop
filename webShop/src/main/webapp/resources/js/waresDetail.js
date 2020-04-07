@@ -2,12 +2,14 @@
 $(document).ready(function() {
 	var data = JSON.parse('$ {product}');
 	
-	//$("div#wd_personal").attr("userName",JSON.parse('${userName}'));
+	$("div#wd_personal").attr("userName",JSON.parse('${userName}'));
+	
 	$("img.bigImg").css("src", data.product.image[0]);
-	for (var i = 1; i < 4; i++) {
-		var imgObj = $("div.smallImgDiv").find("img.smallImg").eq(i - 1);
-		var product_image = data.product.image[i]; 
-		imgObj.css("src", product_image);
+	for (var i = 1; i < 6 && i < data.product.image.length; i++) {
+		var product_image = data.product.image[i];
+		var smallImgHtml = "<img src='" + product_image + "' bigImageUrl='" + product_image + "' class='smallImg'>";
+		var $new = $(smallImgHtml);
+		$("div.smallImgDiv").append($new);
 	}
 	var inforText = $("div.infor_text");
 	inforText.find("p.productName").text(data.product.productName);

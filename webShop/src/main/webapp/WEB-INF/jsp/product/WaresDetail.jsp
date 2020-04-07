@@ -10,18 +10,18 @@
 		<!-- IE将使用最新的引擎渲染网页 -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-		 crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" data-integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		 data-crossorigin="anonymous">
 
 		<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-		 crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" data-integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+		 data-crossorigin="anonymous">
 		<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 		<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 
 		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-		 crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" data-integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		 data-crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/swiper.css" />
@@ -74,9 +74,9 @@
 								<div>
 									<img src="${pageContext.request.contextPath }/resources/images/y.jpg" class="bigImg">
 									<div class="smallImgDiv">
-										<img src="src/image/x.jpg" bigImageUrl="${pageContext.request.contextPath }/resources/images/x.jpg" class="smallImg">
-										<img src="src/image/j.jpg" bigImageUrl="${pageContext.request.contextPath }/resources/images/j.jpg" class="smallImg">
-										<img src="src/image/zys.png" bigImageUrl="${pageContext.request.contextPath }/resources/images/zys.png" class="smallImg">
+										<img src="${pageContext.request.contextPath }/resources/images/x.jpg" bigImageUrl="${pageContext.request.contextPath }/resources/images/x.jpg" class="smallImg">
+										<img src="${pageContext.request.contextPath }/resources/images/j.jpg" bigImageUrl="${pageContext.request.contextPath }/resources/images/j.jpg" class="smallImg">
+										<img src="${pageContext.request.contextPath }/resources/images/zys.png" bigImageUrl="${pageContext.request.contextPath }/resources/images/zys.png" class="smallImg">
 									</div>
 									<div class="img4load" style="display: none;">
 
@@ -178,7 +178,7 @@
 											无痕
 										</div>
 									</div>
-									<div id="wd_paging" page="3">
+									<div id="wd_paging">
 										<nav aria-label="Page navigation">
 											<ul class="pager pager-lg">
 												<li class="prevPage"><a href="javascript:;">Previous</a></li>

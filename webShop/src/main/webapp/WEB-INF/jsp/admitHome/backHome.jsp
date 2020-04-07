@@ -10,18 +10,18 @@
 		<!-- IE将使用最新的引擎渲染网页 -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-		 crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" data-integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		 data-crossorigin="anonymous">
 
 		<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-		 crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" data-integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+		 data-crossorigin="anonymous">
 		<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 		<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 
 		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-		 crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" data-integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		 data-crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/backhome.css" />
@@ -164,7 +164,7 @@
 													</td>
 												</tr>
 											</table>
-											<div id="paging" page="3">
+											<div id="paging">
 												<nav aria-label="Page navigation">
 													<ul class="pager pager-lg">
 														<li class="prevPage"><a href="javascript:;">Previous</a></li>
@@ -367,8 +367,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td>昵称:<input type="name" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
-										<td>名称:<input type="name" class="form-control" id="uName" required="true" maxlength="5" name="uName"></td>
+										<td>昵称:<input type="text" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
+										<td>名称:<input type="text" class="form-control" id="uName" required="required" maxlength="5" name="uName"></td>
 										<td>邮箱:<input type="email" class="form-control" id="uEmail" name="uEmail"></td>
 										<td colspan="4"><button type="button" class="saveChange">保存</button></td>
 									</tr>
@@ -385,8 +385,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td>昵称:<input type="name" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
-										<td>名称:<input type="name" class="form-control" id="uName" required="true" maxlength="5" name="uName"></td>
+										<td>昵称:<input type="text" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
+										<td>名称:<input type="text" class="form-control" id="uName" required="required" maxlength="5" name="uName"></td>
 										<td>邮箱:<input type="email" class="form-control" id="uEmail" name="uEmail"></td>
 										<td colspan="4"><button type="button" class="saveChange">保存</button></td>
 									</tr>
@@ -403,8 +403,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td>昵称:<input type="name" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
-										<td>名称:<input type="name" class="form-control" id="uName" required="true" maxlength="5" name="uName"></td>
+										<td>昵称:<input type="text" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
+										<td>名称:<input type="text" class="form-control" id="uName" required="required" maxlength="5" name="uName"></td>
 										<td>邮箱:<input type="email" class="form-control" id="uEmail" name="uEmail"></td>
 										<td colspan="4"><button type="button" class="saveChange">保存</button></td>
 									</tr>
@@ -421,8 +421,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td>昵称:<input type="name" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
-										<td>名称:<input type="name" class="form-control" id="uName" required="true" maxlength="5" name="uName"></td>
+										<td>昵称:<input type="text" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
+										<td>名称:<input type="text" class="form-control" id="uName" required="required" maxlength="5" name="uName"></td>
 										<td>邮箱:<input type="email" class="form-control" id="uEmail" name="uEmail"></td>
 										<td colspan="4"><button type="button" class="saveChange">保存</button></td>
 									</tr>
@@ -439,8 +439,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td>昵称:<input type="name" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
-										<td>名称:<input type="name" class="form-control" id="uName" required="true" maxlength="5" name="uName"></td>
+										<td>昵称:<input type="text" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
+										<td>名称:<input type="text" class="form-control" id="uName" required="required" maxlength="5" name="uName"></td>
 										<td>邮箱:<input type="email" class="form-control" id="uEmail" name="uEmail"></td>
 										<td colspan="4"><button type="button" class="saveChange">保存</button></td>
 									</tr>
@@ -457,8 +457,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td>昵称:<input type="name" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
-										<td>名称:<input type="name" class="form-control" id="uName" required="true" maxlength="5" name="uName"></td>
+										<td>昵称:<input type="text" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
+										<td>名称:<input type="text" class="form-control" id="uName" required="required" maxlength="5" name="uName"></td>
 										<td>邮箱:<input type="email" class="form-control" id="uEmail" name="uEmail"></td>
 										<td colspan="4"><button type="button" class="saveChange">保存</button></td>
 									</tr>
@@ -475,8 +475,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td>昵称:<input type="name" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
-										<td>名称:<input type="name" class="form-control" id="uName" required="true" maxlength="5" name="uName"></td>
+										<td>昵称:<input type="text" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
+										<td>名称:<input type="text" class="form-control" id="uName" required="required" maxlength="5" name="uName"></td>
 										<td>邮箱:<input type="email" class="form-control" id="uEmail" name="uEmail"></td>
 										<td colspan="4"><button type="button" class="saveChange">保存</button></td>
 									</tr>
@@ -493,8 +493,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td>昵称:<input type="name" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
-										<td>名称:<input type="name" class="form-control" id="uName" required="true" maxlength="5" name="uName"></td>
+										<td>昵称:<input type="text" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
+										<td>名称:<input type="text" class="form-control" id="uName" required="required" maxlength="5" name="uName"></td>
 										<td>邮箱:<input type="email" class="form-control" id="uEmail" name="uEmail"></td>
 										<td colspan="4"><button type="button" class="saveChange">保存</button></td>
 									</tr>
@@ -511,8 +511,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td>昵称:<input type="name" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
-										<td>名称:<input type="name" class="form-control" id="uName" required="true" maxlength="5" name="uName"></td>
+										<td>昵称:<input type="text" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
+										<td>名称:<input type="text" class="form-control" id="uName" required="required" maxlength="5" name="uName"></td>
 										<td>邮箱:<input type="email" class="form-control" id="uEmail" name="uEmail"></td>
 										<td colspan="4"><button type="button" class="saveChange">保存</button></td>
 									</tr>
@@ -529,8 +529,8 @@
 										</td>
 									</tr>
 									<tr>
-										<td>昵称:<input type="name" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
-										<td>名称:<input type="name" class="form-control" id="uName" required="true" maxlength="5" name="uName"></td>
+										<td>昵称:<input type="text" class="form-control" id="uNickName" maxlength="8" name="uNickName"></td>
+										<td>名称:<input type="text" class="form-control" id="uName" required="required" maxlength="5" name="uName"></td>
 										<td>邮箱:<input type="email" class="form-control" id="uEmail" name="uEmail"></td>
 										<td colspan="4"><button type="button" class="saveChange">保存</button></td>
 									</tr>
@@ -952,7 +952,7 @@
 					<form id="addProForm" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="InputProductName">&nbsp;商品名</label>
-							<input type="name" class="form-control" maxlength="20" required="true" id="productName" name="productName"
+							<input type="text" class="form-control" maxlength="20" required="required" id="productName" name="productName"
 							 placeholder="商品名(必填)">
 						</div>
 						<div class="form-group">
@@ -963,22 +963,22 @@
 						</div>
 						<div class="form-group">
 							<label for="InputShopPrice">&nbsp;店内价格</label>
-							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="true" id="shopPrice"
+							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="required" id="shopPrice"
 							 name="shopPrice" placeholder="店内价格(必填)">
 						</div>
 						<div class="form-group">
 							<label for="InputPrice">&nbsp;市场价格</label>
-							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="true" id="price"
+							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="required" id="price"
 							 name="price" placeholder="市场价格(必填)">
 						</div>
 						<div class="form-group">
 							<label for="InputQuantity">&nbsp;库存</label>
-							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="true" id="quantity"
+							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="required" id="quantity"
 							 name="quantity" placeholder="库存(必填)">
 						</div>
 						<div class="form-group">
 							<label for="InputDetail">&nbsp;描述</label>
-							<input type="name" class="form-control" maxlength="150" required="true" id="detail" name="explain" placeholder="描述(必填)">
+							<input type="text" class="form-control" maxlength="150" required="required" id="detail" name="explain" placeholder="描述(必填)">
 						</div>
 						<div class="addImage form-group">
 							<label for="InputImage">&nbsp;添加图片</label>&nbsp;&nbsp;&nbsp;
@@ -996,11 +996,11 @@
 					<form id="addSortForm">
 						<div class="form-group">
 							<label for="InputSortName">&nbsp;类别名</label>
-							<input type="name" class="form-control" maxlength="10" required="true" id="sortName" name="sortName" placeholder="类别名(必填)">
+							<input type="text" class="form-control" maxlength="10" required="required" id="sortName" name="sortName" placeholder="类别名(必填)">
 						</div>
 						<div class="form-group">
 							<label for="InputQuantity">&nbsp;描述</label>
-							<input type="name" class="form-control" maxlength="150" required="true" id="detail" name="detail" placeholder="描述(必填)">
+							<input type="text" class="form-control" maxlength="150" required="required" id="detail" name="detail" placeholder="描述(必填)">
 						</div>
 						<button type="button" id="addSortSub" class="btn btn-default">上传</button>
 					</form>
@@ -1014,7 +1014,7 @@
 					<form id="proModForm" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="InputProductId">&nbsp;id</label>
-							<input type="name" class="form-control" maxlength="20" required="true" readonly="true" id="productId" name="id"
+							<input type="text" class="form-control" maxlength="20" required="required" readonly="readonly" id="productId" name="id"
 							 value="">
 						</div>
 						<div class="form-group">
@@ -1025,22 +1025,22 @@
 						</div>
 						<div class="form-group">
 							<label for="InputShopPrice">&nbsp;店内价格</label>
-							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="true" id="shopPrice"
+							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="required" id="shopPrice"
 							 name="shopPrice" placeholder="店内价格(必填)">
 						</div>
 						<div class="form-group">
 							<label for="InputPrice">&nbsp;市场价格</label>
-							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="true" id="price"
+							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="required" id="price"
 							 name="price" placeholder="市场价格(必填)">
 						</div>
 						<div class="form-group">
 							<label for="InputQuantity">&nbsp;库存</label>
-							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="true" id="quantity"
+							<input type="number" class="form-control" oninput="checkLength(value, this);" min="0" required="required" id="quantity"
 							 name="quantity" placeholder="库存(必填)">
 						</div>
 						<div class="form-group">
 							<label for="InputDetail">&nbsp;描述</label>
-							<input type="name" class="form-control" maxlength="150" required="true" id="detail" name="explain" placeholder="描述(必填)">
+							<input type="text" class="form-control" maxlength="150" required="required" id="detail" name="explain" placeholder="描述(必填)">
 						</div>
 						<div class="addImage form-group">
 							<label for="InputImage">&nbsp;更改主图片</label>&nbsp;&nbsp;&nbsp;

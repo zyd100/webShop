@@ -10,18 +10,18 @@
 		<!-- IE将使用最新的引擎渲染网页 -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-		 crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" data-integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		 data-crossorigin="anonymous">
 
 		<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-		 crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" data-integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+		 data-crossorigin="anonymous">
 		<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 		<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 
 		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-		 crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" data-integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		 data-crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/swiper.css" />
@@ -132,7 +132,7 @@
 								</div>
 							</div>
 							<div role="tabpanel" class="tab-pane fade" id="order">
-								<table cellspacing="" cellpadding="10px">
+								<table >
 									<tr class="titleTr">
 										<th width="900px">商品信息</th>
 										<th width="200px">数量</th>
@@ -253,11 +253,11 @@
 					<div class="editInfor">
 						<div class="form-group">
 							<label for="InputNickNameEdit">昵称</label>
-							<input type="name" class="form-control" id="InputEditNickName" maxlength="8" name="uNickName" placeholder="不超过8个字">
+							<input type="text" class="form-control" id="InputEditNickName" maxlength="8" name="uNickName" placeholder="不超过8个字">
 						</div>
 						<div class="form-group">
 							<label for="InputNameEdit">名字</label>
-							<input type="name" class="form-control" id="InputEditName" required="true" maxlength="5" name="uName"
+							<input type="text" class="form-control" id="InputEditName" required="required" maxlength="5" name="uName"
 							 placeholder="名字">
 						</div>
 						<div class="form-group">
@@ -276,15 +276,15 @@
 					<div class="addAddress">
 						<div class="form-group">
 							<label for="InputAddressRegister">地址</label>
-							<input type="address" class="form-control" id="InputAddress" name="address" placeholder="地址">
+							<input type="text" class="form-control" id="InputAddress" name="address" placeholder="地址">
 						</div>
 						<div class="form-group">
 							<label for="InputReTelgister">电话</label>
-							<input type="addresstel" class="form-control" id="InputTel" name="tel" placeholder="电话">
+							<input type="text" class="form-control" id="InputTel" name="tel" placeholder="电话">
 						</div>
 						<div class="form-group">
 							<label for="InputNameRegister">收货人</label>
-							<input type="addresssname" class="form-control" id="InputAddressName" name="addressName" placeholder="名字">
+							<input type="text" class="form-control" id="InputAddressName" name="addressName" placeholder="名字">
 						</div>
 						<button type="button" id="addAddressSub" class="btn btn-default">保存</button>
 					</div>
@@ -297,15 +297,15 @@
 				<div class="modal-content">
 					<div class="form-group">
 						<label for="InputAddressRegister">地址</label>
-						<input type="address" class="form-control" id="InputAddress" name="address" placeholder="地址">
+						<input type="text" class="form-control" id="InputAddress" name="address" placeholder="地址">
 					</div>
 					<div class="form-group">
 						<label for="InputReTelgister">电话</label>
-						<input type="addresstel" class="form-control" id="InputTel" name="tel" placeholder="电话">
+						<input type="text" class="form-control" id="InputTel" name="tel" placeholder="电话">
 					</div>
 					<div class="form-group">
 						<label for="InputNameRegister">收货人</label>
-						<input type="addresssname" class="form-control" id="InputAddressName" name="addressName" placeholder="名字">
+						<input type="text" class="form-control" id="InputAddressName" name="addressName" placeholder="名字">
 					</div>
 					<button type="button" id="addAddressSub" class="btn btn-default">保存</button>
 				</div>
