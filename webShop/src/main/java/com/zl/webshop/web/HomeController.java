@@ -129,7 +129,7 @@ public class HomeController {
     model.addAttribute("randomProducts", JSON.toJSONString(randomProducts));
     System.out.println(JSON.toJSONString(categories));
     // 前往主页
-    return "";
+    return "/home/Home";
   }
 
   /**
@@ -167,7 +167,7 @@ public class HomeController {
     model.addAttribute("searchResult", JSON.toJSONString(productExecution));
     model.addAttribute("searchText", searchText);
     // 前往搜索页
-    return "";
+    return "/product/SearchResult";
   }
 
   /**
@@ -292,7 +292,7 @@ public class HomeController {
     model.addAttribute("product", JSON.toJSONString(productExecution));
     model.addAttribute("comments", JSON.toJSONString(commentExecutions));
     // 前往商品详情页
-    return "";
+    return "/product/WaresDetail";
   }
 
 }
