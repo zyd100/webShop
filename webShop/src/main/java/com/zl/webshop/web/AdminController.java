@@ -14,8 +14,8 @@
  */
 package com.zl.webshop.web;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
+import com.zl.webshop.dto.EnumDto;
 import com.zl.webshop.dto.Result;
 import com.zl.webshop.entity.User;
 import com.zl.webshop.enums.CommentAuditEnum;
@@ -146,13 +147,13 @@ public class AdminController {
       produces = {"application/json; charset=utf-8"})
   @ResponseBody
   private String getAuditEnum() {
-    Result<Map<Integer, String>> result = null;
-    Map<Integer, String>enumMap=new HashMap<Integer, String>();
+    Result<List<EnumDto>> result = null;
+    List<EnumDto>enums=new ArrayList<EnumDto>();
     try {
       for (CommentAuditEnum auditEnum : CommentAuditEnum.values()) {
-        enumMap.put(auditEnum.getState(), auditEnum.getStateInfo());
+        enums.add(new EnumDto(auditEnum.getStateInfo(), auditEnum.getState()));
       }
-      result = new Result<Map<Integer, String>>(true, enumMap);
+      result = new Result<List<EnumDto>>(true, enums);
     } catch (Exception e) {
       logger.error(e.getMessage());
       result = new Result<>(false, e.getMessage());
@@ -174,13 +175,13 @@ public class AdminController {
       produces = {"application/json; charset=utf-8"})
   @ResponseBody
   private String getOrderStatusEnum() {
-    Result<Map<Integer, String>> result = null;
-    Map<Integer, String>enumMap=new HashMap<Integer, String>();
+    Result<List<EnumDto>> result = null;
+    List<EnumDto>enums=new ArrayList<EnumDto>();
     try {
       for (OrderStatusEnum statusEnum : OrderStatusEnum.values()) {
-        enumMap.put(statusEnum.getState(), statusEnum.getStateInfo());
+      enums.add(new EnumDto(statusEnum.getStateInfo(), statusEnum.getState()));
       }
-      result = new Result<Map<Integer, String>>(true, enumMap);
+      result = new Result<List<EnumDto>>(true, enums);
     } catch (Exception e) {
       logger.error(e.getMessage());
       result = new Result<>(false, e.getMessage());
