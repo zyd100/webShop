@@ -72,11 +72,11 @@ public class AdminController {
     if (ObjectUtil.isNull(request.getSession().getAttribute(ADMINUSERNAME))) {
       // 没登录，跳转至登录页
       logger.debug("loginpage");
-      return "/admitLogin/backLogin";
+      return "";
     }
     // 前往后台主页
     logger.debug("adminPage");
-    return "/admitHome/backHome";
+    return "";
   }
 
   /**

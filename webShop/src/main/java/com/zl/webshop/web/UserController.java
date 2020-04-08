@@ -117,10 +117,10 @@ public class UserController {
         return "redirect: /webShop/users/" + loginUserName;
       }
       // 用户名为空则返回登录注册页
-      return "/login/Login";
+      return " ";
     } else {
       // 未登录转至登录注册页
-      return "/login/Login";
+      return " ";
     }
 
   }
@@ -219,7 +219,7 @@ public class UserController {
     model.addAttribute("orderInfos", JSON.toJSONString(orderInfos));
     System.out.println(JSON.toJSONString(orderInfos));
     // 前往个人中心页
-    return "/personal/Individual";
+    return "";
   }
 
   /**
@@ -310,7 +310,7 @@ public class UserController {
     model.addAttribute("carts", JSON.toJSONString(result));
     System.out.println(JSON.toJSONString(result));
     // 前往购物车页面
-    return "/product/Cart";
+    return "";
   }
 
   /**
@@ -336,12 +336,12 @@ public class UserController {
     } catch (Exception e) {
       // 删除失败,重定向至个人中心页
       logger.error(e.getMessage());
-      return "redirect: /webShop/users";
+      return "redirect: /webShop/homePage";
     }
     // 删除成功,清空数据
     request.getSession().invalidate();
     // 重定向至登录页
-    return "redirect: /webShop/users";
+    return "redirect: /webShop/homePage";
   }
 
   /**
@@ -475,7 +475,7 @@ public class UserController {
     }
 
     // 前往收藏夹页面
-    return "/personal/IndividualCollection";
+    return "";
   }
 
   /**
@@ -778,7 +778,7 @@ public class UserController {
     model.addAttribute("orderExecution", JSON.toJSONString(orderExecution));
     logger.debug(JSON.toJSONString(orderExecution));
     // 前往订单详情页
-    return "/personal/HistoricalOrder";
+    return "";
   }
 
   /**
@@ -953,7 +953,7 @@ public class UserController {
     model.addAttribute("orderExecution", JSON.toJSONString(orderExecution));
     logger.debug(JSON.toJSONString(orderExecution));
     // 前往订单支付页
-    return "/product/OrderPayment";
+    return "";
   }
 
   /**
