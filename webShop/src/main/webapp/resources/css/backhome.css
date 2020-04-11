@@ -115,6 +115,7 @@ td button {
 td img {
 	width: 80px;
 	height: 80px;
+	margin-right: 15px;
 }
 
 div#paging nav {

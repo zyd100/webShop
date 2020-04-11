@@ -43,7 +43,7 @@
 				<div id="l_left" class="col-sm-6 col-xs-6 bgColor">
 					<div id="registerDiv" class="animated zoomIn">
 						<h3>注册</h3>
-						<form name="registerForm" id="registerForm" action="${pageContext.request.contextPath }/users" method="post" accept-charset="utf-8">
+						<form name="registerForm" id="registerForm"  accept-charset="utf-8">
 							<input type="hidden" name="_method" value="post" />
 							<div class="form-group">
 								<label for="InputNickNameRegister">昵称</label>
@@ -51,7 +51,7 @@
 							</div>
 							<div class="form-group">
 								<label for="InputNameRegister">名字</label>
-								<input type="text" class="form-control" id="InputName" required="required" maxlength="5" name="uName" placeholder="名字">
+								<input type="text" class="form-control" id="InputName" required="required" maxlength="8" name="uName" placeholder="名字">
 							</div>
 							<div class="form-group">
 								<label for="InputEmailRegister">邮箱</label>
@@ -62,7 +62,7 @@
 								<input type="password" class="form-control" id="InputPassword" required="required" maxlength="13" name="uPassword"
 								 placeholder="8~13个字符">
 							</div>
-							<button type="submit" id="registerSub" class="btn btn-default">注册</button>
+							<button type="button" id="registerSub" class="btn btn-default">注册</button>
 						</form>
 						<br>
 						<button type="button" class="btn btn-default" onclick="loginSH()">返回登录</button>
@@ -71,15 +71,15 @@
 				<div id="l_right" class="col-sm-6 col-xs-6 bgColor">
 					<div id="loginDiv" class="animated zoomIn">
 						<h3>登录</h3>
-						<form name="loginForm" id="loginForm" action="${pageContext.request.contextPath }/users/login" method="get">
-							<input type="hidden" name="_method" value="get">
+						<form name="loginForm" id="loginForm" action="${pageContext.request.contextPath }/users/login" method="post">
+							<input type="hidden" name="_method" value="post">
 							<div class="form-group">
 								<label for="InputNameLogin">名字</label>
-								<input type="text" class="form-control" maxlength="5" required="required" id="LoginName" name="uName" placeholder="名字">
+								<input type="text" class="form-control" maxlength="8" required="required" id="LoginName" name="userName" placeholder="名字">
 							</div>
 							<div class="form-group">
 								<label for="InputPasswordLogin">密码</label>
-								<input type="password" class="form-control" maxlength="13" required="required" id="LoginPassword" name="uPassword" placeholder="密码">
+								<input type="password" class="form-control" maxlength="13" required="required" id="LoginPassword" name="password" placeholder="密码">
 							</div>
 							<button type="submit" id="loginSub" class="btn btn-default">登录</button>
 						</form>
@@ -92,5 +92,11 @@
 				<h3>欢迎加入我们</h3>
 			</div>
 		</div>
+		
+		<script>
+			var cxt="${pageContext.request.contextPath }";
+			var imgpath="/resources/images/";
+			var ctxImg=ctx+imgpath;
+		</script>
 	</body>
 </html>

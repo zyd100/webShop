@@ -58,7 +58,7 @@
 				<form name="loginForm" id="loginForm" action="${pageContext.request.contextPath }/admin/login" method="post">
 					<div class="form-group">
 						<label for="InputNameLogin">名字</label>
-						<input type="text" class="form-control" maxlength="5" required="required" id="LoginName" name="userName" placeholder="名字">
+						<input type="text" class="form-control" maxlength="8" required="required" id="LoginName" name="userName" placeholder="名字">
 					</div>
 					<div class="form-group">
 						<label for="InputPasswordLogin">密码</label>

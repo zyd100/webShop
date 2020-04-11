@@ -206,6 +206,18 @@
 					}
 				}
 			}
+			
+			var ctx="${pageContext.request.contextPath }";
+			var imgpath="/resources/images/";
+			var ctxImg=ctx+imgpath;
+			$(document).ready(function(){
+				var ordlidata = JSON.parse('${orderExecution}');
+
+				$("div#op_personal").attr("userName", '${sessionScope.loginUserName}');
+				
+				initOrder(ordlidata);
+				getContacts($("div#op_personal").attr("userName"));
+			});
 		</script>
 	</body>
 </html>

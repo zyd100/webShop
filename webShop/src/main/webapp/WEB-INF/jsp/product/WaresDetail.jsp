@@ -25,9 +25,9 @@
 
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/swiper.css" />
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/waresDetail.css" />
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/waresdetail.css" />
 		<script src="${pageContext.request.contextPath }/resources/js/swiper.js" type="text/javascript" charset="utf-8"></script>
-		<script src="${pageContext.request.contextPath }/resources/js/waresDetail.js" type="text/javascript" charset="utf-8"></script>
+		<script src="${pageContext.request.contextPath }/resources/js/waresdetail.js" type="text/javascript" charset="utf-8"></script>
 
 		<style type="text/css">
 			@media screen and (max-width:1600px) {
@@ -110,7 +110,7 @@
 										<p>服务承诺 正品保证 极速退款 赠运费险 七天无理由退换</p>
 									</div>
 									<div class="buyBtns">
-										<a href=""><button type="button" id="buyBtn">立即下单</button></a>
+										<button type="button" id="buyBtn">立即下单</button>
 										<button type="button" id="addCart">加入购物车</button>
 										<button type="button" id="addCollect">添加收藏</button>
 									</div>
@@ -253,6 +253,19 @@
 					}
 				}
 			}
+			
+			var ctx="${pageContext.request.contextPath }";
+			var imgpath="/resources/images/";
+			var ctxImg=ctx+imgpath;
+			$(document).ready(function(){
+				var productInfo = JSON.parse('${product}');
+				var accessInfo = JSON.parse('${comments}');
+				
+				$("div#wd_personal").attr("userName",'${sessionScope.loginUserName}');
+
+				initProInfo(productInfo);
+				initAceInfo(accessInfo);
+			});
 		</script>
 	</body>
 </html>

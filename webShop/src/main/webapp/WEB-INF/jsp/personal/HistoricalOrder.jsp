@@ -208,6 +208,17 @@
 					}
 				}
 			}
+			
+			var ctx="${pageContext.request.contextPath }";
+			var imgpath="/resources/images/";
+			var ctxImg=ctx+imgpath;
+			$(document).ready(function(){
+				var hisordData = JSON.parse('${orderExecution}');
+
+				$("div#ho_personal").attr("userName", '${sessionScope.loginUserName}');
+				
+				initHisOrd(hisordData);
+			});
 		</script>
 	</body>
 </html>
