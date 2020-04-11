@@ -70,8 +70,8 @@
 				<div id="i_center" class="col-sm-10 col-xs-10">
 					<div id="i_portrait">
 						<div class="row">
-							<div class="col-sm-1 col-xs-1 headImg">
-								<a href="" title="更改头像" data-toggle="modal" data-target="#modPortraitDiv"><img src="${pageContext.request.contextPath }/resources/images/protrait.png"
+							<div class="col-sm-1 col-xs-1 headImg"data-toggle="modal" data-target="#modPortraitDiv">
+								<a href="javascript:;" title="更改头像" ><img src="${pageContext.request.contextPath }/resources/images/protrait.png"
 									 class="img-circle "></a>
 							</div>
 							<div class="col-sm-4 col-xs-4 inforDetial ">
@@ -135,9 +135,9 @@
 								<table >
 									<tr class="titleTr">
 										<th width="900px">商品信息</th>
-										<th width="200px">数量</th>
-										<th width="200px">金额</th>
-										<th width="200px">订单编号</th>
+										<th width="150px">数量</th>
+										<th width="150px">金额</th>
+										<th width="300px">订单编号</th>
 									</tr>
 									<tr>
 										<td>
@@ -187,19 +187,10 @@
 								</table>
 								<div id="i_paging">
 									<nav aria-label="Page navigation">
-										<ul class="pagination pagination-lg">
-											<li class="prev">
-												<span>
-													<span aria-hidden="true">&laquo;</span>
-												</span>
-											</li>
-											<li class="active pageOne"><span>1</span></li>
-											<li class="next">
-												<span>
-													<span aria-hidden="true">&raquo;</span>
-												</span>
-											</li>
-										</ul>
+											<ul class="pager pager-lg">
+												<li class="prevPage"><a href="javascript:;">Previous</a></li>
+												<li class="nextPage"><a href="javascript:;">Next</a></li>
+											</ul>
 									</nav>
 								</div>
 							</div>
@@ -238,7 +229,7 @@
 				<div class="modal-content">
 					<form id="modProtraitForm" enctype="multipart/form-data">
 						<div class="addImage form-group">
-							<label for="InputImage">&nbsp;更改头像</label>&nbsp;&nbsp;&nbsp;
+							<label for="InputImage">&nbsp;更改头像(为了美观，建议上传正方形图片)</label>&nbsp;&nbsp;&nbsp;
 							<input type="file" class="form-control" name="image" id="image" accept="image/*" value="" />
 						</div>
 						<button type="button" id="modProtraitSub" class="btn btn-default">上传</button>
@@ -350,6 +341,21 @@
 					}
 				}
 			}
+			
+			var ctx="${pageContext.request.contextPath }";
+			var imgpath="/resources/images/";
+			var ctxImg=ctx+imgpath;
+			$(document).ready(function(){
+				var infordata = JSON.parse('${basicUserInfo}');
+				var orderInfo = JSON.parse('${orderInfos}');
+				var contactInfo=JSON.parse('${contacts}');
+
+				$("div#i_personal").attr("userName", '${sessionScope.loginUserName}');
+				
+				initUserInfo(infordata);
+				initOrderInfo(orderInfo);
+				initConInfo(contactInfo);
+			});
 		</script>
 	</body>
 </html>

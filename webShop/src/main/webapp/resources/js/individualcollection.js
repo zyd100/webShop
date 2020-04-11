@@ -1,8 +1,37 @@
-/*页面加载时请求并填充数据*/
-$(document).ready(function() {
-	var starData = JSON.parse('${stars}');
+function initStar(starData){
+	var pageCount = 1;
+	//添加收藏商品信息
+	$("div#ic_wares").find("tr").not("tr.titleTr").remove();
+	for (var i = 0; i < starData.data.orderItemList.length; i++) {
+		var orderItem_id = starData.data.orderItemList[i].id;
+		var product_id = starData.data.orderItemList[i].productId;
+		var product_image = ctxImg +starData.data.productList[i].image;
+		var product_name = starData.data.orderItemList[i].productName;
+		var product_price = starData.data.orderItemList[i].price;
+		var trHtml = "<tr><td><input type='checkbox' name='checkedOne' /></td><td><a href='' product_id = '" +
+			product_id +
+			"' orderItem_id='" + orderItem_id + "'><img src='" + product_image + "'></a><p>" + product_name +
+			"</p></td><td>￥<span id='price'>" + product_price +
+			"</span></td><td><button type='button' id='deleteBtn' class='glyphicon glyphicon-trash'>删除</button></td></tr>";
+		var $new=$(trHtml);
+		$("tr.titleTr").after($new);
+	}
+	$("div#ic_paging").attr("page", 1);
+	
+	setPageHeight();
+}
 
-	$("div#ic_personal").attr("userName", JSON.parse('${userName}'));
+function setPageHeight(){
+	var num = $("#ic_wares table tr").length;
+	$("#ic_wares").height(eval((num - 1) * 200 + 280));
+	$("#ic_left").height(eval((num - 1) * 200 + 500));
+	$("#ic_center").height(eval((num - 1) * 200 + 500));
+	$("#ic_right").height(eval((num - 1) * 200 + 500));
+	$("#ic_container").height(eval((num - 1) * 200 + 685));
+}
+
+/*页面加载时请求并填充数据*/
+/*$(document).ready(function() {
 	var pageCount = 1;
 	//添加收藏商品信息
 	for (var i = 0; i < starData.data.orderItemList.length; i++) {
@@ -30,16 +59,21 @@ $(document).ready(function() {
 		var $new = $(pageHtml);
 		$("li.pageOne").after($new);
 	}
-});
+});*/
 
 /*添加事件*/
 $(document).ready(function() {
 	/* 单项删除收藏商品 */
 	$("#ic_wares").on("click", "button#deleteBtn", function() {
-		var userName = $("div#c_personal").attr("userName");
+		var userName = $("div#ic_personal").attr("userName");
+		if(userName==""){
+			alert("请先登录！！！");
+			return;
+		}
+
 		var delete_id = $(this).closest("tr").find("a").attr("product_id");
 		var delete_orderId = $(this).closest("tr").find("a").attr("orderItem_id");
-
+		
 		var data = {
 			"orderItemList": {
 				"productId": delete_id,
@@ -47,20 +81,21 @@ $(document).ready(function() {
 				"userName": userName
 			}
 		};
-		var delete_url = "${pageContext.request.contextPath }/user/{" + userName + "}/star";
+		var delete_url = ctx+"/users/" + userName + "/stars";
 		/*向后端提交删除数据*/
 		$.ajax({
-			type: "delete",
 			url: delete_url,
+			type: "delete",
 			contentType: "application/json; charset=utf-8",
 			data: JSON.stringify(data),
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					alert("删除成功！！！");
 					$("#ic_wares table tr").not("tr.titleTr").remove();
 					for (var i = 0; i < JSON.parse(data).data.orderItemList.length; i++) {
 						var orderItem_id = JSON.parse(data).data.orderItemList[i].id;
 						var product_id = JSON.parse(data).data.orderItemList[i].productId;
-						var product_image = JSON.parse(data).data.productList[i].image;
+						var product_image =  ctxImg +JSON.parse(data).data.productList[i].image;
 						var product_name = JSON.parse(data).data.orderItemList[i].productName;
 						var product_price = JSON.parse(data).data.orderItemList[i].price;
 						var trHtml = "<tr><td><input type='checkbox' name='checkedOne' /></td><td><a href='' product_id = '" +
@@ -68,19 +103,25 @@ $(document).ready(function() {
 							"' orderItem_id='" + orderItem_id + "'><img src='" + product_image + "'></a><p>" + product_name +
 							"</p></td><td>￥<span id='price'>" + product_price +
 							"</span></td><td><button type='button' id='deleteBtn' class='glyphicon glyphicon-trash'>删除</button></td></tr>";
+						var $new=$(trHtml);
 						$("tr.titleTr").after($new);
 					}
+					$("div#ic_paging").attr("page", 1);
+					
+					setPageHeight();
 				}
-			},
-			error: function() {}
+			}
 		});
-
 	});
 
 	/* 多项删除收藏商品 */
 	$("div.checkedDelete").on("click", "button#checkedDeleteBtn", function() {
-		var product_id = [];
 		var userName = $("div#ic_personal").attr("userName");
+		if(userName==""){
+			alert("请先登录！！！");
+			return;
+		}
+		var product_id = [];
 		var index = 0;
 		var data;
 		var haveProduct = false;
@@ -89,7 +130,7 @@ $(document).ready(function() {
 			if ($(this).prop("checked")) {
 				var delete_id = $(this).closest("tr").find("a").attr("product_id");
 				var delete_orderId = $(this).closest("tr").find("a").attr("orderItem_id");
-
+				
 				product_id[index++] = {
 					"productId": delete_id,
 					"id": delete_orderId,
@@ -101,7 +142,7 @@ $(document).ready(function() {
 		data = {
 			"orderItemList": product_id
 		};
-		var delete_url = "${pageContext.request.contextPath }/user/{" + userName + "}/star";
+		var delete_url = ctx+"/users/" + userName + "/stars";
 		/*向后端提交删除数据*/
 		if (haveProduct == true) {
 			$.ajax({
@@ -109,13 +150,14 @@ $(document).ready(function() {
 				url: delete_url,
 				contentType: "application/json; charset=utf-8",
 				data: JSON.stringify(data),
-				success: function(data, status) {
+				success: function(data) {
 					if (JSON.parse(data).success) {
+						alert("删除成功！！！");
 						$("#ic_wares table tr").not("tr.titleTr").remove();
 						for (var i = 0; i < JSON.parse(data).data.orderItemList.length; i++) {
 							var orderItem_id = JSON.parse(data).data.orderItemList[i].id;
 							var product_id = JSON.parse(data).data.orderItemList[i].productId;
-							var product_image = JSON.parse(data).data.productList[i].image;
+							var product_image =  ctxImg +JSON.parse(data).data.productList[i].image;
 							var product_name = JSON.parse(data).data.orderItemList[i].productName;
 							var product_price = JSON.parse(data).data.orderItemList[i].price;
 							var trHtml = "<tr><td><input type='checkbox' name='checkedOne' /></td><td><a href='' product_id = '" +
@@ -123,20 +165,26 @@ $(document).ready(function() {
 								"' orderItem_id='" + orderItem_id + "'><img src='" + product_image + "'></a><p>" + product_name +
 								"</p></td><td>￥<span id='price'>" + product_price +
 								"</span></td><td><button type='button' id='deleteBtn' class='glyphicon glyphicon-trash'>删除</button></td></tr>";
+							var $new=$(trHtml);
 							$("tr.titleTr").after($new);
 						}
+						$("div#ic_paging").attr("page", 1);
+						
+						setPageHeight();
 					}
-				},
-				error: function() {}
+				}
 			});
+		}else{
+			alert("没有选中商品呢~");
 		}
 	});
 
 	/* 查看商品详情 */
-	$("div#ic_wares table tr").on("click", "td a", function() {
+	$("div#ic_wares table").on("click", "td a", function() {
 		var product_id = $(this).attr("product_id");
-		var search_url = "${pageContext.request.contextPath }/products/{" + product_id + "}";
+		var search_url = ctx+"/products/" + product_id;
 		$(this).attr("href", search_url);
+		$(this).attr("target", "_blank");
 	});
 
 	/* 实现全选效果 */
@@ -155,47 +203,53 @@ $(document).ready(function() {
 	/* 打开个人页面 */
 	$("div#ic_personal").on("click", "a#personal", function() {
 		var userName = $("div#ic_personal").attr("userName");
-		var search_url = "${pageContext.request.contextPath }/users/{" + userName + "}";
-		$.ajax({
+		var search_url = ctx+"/users/" + userName;
+		$(this).attr("href", search_url);
+		$(this).attr("target", "_blank");
+		/*$.ajax({
 			url: search_url,
 			type: "get",
 			success: function() {
 
 			}
-		});
+		});*/
 	});
 
 	/* 打开购物车 */
 	$("div#ic_personal").on("click", "a#shoppingCart", function() {
 		var userName = $("div#ic_personal").attr("userName");
-		var search_url = "${pageContext.request.contextPath }/users/{" + userName + "}/carts";
-		$.ajax({
+		var search_url = ctx+"/users/" + userName + "/carts";
+		$(this).attr("href", search_url);
+		$(this).attr("target", "_blank");
+		/*$.ajax({
 			url: search_url,
 			type: "get",
 			success: function() {
 
 			}
-		});
+		});*/
 	});
 
 	/* 打开收藏页面 */
 	$("div#ic_personal").on("click", "a#collection", function() {
 		var userName = $("div#ic_personal").attr("userName");
-		var search_url = "${pageContext.request.contextPath }/users/{" + userName + "}/stars";
-		$.ajax({
+		var search_url = ctx+"/users/" + userName + "/stars";
+		$(this).attr("href", search_url);
+		$(this).attr("target", "_blank");
+		/*$.ajax({
 			url: search_url,
 			type: "get",
 			success: function() {
 
 			}
-		});
+		});*/
 	});
 
 	/* 退出登录 */
 	$("div#ic_personal").on("click", "a#outLogin", function() {
 		$.ajax({
-			url: "${pageContext.request.contextPath }/users/logout",
-			type: "put",
+			url: ctx+"/users/logout",
+			type: "post",
 			success: function() {}
 		});
 	});
@@ -203,162 +257,93 @@ $(document).ready(function() {
 
 /*添加页面翻页事件*/
 $(document).ready(function() {
-	$("ul.pagination").on("click", "li", function() {
+	/* 向前翻页 */
+	$("div#ic_paging nav").on("click", "li.prevPage a", function() {
 		var userName = $("div#ic_personal").attr("userName");
-
-		var nowClickPage = $(this).find("span").text(); //现在点击的页数
-		var nowActivePage = $(this).closest("ul.pagination").find("li.active"); //现在活跃的页
-		var prevLi = $(this).closest("ul.pagination").find("li.prev"); //按钮：上一页
-		var nextLi = $(this).closest("ul.pagination").find("li.next"); //按钮：下一页
-
-		if ($(this).hasClass("prev")) {
-			if ($(this).next().text() == nowActivePage.text()) {
-				prevLi.addClass("disabled")
-			} else {
-				nowActivePage.prev().addClass("active");
-				nowActivePage.removeClass("active");
-
-				var prevPage = nowActivePage.prev().text();
-				/*提交翻页获取数据*/
-				var product_text = {
-					"offset": Number(prevPage),
-					"limit": 12
-				};
-				var search_url = "${pageContext.request.contextPath }/users/{" + userName + "}/stars/{" + Number(prevPage) +
-					"}/{" + 12 +
-					"}";
-				$.ajax({
-					url: search_url,
-					type: "get",
-					data: product_text,
-					success: function(data) {
-						if (JSON.parse(data).success) {
-							$("#ic_wares table tr").not("tr.titleTr").remove();
-							for (var i = 0; i < JSON.parse(data).data.orderItemList.length; i++) {
-								var orderItem_id = JSON.parse(data).data.orderItemList[i].id;
-								var product_id = JSON.parse(data).data.orderItemList[i].productId;
-								var product_image = JSON.parse(data).data.productList[i].image;
-								var product_name = JSON.parse(data).data.orderItemList[i].productName;
-								var product_price = JSON.parse(data).data.orderItemList[i].price;
-								var trHtml = "<tr><td><input type='checkbox' name='checkedOne' /></td><td><a href='' product_id = '" +
-									product_id +
-									"' orderItem_id='" + orderItem_id + "'><img src='" + product_image + "'></a><p>" + product_name +
-									"</p></td><td>￥<span id='price'>" + product_price +
-									"</span></td><td><button type='button' id='deleteBtn' class='glyphicon glyphicon-trash'>删除</button></td></tr>";
-								$("tr.titleTr").after($new);
-							}
-						}
-					},
-					error: function() {
-
-					}
-				});
-			}
-		} else if ($(this).hasClass("next")) {
-			if ($(this).prev().text() == nowActivePage.text()) {
-				nextLi.addClass("disabled");
-			} else {
-				nowActivePage.next().addClass("active")
-				nowActivePage.removeClass("active");
-
-				var nextPage = nowActivePage.next().text();
-				/*提交翻页获取数据*/
-				var product_text = {
-					"offset": Number(nextPage),
-					"limit": 12
-				};
-				var search_url = "${pageContext.request.contextPath }/users/{" + userName + "}/stars/{" + Number(nextPage) +
-					"}/{" + 12 +
-					"}";
-				$.ajax({
-					url: search_url,
-					type: "get",
-					data: product_text,
-					success: function(data) {
-						if (JSON.parse(data).success) {
-							$("#ic_wares table tr").not("tr.titleTr").remove();
-							for (var i = 0; i < JSON.parse(data).data.orderItemList.length; i++) {
-								var orderItem_id = JSON.parse(data).data.orderItemList[i].id;
-								var product_id = JSON.parse(data).data.orderItemList[i].productId;
-								var product_image = JSON.parse(data).data.productList[i].image;
-								var product_name = JSON.parse(data).data.orderItemList[i].productName;
-								var product_price = JSON.parse(data).data.orderItemList[i].price;
-								var trHtml = "<tr><td><input type='checkbox' name='checkedOne' /></td><td><a href='' product_id = '" +
-									product_id +
-									"' orderItem_id='" + orderItem_id + "'><img src='" + product_image + "'></a><p>" + product_name +
-									"</p></td><td>￥<span id='price'>" + product_price +
-									"</span></td><td><button type='button' id='deleteBtn' class='glyphicon glyphicon-trash'>删除</button></td></tr>";
-								$("tr.titleTr").after($new);
-							}
-						}
-					},
-					error: function() {
-
-					}
-				});
-			}
-		} else if (nowClickPage != nowActivePage.text()) {
-			$(this).addClass("active");
-			nowActivePage.removeClass("active");
-			/*提交翻页获取数据*/
-			var product_text = {
-				"offset": Number(nowClickPage),
+		var nowPage = $("div#ic_paging").attr("page");
+		if (nowPage == 1) {
+			alert("已经是第一页了~");
+			return;
+		}
+		var offset=(--nowPage - 1)*12;
+		var product_text = {
+				"offset": offset,
 				"limit": 12
 			};
-			var search_url = "${pageContext.request.contextPath }/users/{" + userName + "}/stars/{" + Number(nowClickPage) +
-				"}/{" +
-				12 + "}";
-			$.ajax({
-				url: search_url,
-				type: "get",
-				data: product_text,
-				success: function(data) {
-					if (JSON.parse(data).success) {
-						$("#ic_wares table tr").not("tr.titleTr").remove();
-						for (var i = 0; i < JSON.parse(data).data.orderItemList.length; i++) {
-							var orderItem_id = JSON.parse(data).data.orderItemList[i].id;
-							var product_id = JSON.parse(data).data.orderItemList[i].productId;
-							var product_image = JSON.parse(data).data.productList[i].image;
-							var product_name = JSON.parse(data).data.orderItemList[i].productName;
-							var product_price = JSON.parse(data).data.orderItemList[i].price;
-							var trHtml = "<tr><td><input type='checkbox' name='checkedOne' /></td><td><a href='' product_id = '" +
-								product_id +
-								"' orderItem_id='" + orderItem_id + "'><img src='" + product_image + "'></a><p>" + product_name +
-								"</p></td><td>￥<span id='price'>" + product_price +
-								"</span></td><td><button type='button' id='deleteBtn' class='glyphicon glyphicon-trash'>删除</button></td></tr>";
-							$("tr.titleTr").after($new);
-						}
+		var prev_url = ctx+"/users/" + userName + "/stars/" + offset +"/12";
+		$.ajax({
+			type: "get",
+			url: prev_url,
+			data: product_text,
+			success: function(data) {
+				if (JSON.parse(data).success) {
+					$("#ic_wares tr").not("tr.titleTr").remove();
+					for (var i = 0; i < JSON.parse(data).data.orderItemList.length; i++) {
+						var orderItem_id = JSON.parse(data).data.orderItemList[i].id;
+						var product_id = JSON.parse(data).data.orderItemList[i].productId;
+						var product_image = ctxImg +JSON.parse(data).data.productList[i].image;
+						var product_name = JSON.parse(data).data.orderItemList[i].productName;
+						var product_price = JSON.parse(data).data.orderItemList[i].price;
+						var trHtml = "<tr><td><input type='checkbox' name='checkedOne' /></td><td><a href='' product_id = '" +
+							product_id +
+							"' orderItem_id='" + orderItem_id + "'><img src='" + product_image + "'></a><p>" + product_name +
+							"</p></td><td>￥<span id='price'>" + product_price +
+							"</span></td><td><button type='button' id='deleteBtn' class='glyphicon glyphicon-trash'>删除</button></td></tr>";
+						var $new=$(trHtml);
+						$("tr.titleTr").after($new);
 					}
-				},
-				error: function() {
-					alert(1);
+					$("div#ic_paging").attr("page", nowPage);
+					setPageHeight();
 				}
-			});
-		}
+			}
+		});
+	});
 
-		var nowPage = $(this).closest("ul.pagination").find("li.active").text();
-
-		if (prevLi.next().text() == nowPage) {
-			prevLi.addClass("disabled");
-			nextLi.removeClass("disabled");
-		} else if (nextLi.prev().text() == nowPage) {
-			nextLi.addClass("disabled");
-			prevLi.removeClass("disabled");
-		} else {
-			prevLi.removeClass("disabled");
-			nextLi.removeClass("disabled");
-		}
-		prevLi.children("span").attr("title", nowPage);
-		nextLi.children("span").attr("title", nowPage);
+	/* 向后翻页 */
+	$("div#ic_paging nav").on("click", "li.nextPage a", function() {
+		var userName = $("div#ic_personal").attr("userName");
+		var nowPage = $("div#ic_paging").attr("page");
+		var offset=(++nowPage - 1)*12;
+		var product_text = {
+				"offset": offset,
+				"limit": 12
+			};
+		var next_url = ctx+"/users/" + userName + "/stars/" + offset +"/12";
+		$.ajax({
+			type: "get",
+			url: next_url,
+			data: product_text,
+			success: function(data) {
+				if (JSON.parse(data).success) {
+					if(JSON.parse(data).data.orderItemList.length==0){
+						alert("已经是最后一页了~");
+						$("div#ic_paging").attr("page", (--nowPage));
+						return;
+					}
+					$("#ic_wares tr").not("tr.titleTr").remove();
+					for (var i = 0; i < JSON.parse(data).data.orderItemList.length; i++) {
+						var orderItem_id = JSON.parse(data).data.orderItemList[i].id;
+						var product_id = JSON.parse(data).data.orderItemList[i].productId;
+						var product_image =  ctxImg +JSON.parse(data).data.productList[i].image;
+						var product_name = JSON.parse(data).data.orderItemList[i].productName;
+						var product_price = JSON.parse(data).data.orderItemList[i].price;
+						var trHtml = "<tr><td><input type='checkbox' name='checkedOne' /></td><td><a href='' product_id = '" +
+							product_id +
+							"' orderItem_id='" + orderItem_id + "'><img src='" + product_image + "'></a><p>" + product_name +
+							"</p></td><td>￥<span id='price'>" + product_price +
+							"</span></td><td><button type='button' id='deleteBtn' class='glyphicon glyphicon-trash'>删除</button></td></tr>";
+						var $new=$(trHtml);
+						$("tr.titleTr").after($new);
+					}
+					$("div#ic_paging").attr("page", nowPage);
+					setPageHeight();
+				}
+			}
+		});
 	});
 });
 
 /*设置页面框架元素高度*/
 $(document).ready(function() {
-	var num = $("#ic_wares table tr").length;
-	$("#ic_wares").height(eval((num - 1) * 200 + 280));
-	$("#ic_left").height(eval((num - 1) * 200 + 500));
-	$("#ic_center").height(eval((num - 1) * 200 + 500));
-	$("#ic_right").height(eval((num - 1) * 200 + 500));
-	$("#ic_container").height(eval((num - 1) * 200 + 685));
+	setPageHeight();
 });

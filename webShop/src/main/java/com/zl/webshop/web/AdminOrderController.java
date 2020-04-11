@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -89,10 +90,10 @@ public class AdminOrderController {
    * @param orderNum 订单编号
    * @return 删除结果
    */
-  @RequestMapping(value = "", method = RequestMethod.DELETE,
+  @RequestMapping(value = "/{orderNum}", method = RequestMethod.DELETE,
       produces = {"application/json; charset=utf-8"})
   @ResponseBody
-  private String deleteOrders(String orderNum) {
+  private String deleteOrders(@PathVariable("orderNum") String orderNum) {
     Result<Integer> result = null;
     try {
       result = new Result<Integer>(true, adminOrderService.deleteOrderHistory(orderNum));
@@ -109,7 +110,7 @@ public class AdminOrderController {
    * Title: updateOrdersStatus
    * </p>
    * <p>
-   * Description: 更新分类基本信息
+   * Description: 更新订单状态
    * </p>
    * 
    * @param orderNum 订单编号

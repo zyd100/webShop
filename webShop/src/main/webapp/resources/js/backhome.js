@@ -7,26 +7,16 @@ var orderStatus;
 /* 得到状态值 */
 function getStateInfo(statetype, stateval) {
 	if (statetype == "order") {
-		switch (stateval) {
-			case 0:
-				return "已付款";
-			case 1:
-				return "已下单";
-			case 2:
-				return "已配送";
-			case 3:
-				return "已寄到";
-			default:
-				return "error";
+		for(var i=0;i<JSON.parse(orderStatus).data.length;i++){
+			if(JSON.parse(orderStatus).data[i].state==stateval){
+				return JSON.parse(orderStatus).data[i].stateInfo;
+			}
 		}
 	} else if (statetype == "access") {
-		switch (stateval) {
-			case 1:
-				return "审批中";
-			case 2:
-				return "批准";
-			default:
-				return "error";
+		for(var i=0;i<JSON.parse(accessStatus).data.length;i++){
+			if(JSON.parse(accessStatus).data[i].state==stateval){
+				return JSON.parse(accessStatus).data[i].stateInfo;
+			}
 		}
 	}
 }
@@ -78,7 +68,7 @@ function getData() {
 	var product = [];
 	var result = true;
 	product[0] = $("div#addProductDiv").find("input#productName").val();
-	product[1] = $("div#addProductDiv").find("input#sortName").val();
+	product[1] = $("div#addProductDiv").find("select.categorySelect").val();
 	product[2] = $("div#addProductDiv").find("input#shopPrice").val();
 	product[3] = $("div#addProductDiv").find("input#price").val();
 	product[4] = $("div#addProductDiv").find("input#quantity").val();
@@ -134,7 +124,7 @@ function getSortData() {
 /* 商品管理--修改商品模块初始化 */
 function uModify(obj) {
 	$("div.proModDiv").find("input#productId").val(obj.eq(0).text());
-	$("div.proModDiv").find("input#sortName").val(obj.eq(2).text());
+	$("div.proModDiv").find("select.categorySelect").val(obj.eq(2).attr("categoryId"));
 	$("div.proModDiv").find("input#detail").val(obj.eq(3).text());
 	$("div.proModDiv").find("input#shopPrice").val(obj.eq(4).text());
 	$("div.proModDiv").find("input#price").val(obj.eq(5).text());
@@ -169,10 +159,10 @@ $(document).ready(function() {
 	/* 获取订单状态枚举 */
 	$.ajax({
 		type: "get",
-		url: "${pageContext.request.contextPath }/admin/enums/commentaudit",
+		url: ctx+"/admin/enums/commentaudit",
 		success:function(data){
 			if(JSON.parse(data).success){
-				accessStatus=JSON.parse(data).data;
+				accessStatus=data;
 			}
 		}
 	});
@@ -180,10 +170,10 @@ $(document).ready(function() {
 	/* 获取评论状态枚举 */
 	$.ajax({
 		type: "get",
-		url: "${pageContext.request.contextPath }/admin/enums/orderstatus",
+		url: ctx+"/admin/enums/orderstatus",
 		success:function(data){
 			if(JSON.parse(data).success){
-				orderStatus=JSON.parse(data).data;
+				orderStatus=data;
 			}
 		}
 	});
@@ -191,29 +181,45 @@ $(document).ready(function() {
 	/* 打开主页载入商品数据 */
 	$.ajax({
 		type: "get",
-		url: "${pageContext.request.contextPath }/admin/products?offset=0&limit=10",
+		url: ctx+"/admin/products?offset=0&limit=10",
 		success: function(data) {
 			if (JSON.parse(data).success) {
+				$("div#product table tr").not("tr.trTitle").remove();
 				for (var i = 0; i < JSON.parse(data).data.length; i++) {
 					var productId = JSON.parse(data).data[i].product.id;
 					var productName = JSON.parse(data).data[i].product.productName;
+					var categoryId=JSON.parse(data).data[i].categoryId;
 					var categoryName = JSON.parse(data).data[i].categoryName;
 					var explain = JSON.parse(data).data[i].product.explain;
 					var shopPrice = JSON.parse(data).data[i].product.shopPrice;
 					var price = JSON.parse(data).data[i].product.price;
 					var quantity = JSON.parse(data).data[i].product.quantity;
-					var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td>" + categoryName +
-						"</td><td>" +
-						explain +
-						"</td><td>" + shopPrice + "</td<td>" + price + "</td><td>" + quantity +
+					var imgtrHtml = "<tr><td colspan='9'>";;
+					
+					var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td categoryId='"+categoryId+"'>" + categoryName +
+						"</td><td>" +explain +
+						"</td><td>" + shopPrice + "</td><td>" + price + "</td><td>" + quantity +
 						"</td><td><button type='button' class='productImg'>图片</button></td>" +
-						"<td><button type='button' class='productModify'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
-					var imgtrHtml = "<tr><td colspan='9'>" + "</td></tr>";
+						"<td><button type='button' class='productModify' data-toggle='modal' data-target='.proModDiv'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
+					var mainImage= ctxImg+JSON.parse(data).data[i].product.image;
+					var undefinedPath=ctxImg+"undefined";
+					if(mainImage!=undefinedPath){
+						imgtrHtml+="<img src='"+mainImage+"'>";
+					}
+					for(var j=0;j<JSON.parse(data).data[i].productImages.length;j++){
+						var images= ctxImg +JSON.parse(data).data[i].productImages[j].image;
+						if(images==ctxImg){
+							break;
+						}
+						imgtrHtml+="<img src='"+images+"'>";
+					}
+					imgtrHtml+="</td></tr>";
 					var trHtml = showtrHtml + imgtrHtml;
 					var $new = $(trHtml);
-					$("div#product table.table").find("tr.trTitle").after($new);
+					$("div#product table.table").append($new);
 				}
 				$("div#product div#paging").attr("page",1);
+				proImgHide();
 			}
 		}
 	});
@@ -222,9 +228,10 @@ $(document).ready(function() {
 	$("ul.nav").on("click", "li.sortLi", function() {
 		$.ajax({
 			type: "get",
-			url: "${pageContext.request.contextPath }/admin/categories?offset=0&limit=10",
+			url: ctx+"/admin/categories?offset=0&limit=10",
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					$("div#sort table tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var categoryId = JSON.parse(data).data[i].id;
 						var categoryName = JSON.parse(data).data[i].categoryName;
@@ -240,9 +247,10 @@ $(document).ready(function() {
 							"<td><button type='button' class='saveChange' sortId='" + categoryId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;
 						var $new = $(trHtml);
-						$("div#sort table.table").find("tr.trTitle").after($new);
+						$("div#sort table.table").append($new);
 					}
 					$("div#sort div#paging").attr("page", 1);
+					sortModHide();
 				}
 			}
 		});
@@ -252,14 +260,16 @@ $(document).ready(function() {
 	$("ul.nav").on("click", "li.userLi", function() {
 		$.ajax({
 			type: "get",
-			url: "${pageContext.request.contextPath }/admin/users?offset=0&limit=10",
+			url: ctx+"/admin/users?offset=0&limit=10",
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					$("div#userManagement tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var userId = JSON.parse(data).data[i].user.id;
 						var nickName = JSON.parse(data).data[i].user.nickName;
 						var userName = JSON.parse(data).data[i].user.userName;
-						var registerTime = JSON.parse(data).data[i].registerTime
+						var registerTime = JSON.parse(data).data[i].user.registerTime;
+						var email=JSON.parse(data).data[i].user.email;
 						var userchar = JSON.parse(data).data[i].roleState;
 						if (userchar == "0") {
 							userchar = "管理员";
@@ -279,9 +289,10 @@ $(document).ready(function() {
 							"<td colspan='4'><button type='button' class='saveChange' userId='" + userId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;
 						var $new = $(trHtml);
-						$("div#userManagement table.table").find("tr.trTitle").after($new);
+						$("div#userManagement table.table").append($new);
 					}
 					$("div#userManagement div#paging").attr("page", 1);
+					userModHide();
 				}
 			}
 		});
@@ -291,9 +302,10 @@ $(document).ready(function() {
 	$("ul.nav").on("click", "li.orderLi", function() {
 		$.ajax({
 			type: "get",
-			url: "${pageContext.request.contextPath }/admin/orders?offset=0&limit=10",
+			url: ctx+"/admin/orders?offset=0&limit=10",
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					$("div#orderManagement tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var orderNum = JSON.parse(data).data[i].orderInfo.orderNum;
 						var price = JSON.parse(data).data[i].orderInfo.price;
@@ -303,14 +315,14 @@ $(document).ready(function() {
 						var trHtml = "<tr><td><a href='javascript:;'>" + orderNum + "</a></td><td>￥" + price + "</td><td>" +
 							userName + "</td><td>" +
 							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" +
-							status + "</td><td>" +
-							"<select name='orderStatus' class='form-control'><option value='0'>已付款</option><option value='1'>" +
-							"已下单</option><option value='2'>已配送</option><option value='3'>已寄到</option></select></td>" +
+							getStateInfo("order", status) + "</td><td>" +
+							"<select name='orderStatus' class='form-control'><option value='0'>"+getStateInfo("order", 0)+"</option><option value='1'>" +
+							getStateInfo("order", 1)+"</option><option value='2'>"+getStateInfo("order", 2)+"</option><option value='3'>"+getStateInfo("order", 3)+"</option></select></td>" +
 							"<td><button class='orderDelete' type='button'>删除</button></td>/tr>";
 						var $new = $(trHtml);
-						$("div#orderMangement table.table").find("tr.trTitle").after($new);
+						$("div#orderManagement table.table").append($new);
 					}
-					$("div#orderMangement div#paging").attr("page", 1);
+					$("div#orderManagement div#paging").attr("page", 1);
 				}
 			}
 		});
@@ -320,22 +332,23 @@ $(document).ready(function() {
 	$("ul.nav").on("click", "li.accessLi", function() {
 		$.ajax({
 			type: "get",
-			url: "${pageContext.request.contextPath }/admin/comments?offset=0&limit=10",
+			url: ctx+"/admin/comments?offset=0&limit=10",
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					$("div#accessManagement tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var productId = JSON.parse(data).data[i].comment.productId;
 						var userName = JSON.parse(data).data[i].comment.userName;
 						var accessId = JSON.parse(data).data[i].comment.id;
 						var content = JSON.parse(data).data[i].comment.content;
 						var createTime = JSON.parse(data).data[i].comment.createTime;
-						var stateInfo = JSON.parse(data).data[i].stateInfo;
+						var state = JSON.parse(data).data[i].state;
 						var trHtml = "<tr><td>" + productId + "</td><td>" + userName + "</td><td>" + accessId + "</td><td>" +
-							content + "</td><td>" + createTime + "</td><td>" + stateInfo +
-							"</td><td><select name='accessStatus' class='form-control'><option value='1'>审批中< /option>" +
-							"<option value = '2' >批准< /option></select> </td> <td > < button type = 'button' class = 'accessDelete' > 删除 < /button></td ></tr>";
+							content + "</td><td>" + createTime + "</td><td>" + getStateInfo("access", state) +
+							"</td><td><select name='accessStatus' class='form-control'><option value='1'>"+getStateInfo("access", 1)+"</option>" +
+							"<option value ='2'>"+getStateInfo("access", 2)+"</option></select></td><td><button type='button' class='accessDelete'>删除</button></td></tr>";
 						var $new = $(trHtml);
-						$("div#accessManagement table.table").find("tr.trTitle").after($new);
+						$("div#accessManagement table.table").append($new);
 					}
 					$("div#accessManagement div#paging").attr("page", 1);
 				}
@@ -362,7 +375,7 @@ $(document).ready(function() {
 		}
 		var formdata = new FormData($("form#addProForm")[0]);
 		$.ajax({
-			url: "${pageContext.request.contextPath }/admin/products",
+			url: ctx+"/admin/products",
 			data: formdata,
 			type: "post",
 			dataType: 'json',
@@ -372,6 +385,7 @@ $(document).ready(function() {
 			async: false,
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					location.reload();
 					alert("新增成功");
 				}
 			}
@@ -386,12 +400,13 @@ $(document).ready(function() {
 			return;
 		}
 		$.ajax({
-			url: "${pageContext.request.contextPath }/admin/categories",
+			url: ctx+"/admin/categories",
 			type: "post",
 			contentType: "application/json; charset=utf-8",
 			data: JSON.stringify(sortInfo),
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					location.reload();
 					alert("新增成功");
 				}
 			}
@@ -401,7 +416,7 @@ $(document).ready(function() {
 	/* 下拉框分类数据 */
 	$.ajax({
 		type: "get",
-		url: "${pageContext.request.contextPath }/admin/categories?offset=0&limit=1000",
+		url: ctx+"/admin/categories?offset=0&limit=1000",
 		success: function(data) {
 			if (JSON.parse(data).success) {
 				for (var i = 0; i < JSON.parse(data).data.length; i++) {
@@ -409,8 +424,14 @@ $(document).ready(function() {
 					var categoryName = JSON.parse(data).data[i].categoryName;
 					var optionHtml = "<option value ='" + categoryId + "'>" + categoryName + "</option>";
 					var $new = $(optionHtml);
+					$("div.proModDiv").find("select.categorySelect").append($new);	
+				}
+				for (var i = 0; i < JSON.parse(data).data.length; i++) {
+					var categoryId = JSON.parse(data).data[i].id;
+					var categoryName = JSON.parse(data).data[i].categoryName;
+					var optionHtml = "<option value ='" + categoryId + "'>" + categoryName + "</option>";
+					var $new = $(optionHtml);
 					$("div#addProductDiv").find("select.categorySelect").append($new);
-					$("div.proModDiv").find("select.categorySelect").append($new);
 				}
 			}
 		}
@@ -428,7 +449,7 @@ $(document).ready(function() {
 	$("div.proModDiv").on("click", "button#proModSub", function() {
 		var productId = $(this).closest("tr").children().eq(0).text();
 		var formdata = new FormData($("form#proModForm")[0]);
-		var promod_url = "${pageContext.request.contextPath }/admin/products/{" + productId + "}";
+		var promod_url = ctx+"/admin/products/{" + productId + "}";
 		$.ajax({
 			url: promod_url,
 			data: formdata,
@@ -440,6 +461,7 @@ $(document).ready(function() {
 			async: false,
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					location.reload();
 					alert("修改成功");
 				}
 			}
@@ -448,21 +470,20 @@ $(document).ready(function() {
 
 	/* 商品管理——商品 删除 */
 	$("div#product table.table").on("click", "button.productDelete", function() {
-		var productId = $(this).closest("tr").children().eq(0);
-		var productName = $(this).closest("tr").children().eq(1);
+		var trObj=$(this).closest("tr");
+		var productId = $(this).closest("tr").children().eq(0).text();
 		var data = {
-			"productId": productId,
-			"productName": productName
+			"id": productId
 		};
 		if (confirm("确认要删除吗？")) {
 			$.ajax({
 				type: "delete",
-				url: "${pageContext.request.contextPath }/admin/products",
+				url: ctx+"/admin/products",
 				contentType: "application/json; charset=utf-8",
 				data: JSON.stringify(data),
 				success: function(data) {
 					if (JSON.parse(data).success) {
-						$(this).closest("tr").remove();
+						trObj.remove();
 						alert("删除成功！！！");
 					}
 				}
@@ -482,9 +503,12 @@ $(document).ready(function() {
 
 	/* 商品管理——分类 修改信息 */
 	$("div#sort table.table").on("click", "button.saveChange", function() {
+		var trObj=$(this).closest("tr");
 		var sortId = $(this).attr("sortId");
 		var sortName = $(this).closest("tr").find("input#sortName").val();
 		var sortDetail = $(this).closest("tr").find("input#sortDetail").val();
+		var name = $(this).closest("tr").prev().children().eq(1);
+		var detail = $(this).closest("tr").prev().children().eq(2);
 		var data = {
 			"id": sortId,
 			"categoryName": sortName,
@@ -492,11 +516,14 @@ $(document).ready(function() {
 		}
 		$.ajax({
 			type: "put",
-			url: "${pageContext.request.contextPath }/admin/categories",
+			url: ctx+"/admin/categories",
 			contentType: "application/json; charset=utf-8",
 			data: JSON.stringify(data),
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					name.text(sortName);
+					detail.text(sortDetail);
+					trObj.toggle(300);
 					alert("修改成功！！！");
 				}
 			}
@@ -505,10 +532,14 @@ $(document).ready(function() {
 
 	/* 用户管理 修改用户信息 */
 	$("div#userManagement table.table").on("click", "button.saveChange", function() {
+		var trObj=$(this).closest("tr");
 		var userId = $(this).attr("userId");
 		var nickName = $(this).closest("tr").find("input#uNickName").val();
 		var userName = $(this).closest("tr").find("input#uName").val();
 		var email = $(this).closest("tr").find("input#uEmail").val();
+		var unName= $(this).closest("tr").prev().children().eq(1);
+		var uName= $(this).closest("tr").prev().children().eq(2);
+		var uemail= $(this).closest("tr").prev().children().eq(3);
 		var data = {
 			"userId": userId,
 			"userName": userName,
@@ -517,11 +548,15 @@ $(document).ready(function() {
 		}
 		$.ajax({
 			type: "put",
-			url: "${pageContext.request.contextPath }/admin/users",
+			url: ctx+"/admin/users",
 			contentType: "application/json; charset=utf-8",
 			data: JSON.stringify(data),
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					unName.text(JSON.parse(data).data.user.nickName);
+					uName.text(JSON.parse(data).data.user.userName);
+					uemail.text(JSON.parse(data).data.user.email);
+					trObj.toggle(300);
 					alert("修改成功！！！");
 				}
 			}
@@ -530,6 +565,7 @@ $(document).ready(function() {
 
 	/* 用户管理 删除 */
 	$("div#userManagement table.table").on("click", "button.userDelete", function() {
+		var trObj=$(this).closest("tr");
 		var id = $(this).closest("tr").children().eq(0).text();
 		var name = $(this).closest("tr").children().eq(2).text();
 		var data = {
@@ -539,13 +575,13 @@ $(document).ready(function() {
 		if (confirm("确认要删除吗？")) {
 			$.ajax({
 				type: "delete",
-				url: "${pageContext.request.contextPath }/admin/users",
+				url: ctx+"/admin/users",
 				contentType: "application/json; charset=utf-8",
 				data: JSON.stringify(data),
 				success: function(data) {
 					if (JSON.parse(data).success) {
-						$(this).closest("tr").next().remove();
-						$(this).closest("tr").remove();
+						trObj.next().remove();
+						trObj.remove();
 						alert("删除成功！！！");
 					}
 				}
@@ -559,44 +595,44 @@ $(document).ready(function() {
 	});
 
 	/* 订单管理 删除 */
-	$("div#orderMangement table.table").on("click", "button.orderDelete", function() {
+	$("div#orderManagement table.table").on("click", "button.orderDelete", function() {
+		var trObj=$(this).closest("tr");
 		var orderNum = $(this).closest("tr").children().eq(0).text();
-		var data = {
-			"orderNum": orderNum
-		};
+		var data = { };
+		var delete_url=ctx+"/admin/orders/"+orderNum;
 		if (confirm("确认要删除吗？")) {
 			$.ajax({
 				type: "delete",
-				url: "${pageContext.request.contextPath }/admin/orders",
+				url: delete_url,
 				data: data,
 				success: function(data) {
 					if (JSON.parse(data).success) {
-						$(this).closest("tr").remove();
+						trObj.remove();
 						alert("删除成功！！！");
 					}
 				}
 			});
-
 		}
 	});
 
 	/* 订单管理状态审核 */
-	$("div#orderMangement table.table").on("change", "select.form-control", function() {
+	$("div#orderManagement table.table").on("change", "select.form-control", function() {
 		var status = $(this).val();
 		var orderNum = $(this).closest("tr").children().eq(0).text();
+		var trObj=$(this).closest("tr").children().eq(7);
 		var data = {
 			"orderNum": orderNum,
 			"status": status
 		}
 		$.ajax({
 			type: "put",
-			url: "${pageContext.request.contextPath }/admin/orders",
+			url: ctx+"/admin/orders",
 			data: data,
 			success: function(data) {
 				if (JSON.parse(data).success) {
 					var updatedStatus = JSON.parse(data).data.orderInfo.status;
 					var statusText = getStateInfo("order", updatedStatus);
-					$(this).closest("tr").children().eq(8).text(statusText);
+					trObj.text(statusText);
 					alert("修改成功！！！");
 				}
 			}
@@ -605,6 +641,7 @@ $(document).ready(function() {
 
 	/* 评论管理 删除 */
 	$("div#accessManagement table.table").on("click", "button.accessDelete", function() {
+		var trObj=$(this).closest("tr");
 		var accessId = $(this).closest("tr").children().eq(2).text();
 		var data = {
 			"id": accessId
@@ -612,12 +649,12 @@ $(document).ready(function() {
 		if (confirm("确认要删除吗？")) {
 			$.ajax({
 				type: "delete",
-				url: "${pageContext.request.contextPath }/admin/comments",
+				url: ctx+"/admin/comments",
 				contentType: "application/json; charset=utf-8",
 				data: JSON.stringify(data),
 				success: function(data) {
 					if (JSON.parse(data).success) {
-						$(this).closest("tr").remove();
+						trObj.remove();
 						alert("删除成功！！！");
 					}
 				}
@@ -630,18 +667,20 @@ $(document).ready(function() {
 	$("div#accessManagement table.table").on("change", "select.form-control", function() {
 		var status = $(this).val();
 		var accessId = $(this).closest("tr").children().eq(2).text();
-		var data = {
-			"id": accessId,
-			"auditState": status
+		var trObj=$(this).closest("tr").children().eq(5);
+		var accessData = {
+			"id": Number(accessId),
+			"auditState": Number(status)
 		};
 		$.ajax({
+			url: ctx+"/admin/comments",
 			type: "put",
-			url: "${pageContext.request.contextPath }/admin/comments",
-			data: data,
+			data: accessData,
 			success: function(data) {
 				if (JSON.parse(data).success) {
-					var updatedStatus = JSON.parse(data).data[0].stateInfo;
-					$(this).closest("tr").children().eq(5).text(updatedStatus);
+					var updatedStatus = JSON.parse(data).data.state;
+					var statusText=getStateInfo("access", updatedStatus)
+					trObj.text(statusText);
 					alert("修改成功！！！");
 				}
 			}
@@ -657,8 +696,7 @@ $(document).ready(function() {
 		if (searchText == "") {
 			return;
 		}
-		var searchPro_url = "${pageContext.request.contextPath }/admin/products?offset=0&limit=10&searchText=" +
-			searchText;
+		var searchPro_url = ctx+"/admin/products?offset=0&limit=10&searchText=" +searchText;
 		$.ajax({
 			type: "get",
 			url: searchPro_url,
@@ -676,15 +714,16 @@ $(document).ready(function() {
 						var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td>" + categoryName +
 							"</td><td>" +
 							explain +
-							"</td><td>" + shopPrice + "</td<td>" + price + "</td><td>" + quantity +
+							"</td><td>" + shopPrice + "</td><td>" + price + "</td><td>" + quantity +
 							"</td><td><button type='button' class='productImg'>图片</button></td>" +
-							"<td><button type='button' class='productModify'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
+							"<td><button type='button' class='productModify' data-toggle='modal' data-target='.proModDiv'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
 						var imgtrHtml = "<tr><td colspan='9'>" + "</td></tr>";
 						var trHtml = showtrHtml + imgtrHtml;
 						var $new = $(trHtml);
-						$("div#product table.table").find("tr.trTitle").after($new);
+						$("div#product table.table").append($new);
 					}
 					$("div#product div#paging").attr("page", 1);
+					proImgHide();
 				}
 			}
 		});
@@ -696,8 +735,7 @@ $(document).ready(function() {
 		if (searchText == "") {
 			return;
 		}
-		var searchSort_url = "${pageContext.request.contextPath }/admin/categories?offset=0&limit=10&searchText=" +
-			searchText;
+		var searchSort_url = ctx+"/admin/categories?offset=0&limit=10&searchText=" +searchText;
 		$.ajax({
 			type: "get",
 			url: searchSort_url,
@@ -717,9 +755,10 @@ $(document).ready(function() {
 							"<td><button type='button' class='saveChange' sortId='" + categoryId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;
 						var $new = $(trHtml);
-						$("div#sort table.table").find("tr.trTitle").after($new);
+						$("div#sort table.table").append($new);
 					}
 					$("div#sort div#paging").attr("page", 1);
+					sortModHide();
 				}
 			}
 		});
@@ -731,7 +770,7 @@ $(document).ready(function() {
 		if (searchText == "") {
 			return;
 		}
-		var searchUser_url = "${pageContext.request.contextPath }/admin/users?offset=0&limit=10&searchText=" + searchText;
+		var searchUser_url = ctx+"/admin/users?offset=0&limit=10&searchText=" + searchText;
 		$.ajax({
 			type: "get",
 			url: searchUser_url,
@@ -742,7 +781,8 @@ $(document).ready(function() {
 						var userId = JSON.parse(data).data[i].user.id;
 						var nickName = JSON.parse(data).data[i].user.nickName;
 						var userName = JSON.parse(data).data[i].user.userName;
-						var registerTime = JSON.parse(data).data[i].registerTime
+						var registerTime = JSON.parse(data).data[i].user.registerTime;
+						var email=JSON.parse(data).data[i].user.email;
 						var userchar = JSON.parse(data).data[i].roleState;
 						if (userchar == "0") {
 							userchar = "管理员";
@@ -760,9 +800,10 @@ $(document).ready(function() {
 							"<td colspan='4'><button type='button' class='saveChange' userId='" + userId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;
 						var $new = $(trHtml);
-						$("div#userManagement table.table").find("tr.trTitle").after($new);
+						$("div#userManagement table.table").append($new);
 					}
 					$("div#userManagement div#paging").attr("page", 1);
+					userModHide();
 				}
 			}
 		});
@@ -774,14 +815,13 @@ $(document).ready(function() {
 		if (searchText == "") {
 			return;
 		}
-		var searchOrder_url = "${pageContext.request.contextPath }/admin/orders?offset=0&limit=10&searchText=" +
-			searchText;
+		var searchOrder_url = ctx+"/admin/orders?offset=0&limit=10&searchText=" +searchText;
 		$.ajax({
 			type: "get",
 			url: searchOrder_url,
 			success: function(data) {
 				if (JSON.parse(data).success) {
-					$("#orderMangement table tr").not("tr.trTitle").remove();
+					$("div#orderManagement tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var orderNum = JSON.parse(data).data[i].orderInfo.orderNum;
 						var price = JSON.parse(data).data[i].orderInfo.price;
@@ -791,14 +831,14 @@ $(document).ready(function() {
 						var trHtml = "<tr><td><a href='javascript:;'>" + orderNum + "</a></td><td>￥" + price + "</td><td>" +
 							userName + "</td><td>" +
 							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" +
-							status + "</td><td>" +
-							"<select name='orderStatus' class='form-control'><option value='0'>已付款</option><option value='1'>" +
-							"已下单</option><option value='2'>已配送</option><option value='3'>已寄到</option></select></td>" +
+							getStateInfo("order", status) + "</td><td>" +
+							"<select name='orderStatus' class='form-control'><option value='0'>"+getStateInfo("order", 0)+"</option><option value='1'>" +
+							+getStateInfo("order", 1)+"</option><option value='2'>"+getStateInfo("order", 2)+"</option><option value='3'>"+getStateInfo("order", 3)+"</option></select></td>" +
 							"<td><button class='orderDelete' type='button'>删除</button></td>/tr>";
 						var $new = $(trHtml);
-						$("div#orderMangement table.table").find("tr.trTitle").after($new);
+						$("div#orderManagement table.table").append($new);
 					}
-					$("div#orderMangement div#paging").attr("page", 1);
+					$("div#orderManagement div#paging").attr("page", 1);
 				}
 			}
 		});
@@ -814,8 +854,8 @@ $(document).ready(function() {
 			alert("已经是第一页了~");
 			return;
 		}
-		var url_str = "?offset=" + (--nowPage - 1) + "&limit=10";
-		var prev_url = "${pageContext.request.contextPath }/admin/products" + url_str;
+		var url_str = "?offset=" + (--nowPage - 1)*10 + "&limit=10";
+		var prev_url = ctx+"/admin/products" + url_str;
 		$.ajax({
 			type: "get",
 			url: prev_url,
@@ -833,13 +873,14 @@ $(document).ready(function() {
 						var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td>" + categoryName +
 							"</td><td>" +
 							explain +
-							"</td><td>" + shopPrice + "</td<td>" + price + "</td><td>" + quantity +
+							"</td><td>" + shopPrice + "</td><td>" + price + "</td><td>" + quantity +
 							"</td><td><button type='button' class='productImg'>图片</button></td>" +
-							"<td><button type='button' class='productModify'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
+							"<td><button type='button' class='productModify' data-toggle='modal' data-target='.proModDiv'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
 						var imgtrHtml = "<tr><td colspan='9'>" + "</td></tr>";
 						var trHtml = showtrHtml + imgtrHtml;
 						var $new = $(trHtml);
-						$("div#product table.table").find("tr.trTitle").after($new);
+						$("div#product table.table").append($new);
+						proImgHide();
 					}
 					$("div#product div#paging").attr("page", nowPage);
 				}
@@ -850,13 +891,18 @@ $(document).ready(function() {
 	/* 商品管理——商品 向后翻页 */
 	$("div#product nav").on("click", "li.nextPage a", function() {
 		var nowPage = $("div#product div#paging").attr("page");
-		var url_str = "?offset=" + (++nowPage - 1) + "&limit=10";
-		var next_url = "${pageContext.request.contextPath }/admin/products" + url_str;
+		var url_str = "?offset=" + (++nowPage - 1)*10 + "&limit=10";
+		var next_url = ctx+"/admin/products" + url_str;
 		$.ajax({
 			type: "get",
 			url: next_url,
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					if(JSON.parse(data).data.length==0){
+						alert("已经是最后一页了~");
+						$("div#product div#paging").attr("page", (--nowPage));
+						return;
+					}
 					$("#product table tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var productId = JSON.parse(data).data[i].product.id;
@@ -869,18 +915,16 @@ $(document).ready(function() {
 						var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td>" + categoryName +
 							"</td><td>" +
 							explain +
-							"</td><td>" + shopPrice + "</td<td>" + price + "</td><td>" + quantity +
+							"</td><td>" + shopPrice + "</td><td>" + price + "</td><td>" + quantity +
 							"</td><td><button type='button' class='productImg'>图片</button></td>" +
-							"<td><button type='button' class='productModify'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
+							"<td><button type='button' class='productModify' data-toggle='modal' data-target='.proModDiv'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
 						var imgtrHtml = "<tr><td colspan='9'>" + "</td></tr>";
 						var trHtml = showtrHtml + imgtrHtml;
 						var $new = $(trHtml);
-						$("div#product table.table").find("tr.trTitle").after($new);
+						$("div#product table.table").append($new);
 					}
 					$("div#product div#paging").attr("page", nowPage);
-				} else {
-					alert("已经是最后一页了~");
-					$("div#product div#paging").attr("page", (--nowPage));
+					proImgHide();
 				}
 			}
 		});
@@ -893,8 +937,8 @@ $(document).ready(function() {
 			alert("已经是第一页了~");
 			return;
 		}
-		var url_str = "?offset=" + (--nowPage - 1) + "&limit=10";
-		var prev_url = "${pageContext.request.contextPath }/admin/categories" + url_str;
+		var url_str = "?offset=" + (--nowPage - 1)*10 + "&limit=10";
+		var prev_url = ctx+"/admin/categories" + url_str;
 		$.ajax({
 			type: "get",
 			url: prev_url,
@@ -914,9 +958,10 @@ $(document).ready(function() {
 							"<td><button type='button' class='saveChange' sortId='" + categoryId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;
 						var $new = $(trHtml);
-						$("div#sort table.table").find("tr.trTitle").after($new);
+						$("div#sort table.table").append($new);
 					}
 					$("div#sort div#paging").attr("page", nowPage);
+					sortModHide();
 				}
 			}
 		});
@@ -925,13 +970,18 @@ $(document).ready(function() {
 	/* 商品管理——分类 向后翻页 */
 	$("div#sort nav").on("click", "li.nextPage a", function() {
 		var nowPage = $("div#sort div#paging").attr("page");
-		var url_str = "?offset=" + (++nowPage - 1) + "&limit=10";
-		var next_url = "${pageContext.request.contextPath }/admin/categories" + url_str;
+		var url_str = "?offset=" + (++nowPage - 1)*10 + "&limit=10";
+		var next_url = ctx+"/admin/categories" + url_str;
 		$.ajax({
 			type: "get",
 			url: next_url,
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					if(JSON.parse(data).data.length==0){
+						alert("已经是最后一页了~");
+						$("div#product div#paging").attr("page", (--nowPage));
+						return;
+					}
 					$("#sort table tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var categoryId = JSON.parse(data).data[i].id;
@@ -946,12 +996,10 @@ $(document).ready(function() {
 							"<td><button type='button' class='saveChange' sortId='" + categoryId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;
 						var $new = $(trHtml);
-						$("div#sort table.table").find("tr.trTitle").after($new);
+						$("div#sort table.table").append($new);
 					}
 					$("div#sort div#paging").attr("page", nowPage);
-				} else {
-					alert("已经是最后一页了~");
-					$("div#sort div#paging").attr("page", (--nowPage));
+					sortModHide();
 				}
 			}
 		});
@@ -964,8 +1012,8 @@ $(document).ready(function() {
 			alert("已经是第一页了~");
 			return;
 		}
-		var url_str = "?offset=" + (--nowPage - 1) + "&limit=10";
-		var prev_url = "${pageContext.request.contextPath }/admin/users" + url_str;
+		var url_str = "?offset=" + (--nowPage - 1)*10 + "&limit=10";
+		var prev_url = ctx+"/admin/users" + url_str;
 		$.ajax({
 			type: "get",
 			url: prev_url,
@@ -976,7 +1024,8 @@ $(document).ready(function() {
 						var userId = JSON.parse(data).data[i].user.id;
 						var nickName = JSON.parse(data).data[i].user.nickName;
 						var userName = JSON.parse(data).data[i].user.userName;
-						var registerTime = JSON.parse(data).data[i].registerTime
+						var registerTime = JSON.parse(data).data[i].user.registerTime;
+						var email=JSON.parse(data).data[i].user.email;
 						var userchar = JSON.parse(data).data[i].roleState;
 						if (userchar == "0") {
 							userchar = "管理员";
@@ -994,7 +1043,8 @@ $(document).ready(function() {
 							"<td colspan='4'><button type='button' class='saveChange' userId='" + userId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;
 						var $new = $(trHtml);
-						$("div#userManagement table.table").find("tr.trTitle").after($new);
+						$("div#userManagement table.table").append($new);
+						userModHide();
 					}
 					$("div#userManagement div#paging").attr("page", nowPage);
 				}
@@ -1005,19 +1055,25 @@ $(document).ready(function() {
 	/* 用户管理——分类 向后翻页 */
 	$("div#userManagement nav").on("click", "li.nextPage a", function() {
 		var nowPage = $("div#userManagement div#paging").attr("page");
-		var url_str = "?offset=" + (++nowPage - 1) + "&limit=10";
-		var next_url = "${pageContext.request.contextPath }/admin/users" + url_str;
+		var url_str = "?offset=" + (++nowPage - 1)*10 + "&limit=10";
+		var next_url = ctx+"/admin/users" + url_str;
 		$.ajax({
 			type: "get",
 			url: next_url,
 			success: function(data) {
 				if (JSON.parse(data).success) {
+					if(JSON.parse(data).data.length==0){
+						alert("已经是最后一页了~");
+						$("div#product div#paging").attr("page", (--nowPage));
+						return;
+					}
 					$("#userManagement table tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var userId = JSON.parse(data).data[i].user.id;
 						var nickName = JSON.parse(data).data[i].user.nickName;
 						var userName = JSON.parse(data).data[i].user.userName;
-						var registerTime = JSON.parse(data).data[i].registerTime
+						var registerTime = JSON.parse(data).data[i].user.registerTime;
+						var email=JSON.parse(data).data[i].user.email;
 						var userchar = JSON.parse(data).data[i].roleState;
 						if (userchar == "0") {
 							userchar = "管理员";
@@ -1035,32 +1091,30 @@ $(document).ready(function() {
 							"<td colspan='4'><button type='button' class='saveChange' userId='" + userId + "'>保存</button></td></tr>";
 						var trHtml = showtrHtml + modtrHtml;
 						var $new = $(trHtml);
-						$("div#userManagement table.table").find("tr.trTitle").after($new);
+						$("div#userManagement table.table").append($new);
 					}
 					$("div#userManagement div#paging").attr("page", nowPage);
-				} else {
-					alert("已经是最后一页了~");
-					$("div#userManagement div#paging").attr("page", (--nowPage));
+					userModHide();
 				}
 			}
 		});
 	});
 
 	/* 订单管理 向前翻页 */
-	$("div#orderMangement nav").on("click", "li.prevPage a", function() {
-		var nowPage = $("div#orderMangement div#paging").attr("page");
+	$("div#orderManagement nav").on("click", "li.prevPage a", function() {
+		var nowPage = $("div#orderManagement div#paging").attr("page");
 		if (nowPage == 1) {
 			alert("已经是第一页了~");
 			return;
 		}
-		var url_str = "?offset=" + (--nowPage - 1) + "&limit=10";
-		var prev_url = "${pageContext.request.contextPath }/admin/orders" + url_str;
+		var url_str = "?offset=" + (--nowPage - 1)*10 + "&limit=10";
+		var prev_url = ctx+"/admin/orders" + url_str;
 		$.ajax({
 			type: "get",
 			url: prev_url,
 			success: function(data) {
 				if (JSON.parse(data).success) {
-					$("#orderMangement table tr").not("tr.trTitle").remove();
+					$("div#orderManagement tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var orderNum = JSON.parse(data).data[i].orderInfo.orderNum;
 						var price = JSON.parse(data).data[i].orderInfo.price;
@@ -1070,30 +1124,35 @@ $(document).ready(function() {
 						var trHtml = "<tr><td><a href='javascript:;'>" + orderNum + "</a></td><td>￥" + price + "</td><td>" +
 							userName + "</td><td>" +
 							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" +
-							status + "</td><td>" +
-							"<select name='orderStatus' class='form-control'><option value='0'>已付款</option><option value='1'>" +
-							"已下单</option><option value='2'>已配送</option><option value='3'>已寄到</option></select></td>" +
+							getStateInfo("order", status) + "</td><td>" +
+							"<select name='orderStatus' class='form-control'><option value='0'>"+getStateInfo("order", 0)+"</option><option value='1'>" +
+							+getStateInfo("order", 1)+"</option><option value='2'>"+getStateInfo("order", 2)+"</option><option value='3'>"+getStateInfo("order", 3)+"</option></select></td>" +
 							"<td><button class='orderDelete' type='button'>删除</button></td>/tr>";
 						var $new = $(trHtml);
-						$("div#orderMangement table.table").find("tr.trTitle").after($new);
+						$("div#orderManagement table.table").append($new);
 					}
-					$("div#orderMangement div#paging").attr("page", nowPage);
+					$("div#orderManagement div#paging").attr("page", nowPage);
 				}
 			}
 		});
 	});
 
 	/* 订单管理 向后翻页 */
-	$("div#orderMangement nav").on("click", "li.nextPage a", function() {
-		var nowPage = $("div#orderMangement div#paging").attr("page");
-		var url_str = "?offset=" + (++nowPage - 1) + "&limit=10";
-		var next_url = "${pageContext.request.contextPath }/admin/orders" + url_str;
+	$("div#orderManagement nav").on("click", "li.nextPage a", function() {
+		var nowPage = $("div#orderManagement div#paging").attr("page");
+		var url_str = "?offset=" + (++nowPage - 1)*10 + "&limit=10";
+		var next_url = ctx+"/admin/orders" + url_str;
 		$.ajax({
 			type: "get",
 			url: next_url,
 			success: function(data) {
 				if (JSON.parse(data).success) {
-					$("#orderMangement table tr").not("tr.trTitle").remove();
+					if(JSON.parse(data).data.length==0){
+						alert("已经是最后一页了~");
+						$("div#product div#paging").attr("page", (--nowPage));
+						return;
+					}
+					$("div#orderManagement tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var orderNum = JSON.parse(data).data[i].orderInfo.orderNum;
 						var price = JSON.parse(data).data[i].orderInfo.price;
@@ -1103,17 +1162,14 @@ $(document).ready(function() {
 						var trHtml = "<tr><td><a href='javascript:;'>" + orderNum + "</a></td><td>￥" + price + "</td><td>" +
 							userName + "</td><td>" +
 							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" +
-							status + "</td><td>" +
-							"<select name='orderStatus' class='form-control'><option value='0'>已付款</option><option value='1'>" +
-							"已下单</option><option value='2'>已配送</option><option value='3'>已寄到</option></select></td>" +
+							getStateInfo("order", status) + "</td><td>" +
+							"<select name='orderStatus' class='form-control'><option value='0'>"+getStateInfo("order", 0)+"</option><option value='1'>" +
+							+getStateInfo("order", 1)+"</option><option value='2'>"+getStateInfo("order", 2)+"</option><option value='3'>"+getStateInfo("order", 3)+"</option></select></td>" +
 							"<td><button class='orderDelete' type='button'>删除</button></td>/tr>";
 						var $new = $(trHtml);
-						$("div#orderMangement table.table").find("tr.trTitle").after($new);
+						$("div#orderManagement table.table").append($new);
 					}
-					$("div#orderMangement div#paging").attr("page", nowPage);
-				} else {
-					alert("已经是最后一页了~");
-					$("div#orderMangement div#paging").attr("page", (--nowPage));
+					$("div#orderManagement div#paging").attr("page", nowPage);
 				}
 			}
 		});
@@ -1126,27 +1182,27 @@ $(document).ready(function() {
 			alert("已经是第一页了~");
 			return;
 		}
-		var url_str = "?offset=" + (--nowPage - 1) + "&limit=10";
-		var prev_url = "${pageContext.request.contextPath }/admin/comments" + url_str;
+		var url_str = "?offset=" + (--nowPage - 1)*10 + "&limit=10";
+		var prev_url = ctx+"/admin/comments" + url_str;
 		$.ajax({
 			type: "get",
 			url: prev_url,
 			success: function(data) {
 				if (JSON.parse(data).success) {
-					$("#accessManagement table tr").not("tr.trTitle").remove();
+					$("div#accessManagement table tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var productId = JSON.parse(data).data[i].comment.productId;
 						var userName = JSON.parse(data).data[i].comment.userName;
 						var accessId = JSON.parse(data).data[i].comment.id;
 						var content = JSON.parse(data).data[i].comment.content;
 						var createTime = JSON.parse(data).data[i].comment.createTime;
-						var stateInfo = JSON.parse(data).data[i].stateInfo;
+						var state = JSON.parse(data).data[i].state;
 						var trHtml = "<tr><td>" + productId + "</td><td>" + userName + "</td><td>" + accessId + "</td><td>" +
-							content + "</td><td>" + createTime + "</td><td>" + stateInfo +
-							"</td><td><select name='accessStatus' class='form-control'><option value='1'>审批中< /option>" +
-							"<option value = '2' >批准< /option></select> </td> <td > < button type = 'button' class = 'accessDelete' > 删除 < /button></td ></tr>";
+							content + "</td><td>" + createTime + "</td><td>" + getStateInfo("access", state) +
+							"</td><td><select name='accessStatus' class='form-control'><option value='1'>"+getStateInfo("access", 1)+"</option>" +
+							"<option value ='2'>"+getStateInfo("access", 2)+"</option></select></td><td><button type='button' class='accessDelete'>删除</button></td></tr>";
 						var $new = $(trHtml);
-						$("div#accessManagement table.table").find("tr.trTitle").after($new);
+						$("div#accessManagement table.table").append($new);
 					}
 					$("div#accessManagement div#paging").attr("page", nowPage);
 				}
@@ -1157,32 +1213,34 @@ $(document).ready(function() {
 	/* 评论管理 向后翻页 */
 	$("div#accessManagement nav").on("click", "li.nextPage a", function() {
 		var nowPage = $("div#accessManagement div#paging").attr("page");
-		var url_str = "?offset=" + (++nowPage - 1) + "&limit=10";
-		var next_url = "${pageContext.request.contextPath }/admin/comments" + url_str;
+		var url_str = "?offset=" + (++nowPage - 1)*10 + "&limit=10";
+		var next_url = ctx+"/admin/comments" + url_str;
 		$.ajax({
 			type: "get",
 			url: next_url,
 			success: function(data) {
 				if (JSON.parse(data).success) {
-					$("#accessManagemen-+.t table tr").not("tr.trTitle").remove();
+					if(JSON.parse(data).data.length==0){
+						alert("已经是最后一页了~");
+						$("div#product div#paging").attr("page", (--nowPage));
+						return;
+					}
+					$("div#accessManagement table tr").not("tr.trTitle").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var productId = JSON.parse(data).data[i].comment.productId;
 						var userName = JSON.parse(data).data[i].comment.userName;
 						var accessId = JSON.parse(data).data[i].comment.id;
 						var content = JSON.parse(data).data[i].comment.content;
 						var createTime = JSON.parse(data).data[i].comment.createTime;
-						var stateInfo = JSON.parse(data).data[i].stateInfo;
+						var state = JSON.parse(data).data[i].state;
 						var trHtml = "<tr><td>" + productId + "</td><td>" + userName + "</td><td>" + accessId + "</td><td>" +
-							content + "</td><td>" + createTime + "</td><td>" + stateInfo +
-							"</td><td><select name='accessStatus' class='form-control'><option value='1'>审批中< /option>" +
-							"<option value = '2' >批准< /option></select> </td> <td > < button type = 'button' class = 'accessDelete' > 删除 < /button></td ></tr>";
+							content + "</td><td>" + createTime + "</td><td>" + getStateInfo("access", state) +
+							"</td><td><select name='accessStatus' class='form-control'><option value='1'>"+getStateInfo("access", 1)+"</option>" +
+							"<option value ='2'>"+getStateInfo("access", 2)+"</option></select></td><td><button type='button' class='accessDelete'>删除</button></td></tr>";
 						var $new = $(trHtml);
-						$("div#accessManagement table.table").find("tr.trTitle").after($new);
+						$("div#accessManagement table.table").append($new);
 					}
 					$("div#accessManagement div#paging").attr("page", nowPage);
-				} else {
-					alert("已经是最后一页了~");
-					$("div#accessManagement div#paging").attr("page", (--nowPage));
 				}
 			}
 		});

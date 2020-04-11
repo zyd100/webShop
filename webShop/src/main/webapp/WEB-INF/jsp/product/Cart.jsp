@@ -68,7 +68,7 @@
 				<div id="c_left" class="col-sm-1 col-xs-1"></div>
 				<div id="c_center" class="col-sm-10 col-xs-10">
 					<div id="c_wares">
-						<table >
+						<table>
 							<tr class="titleTr">
 								<th width="80px"><input type="checkbox" name="allChecked" id="allChecked" value="" />全选</th>
 								<th width="900px">商品信息</th>
@@ -124,7 +124,10 @@
 						<div class="row">
 							<div class="col-sm-10 col-xs-10"></div>
 							<div class="col-sm-2 col-xs-2 waresCount">
-								<button type="button" id="orderNow">立即下单</button>
+								<form id="buyForm" action="" method="post">
+
+									<button type="button" id="orderNow">立即下单</button>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -191,6 +194,17 @@
 					}
 				}
 			}
+			
+			var ctx="${pageContext.request.contextPath }";
+			var imgpath="/resources/images/";
+			var ctxImg=ctx+imgpath;
+			$(document).ready(function(){
+				var cartData = JSON.parse('${carts}');
+
+				$("div#c_personal").attr("userName", '${sessionScope.loginUserName}');
+				
+				initCarts(cartData);
+			});
 		</script>
 	</body>
 </html>

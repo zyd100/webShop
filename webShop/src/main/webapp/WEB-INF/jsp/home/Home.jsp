@@ -54,6 +54,7 @@
 						<div id="h_search" class="col-sm-4 col-xs-4">
 							<form action="${pageContext.request.contextPath }/search" method="get" name="searchForm" id="searchForm">
 								<div class="input-group input-group-size">
+									<input type="hidden" name="_method" value="get" />
 									<input type="text" class="form-control textRule" name="searchText" placeholder="  大家都在搜">
 									<span class="input-group-btn">
 										<button type="submit" class="btn btn-default btn-lg glyphicon glyphicon-search" id="searchBtn">搜索</button>
@@ -496,6 +497,21 @@
 					}
 				}
 			}
+			
+			var ctx="${pageContext.request.contextPath }";
+			var imgpath="/resources/images/";
+			var ctxImg=ctx+imgpath;
+			$(document).ready(function(){
+				var dataCategory=JSON.parse('${categories}');
+				var dataRollProducts=JSON.parse('${rollProducts}');
+				var dataRandomProducts=JSON.parse('${randomProducts}');
+
+				$("div#h_personal").attr("userName",'${sessionScope.loginUserName}');
+				
+				initCategory(dataCategory);
+				initRollPro(dataRollProducts);
+				initRanPro(dataRandomProducts);
+			});
 		</script>
 	</body>
 </html>
