@@ -466,14 +466,27 @@ public class UserController {
       // 没有登录,跳转至登陆页面或非法访问未登录用户页面
       return "redirect: /webShop/users";
     }
+    Result<OrderExecution> result = null;
+    OrderExecution orderExecution = null;
     try {
-      OrderExecution orderExecution = orderService.getStar(userName);
+      orderExecution = orderService.getStar(userName);
       orderExecution.setOrderItemList(CollUtil.sub(orderExecution.getOrderItemList(), 0, 12));
-      model.addAttribute("stars", JSON.toJSONString(orderExecution));
+      orderExecution.setProductList(CollUtil.sub(orderExecution.getProductList(), 0, 12));
+      result = new Result<>(true, orderExecution);
+    } catch (NoStarException e) {
+      orderExecution = new OrderExecution();
+      orderExecution.setOrderInfo(new OrderInfo());
+      orderExecution.setOrderItemList(new ArrayList<>());
+      result = new Result<>(false, orderExecution);
     } catch (Exception e) {
       logger.error(e.getMessage());
+      orderExecution = new OrderExecution();
+      orderExecution.setOrderInfo(new OrderInfo());
+      orderExecution.setOrderItemList(new ArrayList<>());
+      result = new Result<>(false, orderExecution);
     }
-
+    logger.info(JSON.toJSONString(result));
+    model.addAttribute("stars", JSON.toJSONString(result));
     // 前往收藏夹页面
     return "/personal/IndividualCollection";
   }
@@ -491,7 +504,8 @@ public class UserController {
    * @param productId 商品序号
    * @return Result
    */
-  @RequestMapping(value = "/{userName}/stars/{productId}", method = RequestMethod.POST)
+  @RequestMapping(value = "/{userName}/stars/{productId}", method = RequestMethod.POST,
+      produces = {"application/json; charset=utf-8"})
   @ResponseBody
   private String starProduct(@PathVariable("userName") String userName,
       @PathVariable("productId") long productId) {
@@ -532,7 +546,8 @@ public class UserController {
    * @param limit 查询条数
    * @return 查询结果
    */
-  @RequestMapping(value = "/{userName}/stars/{offset}/{limit}", method = RequestMethod.GET)
+  @RequestMapping(value = "/{userName}/stars/{offset}/{limit}", method = RequestMethod.GET,
+      produces = {"application/json; charset=utf-8"})
   @ResponseBody
   private String getStars(@PathVariable("userName") String userName,
       @PathVariable("offset") int offset, @PathVariable("limit") int limit) {
@@ -542,6 +557,7 @@ public class UserController {
       // 根据offset limit 剪切收藏夹商品数组长度
       orderExecution.setOrderItemList(
           CollUtil.sub(orderExecution.getOrderItemList(), offset, offset + limit));
+      orderExecution.setProductList(CollUtil.sub(orderExecution.getProductList(),  offset, offset + limit));
       result = new Result<OrderExecution>(true, orderExecution);
     } catch (Exception e) {
       logger.error(e.getMessage());
@@ -588,6 +604,8 @@ public class UserController {
       }
       try {
         result = new Result<OrderExecution>(true, orderService.getStar(userName));
+        result.getData().setOrderItemList(CollUtil.sub( result.getData().getOrderItemList(), 0, 12));
+        result.getData().setProductList(CollUtil.sub(result.getData().getProductList(), 0, 12));
       } catch (NoStarException e) {
         execution = new OrderExecution();
         execution.setOrderItemList(new ArrayList<>());
@@ -600,6 +618,8 @@ public class UserController {
       logger.error(e.getMessage());
       try {
         result = new Result<OrderExecution>(false, orderService.getStar(userName));
+        result.getData().setOrderItemList(CollUtil.sub( result.getData().getOrderItemList(), 0, 12));
+        result.getData().setProductList(CollUtil.sub(orderExecution.getProductList(), 0, 12));
       } catch (NoStarException e1) {
         execution = new OrderExecution();
         execution.setOrderItemList(new ArrayList<>());
@@ -726,16 +746,24 @@ public class UserController {
   @ResponseBody
   private String getOrderHistory(@PathVariable("userName") String userName,
       @RequestParam(value = "offset", defaultValue = "0") int offset,
-      @RequestParam(value = "limit", defaultValue = "10") int limit) {
-    Result<OrderExecution> result = null;
+      @RequestParam(value = "limit", defaultValue = "10") int limit, HttpServletRequest request) {
+    Result<List<OrderExecution>> result = null;
     try {
-      OrderExecution orderExecution = orderService.getOderInfoByUserName(userName, null, 0, 10);
+      OrderExecution orderExecution =
+          orderService.getOderInfoByUserName(userName, null, offset, limit);
+      List<OrderExecution> orderInfos = new ArrayList<OrderExecution>();
       orderExecution
           .setOrderInfos(orderExecution.getOrderInfos().stream()
               .filter(x -> x.getStatus() != OrderStatusEnum.SHOPPING_CART.getState()
                   && x.getStatus() != OrderStatusEnum.STAR.getState())
               .collect(Collectors.toList()));
-      result = new Result<OrderExecution>(true, orderExecution);
+      orderExecution.getOrderInfos().stream()
+          .forEach(x -> orderInfos.add(orderService.getOrderDetail(x.getOrderNum(), userName)));
+      orderInfos.stream().forEach(x -> {
+        x.setOrderItemList(CollUtil.sub(x.getOrderItemList(), 0, 1));
+        x.setProductList(CollUtil.sub(x.getProductList(), 0, 1));
+      });
+      result = new Result<List<OrderExecution>>(true, orderInfos);
     } catch (Exception e) {
       logger.error(e.getMessage());
       result = new Result<>(false, e.getMessage());
@@ -1017,10 +1045,10 @@ public class UserController {
     try {
       imageName = fileService.upLoadFile(image);
       result = new Result<Integer>(true, userService.updateUserImage(userName, imageName));
-      if(result.getData()==0) {
-        //更像失败
+      if (result.getData() == 0) {
+        // 更像失败
         fileService.deleteFile(imageName);
-        result=new Result<>(false, "update image error");
+        result = new Result<>(false, "update image error");
       }
     } catch (Exception e) {
       logger.error(e.getMessage());
