@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -23,11 +22,11 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" data-integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 		 data-crossorigin="anonymous"></script>
 
-		<link rel="stylesheet" type="text/css" href="css/animate.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/swiper.css" />
-		<link rel="stylesheet" type="text/css" href="css/individualcollection.css" />
-		<script src="js/swiper.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/individualcollection.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/swiper.css" />
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/individualcollection.css" />
+		<script src="${pageContext.request.contextPath }/resources/js/swiper.js" type="text/javascript" charset="utf-8"></script>
+		<script src="${pageContext.request.contextPath }/resources/js/individualcollection.js" type="text/javascript" charset="utf-8"></script>
 
 		<style type="text/css">
 			@media screen and (max-width:1600px) {
@@ -111,18 +110,9 @@
 						</div>
 						<div id="ic_paging">
 							<nav aria-label="Page navigation">
-								<ul class="pagination pagination-lg">
-									<li class="prev">
-										<span>
-											<span aria-hidden="true">&laquo;</span>
-										</span>
-									</li>
-									<li class="active pageOne"><span>1</span></li>
-									<li class="next">
-										<span>
-											<span aria-hidden="true">&raquo;</span>
-										</span>
-									</li>
+								<ul class="pager pager-lg">
+										<li class="prevPage"><a href="javascript:;">Previous</a></li>
+										<li class="nextPage"><a href="javascript:;">Next</a></li>
 								</ul>
 							</nav>
 						</div>
@@ -190,6 +180,17 @@
 					}
 				}
 			}
+			
+			var ctx="${pageContext.request.contextPath }";
+			var imgpath="/resources/images/";
+			var ctxImg=ctx+imgpath;
+			$(document).ready(function(){
+				var starData = JSON.parse('${stars}');
+
+				$("div#ic_personal").attr("userName", '${sessionScope.loginUserName}');
+				
+				initStar(starData);
+			});
 		</script>
 	</body>
 </html>

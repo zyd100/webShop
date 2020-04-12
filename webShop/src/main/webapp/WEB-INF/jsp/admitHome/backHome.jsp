@@ -54,7 +54,7 @@
 								 data-toggle="tab">商品管理</a></li>
 							<li role="presentation" class="userLi"><a href="#userManagement" aria-controls="userManagement" role="tab"
 								 data-toggle="tab">用户管理</a></li>
-							<li role="presentation" class="orderLi"><a href="#orderMangement" aria-controls="orderMangement" role="tab"
+							<li role="presentation" class="orderLi"><a href="#orderManagement" aria-controls="orderManagement" role="tab"
 								 data-toggle="tab">订单管理</a></li>
 							<li role="presentation" class="accessLi"><a href="#accessManagement" aria-controls="accessManagement" role="tab"
 								 data-toggle="tab">评论管理</a></li>
@@ -544,7 +544,7 @@
 									</nav>
 								</div>
 							</div>
-							<div role="tabpanel" class="tab-pane fade" id="orderMangement">
+							<div role="tabpanel" class="tab-pane fade" id="orderManagement">
 								<div class="orderSearch">
 									<div class="input-group input-group-size">
 										<input type="text" class="form-control textRule" name="searchText" placeholder="搜索订单">
@@ -1056,6 +1056,12 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			var ctx = "${pageContext.request.contextPath }";
+			var imgpath="/resources/images/";
+			var ctxImg=ctx+imgpath;
 
+			var adminName='${sessionScope.adminUserName}'
+		</script>
 	</body>
 </html>

@@ -280,9 +280,13 @@ ul.nav li.active {
 	font-weight: bold;
 }
 
-.introImage {
+div#waresDetail {
 	margin: 0 auto;
 	width: 1200px;
+}
+
+div#waresDetail img{
+	display:block;
 }
 
 .introAccess {
