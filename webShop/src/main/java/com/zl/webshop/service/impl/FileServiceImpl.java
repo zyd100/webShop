@@ -24,8 +24,7 @@ import cn.hutool.core.util.IdUtil;
 @Service
 public class FileServiceImpl implements FileService {
   private Logger logger = LoggerFactory.getLogger(getClass());
-//private static final String PATH = "D:\\Ecilpse file\\webShop\\src\\main\\webapp\\resources\\images\\";
-  private static final String PATH = "D:\\upload\\";
+private static final String PATH = "D:\\Ecilpse file\\webShop\\src\\main\\webapp\\resources\\images\\";
   @Override
   public String upLoadFile(MultipartFile upload) throws Exception {
     String newFileName = null;
