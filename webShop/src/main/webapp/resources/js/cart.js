@@ -351,11 +351,14 @@ $(document).ready(function() {
 
 	/* 退出登录 */
 	$("div#c_personal").on("click", "a#outLogin", function() {
-		$.ajax({
+		/*$.ajax({
 			url: ctx+"/users/logout",
 			type: "post",
 			success: function() {}
-		});
+		});*/
+		var out_url=ctx+"/users/logout";
+		$("form#logOutForm").attr("action",out_url);
+		$("form#logOutForm").submit();
 	});
 });
 

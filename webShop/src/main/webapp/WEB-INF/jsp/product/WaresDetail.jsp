@@ -24,9 +24,7 @@
 		 data-crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/swiper.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/waresdetail.css" />
-		<script src="${pageContext.request.contextPath }/resources/js/swiper.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath }/resources/js/waresdetail.js" type="text/javascript" charset="utf-8"></script>
 
 		<style type="text/css">
@@ -252,19 +250,21 @@
 						topBtn.style.display = "none";
 					}
 				}
+				setPageHeight();
 			}
 			
 			var ctx="${pageContext.request.contextPath }";
 			var imgpath="/resources/images/";
-			var ctxImg=ctx+imgpath;
+			//var ctxImg=ctx+imgpath;
+			var ctxImg="/image/";
 			$(document).ready(function(){
 				var productInfo = JSON.parse('${product}');
 				var accessInfo = JSON.parse('${comments}');
 				
 				$("div#wd_personal").attr("userName",'${sessionScope.loginUserName}');
 
-				initProInfo(productInfo);
 				initAceInfo(accessInfo);
+				initProInfo(productInfo);
 			});
 		</script>
 	</body>

@@ -23,9 +23,7 @@
 		 data-crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/swiper.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/home.css" />
-		<script src="${pageContext.request.contextPath }/resources/js/swiper.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath }/resources/js/home.js" type="text/javascript" charset="utf-8"></script>
 
 		<style type="text/css">
@@ -101,20 +99,32 @@
 								</ul>
 							</div>
 							<div id="banner" class="col-sm-7 col-xs-7">
-								<!-- <div class="container"></div> -->
-								<div class="swiper-container">
-									<div class="swiper-wrapper">
-										<div class="swiper-slide"><a href=""><img src="${pageContext.request.contextPath }/resources/images/x.jpg" width="85%;" height="550"></a></div>
-										<div class="swiper-slide"><a href=""><img src="${pageContext.request.contextPath }/resources/images/j.jpg" width="85%;" height="550"></a></div>
-										<div class="swiper-slide"><a href=""><img src="${pageContext.request.contextPath }/resources/images/y.jpg" width="85%;" height="550"></a></div>
-										<div class="swiper-slide"><a href=""><img src="${pageContext.request.contextPath }/resources/images/zys.png" width="85%;" height="550"></a></div>
+								<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+									<!-- Indicators -->
+									<ol class="carousel-indicators olLiTatget">
+										<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+										<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+										<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+										<li data-target="#carousel-example-generic" data-slide-to="3"></li>
+									</ol>
+										
+									<!-- Wrapper for slides -->
+									<div class="carousel-inner imgBox" role="listbox">
+										<div class="item active">
+											<a href=''><img src="${pageContext.request.contextPath }/resources/images/x.jpg" alt="x图片" class="img-responsive center-block" ></a>
+										</div>
 									</div>
-									<!-- Add Pagination -->
-									<div class="swiper-pagination"></div>
-									<div class="swiper-button-next"></div>
-									<div class="swiper-button-prev"></div>
+										
+									<!-- Controls -->
+									<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+										<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+										<span class="sr-only">Previous</span>
+									</a>
+									<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+										<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+										<span class="sr-only">Next</span>
+									</a>
 								</div>
-								<div class="banner-nav-bg"></div>
 							</div>
 							<div id="adImg" class="col-sm-2 col-xs-2">
 								<div class="col-sm-12 col-xs-12">
@@ -437,29 +447,6 @@
 			</div>
 		</div>
 		<script type="text/javascript">
-			/*banner   开始*/
-			var swiper = new Swiper('.swiper-container', {
-				pagination: '.swiper-pagination',
-				paginationClickable: true,
-				loop: true,
-				autoplay: 3000,
-
-
-				speed: 800,
-				prevButton: '.swiper-button-prev',
-				nextButton: '.swiper-button-next',
-				effect: 'fade', //  effect: 'flip',effect: 'coverflow',slide', 'fade',cube
-				grabCursor: true,
-				cube: {
-					shadow: false,
-					slideShadows: false,
-					shadowOffset: 20,
-					shadowScale: 0.94
-				}
-			});
-			/*banner   结束*/
-		</script>
-		<script type="text/javascript">
 			window.onload = function() {
 				//1、获取页面中的按钮
 				var topBtn = document.getElementById("h_topBtn");
@@ -500,7 +487,8 @@
 			
 			var ctx="${pageContext.request.contextPath }";
 			var imgpath="/resources/images/";
-			var ctxImg=ctx+imgpath;
+			//var ctxImg=ctx+imgpath;
+			var ctxImg="/image/";
 			$(document).ready(function(){
 				var dataCategory=JSON.parse('${categories}');
 				var dataRollProducts=JSON.parse('${rollProducts}');

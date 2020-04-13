@@ -19,11 +19,10 @@
 	for (var i = 0; i < productInfo.productImages.length; i++) {
 		var imgIntro =  ctxImg +productInfo.productImages[i].image;
 		var imgIntroHtml = "<img src='" + imgIntro + "'>";
-		var $new = $(imgIntroHtml);
+		var $new=$(imgIntroHtml);
 		$("div#waresDetail").append($new);
 	}
 	imgShow();
-	setPageHeight();
 }
 
 function initAceInfo(accessInfo){
@@ -44,25 +43,33 @@ function initAceInfo(accessInfo){
 function setPageHeight(){
 	//原始最低宽度1170  底部120	底部边距100   左右1020
 	//评价150一个	标题50	遍历图像
+	var lenImg = 0;
+	var lenAce = 0;
 	var len = 0;
 	var obj = $("div#waresDetail").find("img");
+	
 	obj.each(function() {
-		len += $(this).height();
+		lenImg += $(this).height();
 	});
+	
+	lenAce=150*$("div#access").find("div.accessView").length;
+	
+	len=lenAce>lenImg?len=lenAce:len=lenImg;
+	
 	$("#wd_center_intro").height(eval(len + 200));
 	$("#wd_left").height(eval(len + 970));
 	$("#wd_center").height(eval(len + 970));
 	$("#wd_right").height(eval(len + 970));
 	$("#wd_container").height(eval(len + 1250));
 
-	var accessNum = parseInt(len / 150) - 1;
+	/*var accessNum = parseInt(len / 150) - 1;
 	var count = 1;
 	$("div.introAccess").children("div.accessView").each(function() {
 		if (count > accessNum) {
 			$(this).css("display", "none");
 		}
 		count++;
-	});
+	});*/
 }
 
 function imgShow(){
@@ -289,6 +296,7 @@ $(document).ready(function() {
 						$("div#access").prepend($new);
 					}
 					$("div#wd_paging").attr("page", nowPage);
+					setPageHeight();
 				}
 			}
 		});
@@ -321,6 +329,7 @@ $(document).ready(function() {
 						$("div#access").prepend($new);
 					}
 					$("div#wd_paging").attr("page", nowPage);
+					setPageHeight();
 				}
 			}
 		});
