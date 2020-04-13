@@ -11,13 +11,22 @@ function initCategory(dataCategory){
 
 function initRollPro(dataRollProducts){
 	//添加图片滚动信息、广告图片信息
-	for (var i = 0; i < 4 && i<dataRollProducts.length; i++) {
-		var imgObj = $("div#banner").find("div.swiper-slide a").eq(i+1);
-		var product_id = dataRollProducts[i].id;
-		var product_img =  ctxImg +dataRollProducts[i].image;
-		imgObj.attr("product_id", product_id);
-		imgObj.find("img").attr("src", product_img);
+	$("div#banner").find("ol.olLiTatget li").not("li.active").remove();
+	$("div#banner").find("div.imgBox div").not("div.active").remove();
+	for (var i = 0; i < 6 && i<dataRollProducts.length; i++) {
+		if(i==0){
+			var product_id = dataRollProducts[i].id;
+			var product_img =  ctxImg +dataRollProducts[i].image;
+			var product_name = dataRollProducts[i].productName;
+			$("div#banner div.active").find("a").attr("product_id", product_id);
+			$("div#banner div.active").find("img").attr("src", product_img);
+			$("div#banner div.active").find("img").attr("alt", product_name);
+			continue;
+		}
+		addTarget(i + 1);
+		addImg(dataRollProducts[i]);
 	}
+	
 	for (var i = 4; i < 7 && i<dataRollProducts.length; i++) {
 		var imgObj = $("div#adImg").find("div a").eq(i-4);
 		var product_id = dataRollProducts[i].id;
@@ -49,6 +58,19 @@ function initRanPro(dataRandomProducts){
 			waresObject.children("p.waresTitle").text(wares_category);
 		}
 	}
+}
+
+function addImg(obj) {
+	var divHtml = "<div class='item'><a href='' product_id='"+obj.id+"'><img src='" + ctxImg + obj.image + "' alt='" + obj.productName +
+		"' class='img-responsive center-block'></a></div>";
+	var $new = $(divHtml);
+	$("div#banner").find("div.imgBox").append($new);
+}
+
+function addTarget(index) {
+	var liHtml = "<li data-target='#carousel-example-generic' data-slide-to='" + index + "'></li>";
+	var $new = $(liHtml);
+	$("div#banner").find("ol.olLiTatget").append($new);
 }
 
 /*页面加载时请求并填充数据*/
@@ -117,7 +139,7 @@ $(document).ready(function() {
 	});
 
 	/* 图片滚动迪点击查看商品详情 */
-	$("div#banner").on("click", "div.swiper-slide a", function() {
+	$("div#banner").on("click", "div.imgBox a", function() {
 		var product_id = $(this).attr("product_id");
 		var search_url = ctx+"/products/" + product_id;
 		$(this).attr("href", search_url);

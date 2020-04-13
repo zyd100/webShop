@@ -24,9 +24,7 @@
 		 data-crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/swiper.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/cart.css" />
-		<script src="${pageContext.request.contextPath }/resources/js/swiper.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath }/resources/js/cart.js" type="text/javascript" charset="utf-8"></script>
 
 		<style type="text/css">
@@ -152,6 +150,7 @@
 					</div>
 					<div class="backTop animated fadeInUp">
 						<a href="javasript:;" id="c_topBtn"><img src="${pageContext.request.contextPath }/resources/images/backTop.jpg"></a>
+						<form id="logOutForm" method="post"></form>
 					</div>
 				</div>
 			</div>
@@ -197,7 +196,8 @@
 			
 			var ctx="${pageContext.request.contextPath }";
 			var imgpath="/resources/images/";
-			var ctxImg=ctx+imgpath;
+			//var ctxImg=ctx+imgpath;
+			var ctxImg="/image/";
 			$(document).ready(function(){
 				var cartData = JSON.parse('${carts}');
 

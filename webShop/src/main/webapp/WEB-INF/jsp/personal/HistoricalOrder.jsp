@@ -24,9 +24,7 @@
 		 data-crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/swiper.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/historicalorder.css" />
-		<script src="${pageContext.request.contextPath }/resources/js/swiper.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath }/resources/js/historicalorder.js" type="text/javascript" charset="utf-8"></script>
 
 		<style type="text/css">
@@ -143,6 +141,7 @@
 						</div>
 						<div>
 							<a href="javascript:;" id="outLogin" title="退出登录"><span class="glyphicon glyphicon-off " style="font-size: 30px;color: #5F9EA0 ;"></span></a>
+							<form id="logOutForm" method="post"></form>
 						</div>
 					</div>
 					<div class="backTop animated fadeInUp">
@@ -211,7 +210,8 @@
 			
 			var ctx="${pageContext.request.contextPath }";
 			var imgpath="/resources/images/";
-			var ctxImg=ctx+imgpath;
+			//var ctxImg=ctx+imgpath;
+			var ctxImg="/image/";
 			$(document).ready(function(){
 				var hisordData = JSON.parse('${orderExecution}');
 

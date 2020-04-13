@@ -1059,8 +1059,8 @@
 		<script>
 			var ctx = "${pageContext.request.contextPath }";
 			var imgpath="/resources/images/";
-			var ctxImg=ctx+imgpath;
-
+			//var ctxImg=ctx+imgpath;
+			var ctxImg="/image/";
 			var adminName='${sessionScope.adminUserName}'
 		</script>
 	</body>

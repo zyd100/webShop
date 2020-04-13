@@ -24,9 +24,7 @@
 		 data-crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/animate.min.css" />
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/swiper.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/searchresult.css" />
-		<script src="${pageContext.request.contextPath }/resources/js/swiper.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath }/resources/js/searchresult.js" type="text/javascript" charset="utf-8"></script>
 
 		<style type="text/css">
@@ -158,7 +156,8 @@
 			
 			var ctx="${pageContext.request.contextPath }";
 			var imgpath="/resources/images/";
-			var ctxImg=ctx+imgpath;
+			//var ctxImg=ctx+imgpath;
+			var ctxImg="/image/";
 			$(document).ready(function(){
 				var searchInfo = JSON.parse('${searchResult}');
 				$(":text").val('${searchText}');
