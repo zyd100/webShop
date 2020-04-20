@@ -111,6 +111,9 @@
 										<button type="button" id="buyBtn">立即下单</button>
 										<button type="button" id="addCart">加入购物车</button>
 										<button type="button" id="addCollect">添加收藏</button>
+										<form id="buyForm" method="post">
+											
+										</form>
 									</div>
 								</div>
 							</div>

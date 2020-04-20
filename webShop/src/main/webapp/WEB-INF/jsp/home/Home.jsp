@@ -70,32 +70,32 @@
 						<div class="row">
 							<div id="tagLink" class="col-sm-3 col-xs-3">
 								<ul>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
-									<li><a href="javascript:;">卫衣卫衣/</a><a href="">卫衣卫衣/</a>
-										<a href="">卫衣卫衣/</a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
+									<li><a href="javascript:;"></a><a href=""></a>
+										<a href=""></a></li>
 								</ul>
 							</div>
 							<div id="banner" class="col-sm-7 col-xs-7">
@@ -128,13 +128,13 @@
 							</div>
 							<div id="adImg" class="col-sm-2 col-xs-2">
 								<div class="col-sm-12 col-xs-12">
-									<a href=""><img src="${pageContext.request.contextPath }/resources/images/y.jpg"></a>
+									<a href=""><img src="${pageContext.request.contextPath }/resources/images/y.jpg" class="adImg"></a>
 								</div>
 								<div class="col-sm-12 col-xs-12">
-									<a href=""><img src="${pageContext.request.contextPath }/resources/images/y.jpg"></a>
+									<a href=""><img src="${pageContext.request.contextPath }/resources/images/y.jpg" class="adImg"></a>
 								</div>
 								<div class="col-sm-12 col-xs-12">
-									<a href=""><img src="${pageContext.request.contextPath }/resources/images/y.jpg"></a>
+									<a href=""><img src="${pageContext.request.contextPath }/resources/images/y.jpg" class="adImg"></a>
 								</div>
 							</div>
 						</div>

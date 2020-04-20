@@ -182,9 +182,12 @@ public class AdminProductController {
       // ·ÀÖ¹Í¼Æ¬±£´æ³åÍ»
       product.setImage(null);
       if (otherImagesFiles != null && otherImagesFiles.length > 0) {
-
+        
         for (int i = 0; i < otherImagesFiles.length; i++) {
           // Ô¤ÏÈÌí¼ÓÍ¼Æ¬
+          if(otherImagesFiles[i].getOriginalFilename()==null||otherImagesFiles[i].getOriginalFilename().equals("")) {
+            continue;
+          }
           productImage = new ProductImage();
           productImage.setId(product.getId());
           productImage.setImage(fileService.upLoadFile(otherImagesFiles[i]));

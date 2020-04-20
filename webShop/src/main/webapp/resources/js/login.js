@@ -32,6 +32,8 @@ $(document).ready(function() {
 				if(JSON.parse(data).success){
 					location.reload();
 					alert("注册成功~");
+				}else{
+					alert("错误注册："+JSON.parse(data).error);
 				}
 			}
 		});

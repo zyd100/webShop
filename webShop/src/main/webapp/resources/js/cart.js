@@ -40,6 +40,20 @@ function calPrice(){
 	});
 }
 
+function cartPrice(){
+	var count=0;
+	var price=0;
+	$("div#c_wares").find("input[name='checkedOne']:checkbox").each(function(){
+		if($(this).prop("checked")){
+			count+=Number($(this).closest("tr").find("input#count").val());
+			price+=Number($(this).closest("tr").find("span#totalprice").text());
+		}
+	});
+	$("span#waresCount").text(count);
+	$("span#fee").text(price);
+}
+
+
 /*页面加载时请求并填充数据*/
 /*$(document).ready(function() {
 	//添加购物车商品
@@ -70,15 +84,6 @@ $(document).ready(function() {
 		if(userName==""){
 			alert("请先登录！！！");
 			return;
-		}
-		/*计算购物车金额*/
-		if ($(this).closest("tr").find("input[name='checkedOne']:checkbox").prop("checked")) {
-			var totalprice = Number($(this).closest("tr").find("span#totalprice").text());
-			var count = Number($(this).closest("tr").find("input#count").val());
-			var nowCount = Number($("span#waresCount").text());
-			var nowfee = Number($("span#fee").text());
-			$("span#waresCount").text(eval(nowCount - count));
-			$("span#fee").text(eval(nowfee - totalprice));
 		}
 		
 		var delete_id = $(this).closest("tr").find("a").attr("product_id");
@@ -121,6 +126,9 @@ $(document).ready(function() {
 					}
 					calPrice();
 					setPageHeight();
+					/*计算购物车金额*/
+					cartPrice();
+					$("div#c_wares").find("input#allChecked").prop("checked",false);
 				}
 			}
 		});
@@ -138,16 +146,9 @@ $(document).ready(function() {
 		var index = 0;
 		var data;
 		var haveProduct = false;
-		/*记录选中的商品id	计算购物车金额*/
+		/*记录选中的商品id*/
 		$("input[name='checkedOne']:checkbox").each(function() {
 			if ($(this).prop("checked")) {
-				var totalprice = Number($(this).closest("tr").find("span#totalprice").text());
-				var count = Number($(this).closest("tr").find("input#count").val());
-				var nowCount = Number($("span#waresCount").text());
-				var nowfee = Number($("span#fee").text());
-				$("span#waresCount").text(eval(nowCount - count));
-				$("span#fee").text(eval(nowfee - totalprice));
-
 				var delete_id = $(this).closest("tr").find("a").attr("product_id");
 				var delete_orderId = $(this).closest("tr").find("a").attr("orderItem_id");
 				product_id[index++] = {
@@ -193,6 +194,9 @@ $(document).ready(function() {
 						}
 						calPrice();
 						setPageHeight();
+						/*计算购物车金额*/
+						cartPrice();
+						$("div#c_wares").find("input#allChecked").prop("checked",false);
 					}
 				}
 			});
@@ -201,44 +205,22 @@ $(document).ready(function() {
 
 	/*选中单项时计算购物车金额*/
 	$("#c_wares").on("click", "input[name='checkedOne']:checkbox", function() {
-		var totalprice = Number($(this).closest("tr").find("span#totalprice").text());
-		var count = Number($(this).closest("tr").find("input#count").val());
-		var nowCount = Number($("span#waresCount").text());
-		var nowfee = Number($("span#fee").text());
-		if ($(this).prop("checked")) {
-			$("span#waresCount").text(eval(nowCount + count));
-			$("span#fee").text(eval(nowfee + totalprice));
-		} else {
-			$("span#waresCount").text(eval(nowCount - count));
-			$("span#fee").text(eval(nowfee - totalprice));
-		}
+		cartPrice();
 	});
 
-	/*全选时计算购物车金额*/
+	/*全选按钮改变状态且计算购物车金额*/
 	$("#c_wares").on("click", "#allChecked", function() {
 		if (this.checked) {
 			$("input[name='checkedOne']:checkbox").each(function() {
-				var totalprice = Number($(this).closest("tr").find("span#totalprice").text());
-				var count = Number($(this).closest("tr").find("input#count").val());
-				var nowCount = Number($("span#waresCount").text());
-				var nowfee = Number($("span#fee").text());
-				if ($(this).prop("checked") == false) {
-					$("span#waresCount").text(eval(nowCount + count));
-					$("span#fee").text(eval(nowfee + totalprice));
-				}
 				$(this).prop("checked", true)
 			});
 		} else {
 			$("input[name='checkedOne']:checkbox").each(function() {
-				var totalprice = Number($(this).closest("tr").find("span#totalprice").text());
-				var count = Number($(this).closest("tr").find("input#count").val());
-				var nowCount = Number($("span#waresCount").text());
-				var nowfee = Number($("span#fee").text());
 				$(this).prop("checked", false)
-				$("span#waresCount").text(eval(nowCount - count));
-				$("span#fee").text(eval(nowfee - totalprice));
 			});
 		}
+		/*计算购物车金额*/
+		cartPrice();
 	});
 
 	calPrice();
@@ -294,6 +276,8 @@ $(document).ready(function() {
 		var count = $(this).val();
 		var totalprice = price * count;
 		$(this).closest("tr").find("span#totalprice").text(totalprice);
+		/*计算购物车金额*/
+		cartPrice();
 	});
 
 	/*查看商品详情*/

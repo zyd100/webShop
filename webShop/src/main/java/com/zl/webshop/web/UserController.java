@@ -157,6 +157,7 @@ public class UserController {
       logger.error(e.getMessage());
       result = new Result<>(false, e.getMessage());
     }
+    logger.info(JSON.toJSONString(result));
     return JSON.toJSONString(result);
   }
 
@@ -217,7 +218,7 @@ public class UserController {
     model.addAttribute("contacts", JSON.toJSONString(contacts));
     model.addAttribute("basicUserInfo", JSON.toJSONString(basicUserInfo));
     model.addAttribute("orderInfos", JSON.toJSONString(orderInfos));
-    System.out.println(JSON.toJSONString(orderInfos));
+    logger.info(orderInfos.toString());
     // 前往个人中心页
     return "/personal/Individual";
   }
@@ -739,6 +740,7 @@ public class UserController {
    * @param userName 用户名
    * @param offset 查询起始位置
    * @param limit 查询条数
+   * @param request 获取数据
    * @return 查询结果 Result
    */
   @RequestMapping(value = "/{userName}/orderHistory", method = RequestMethod.GET,
@@ -768,7 +770,7 @@ public class UserController {
       logger.error(e.getMessage());
       result = new Result<>(false, e.getMessage());
     }
-
+    logger.info("offset"+offset+" limit"+limit);
     return JSON.toJSONString(result);
   }
 

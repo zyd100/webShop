@@ -952,7 +952,7 @@
 					<form id="addProForm" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="InputProductName">&nbsp;商品名</label>
-							<input type="text" class="form-control" maxlength="20" required="required" id="productName" name="productName"
+							<input type="text" class="form-control" maxlength="35" required="required" id="productName" name="productName"
 							 placeholder="商品名(必填)">
 						</div>
 						<div class="form-group">

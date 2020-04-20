@@ -27,7 +27,7 @@ function initOrderInfo(orderInfo){
 			"' title='订单详细信息'><span id='orderID'>" +
 			order_id + "</span></a></td></tr>";
 		var $new = $(trHtml);
-		$("tr.titleTr").after($new);
+		$("div#order").find("table").append($new);
 	}
 	$("div#i_paging").attr("page", 1);
 	setPageHeight();
@@ -403,7 +403,7 @@ $(document).ready(function() {
 			data:product_text,
 			success: function(data) {
 				if (JSON.parse(data).success) {
-					$("div#order tr").find("tr").not("tr.titleTr").remove();
+					$("div#order table").find("tr").not("tr.titleTr").remove();
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var product_id =JSON.parse(data).data[i].orderItemList[0].productId;
 						var product_image =  ctxImg +JSON.parse(data).data[i].productList[0].image;
@@ -419,7 +419,7 @@ $(document).ready(function() {
 							"' title='订单详细信息'><span id='orderID'>" +
 							order_id + "</span></a></td></tr>";
 						var $new = $(trHtml);
-						$("tr.titleTr").after($new);
+						$("div#order").find("table").append($new);
 					}
 					$("div#i_paging").attr("page", nowPage);
 					setPageHeight();
@@ -464,7 +464,7 @@ $(document).ready(function() {
 							"' title='订单详细信息'><span id='orderID'>" +
 							order_id + "</span></a></td></tr>";
 						var $new = $(trHtml);
-						$("tr.titleTr").after($new);
+						$("div#order").find("table").append($new);
 					}
 					$("div#i_paging").attr("page", nowPage);
 					setPageHeight();

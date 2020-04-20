@@ -124,7 +124,7 @@ function getSortData() {
 /* 商品管理--修改商品模块初始化 */
 function uModify(obj) {
 	$("div.proModDiv").find("input#productId").val(obj.eq(0).text());
-	$("div.proModDiv").find("select.categorySelect").val(obj.eq(2).attr("categoryId"));
+	$("div.proModDiv").find("select.categorySelect").val(Number(obj.eq(2).attr("categoryId")));
 	$("div.proModDiv").find("input#detail").val(obj.eq(3).text());
 	$("div.proModDiv").find("input#shopPrice").val(obj.eq(4).text());
 	$("div.proModDiv").find("input#price").val(obj.eq(5).text());
@@ -151,6 +151,23 @@ function sortModHide() {
 function userModHide() {
 	$("div#userManagement").find("tr:nth-of-type(odd)").not("tr.trTitle").each(function() {
 		$(this).hide();
+	});
+}
+
+/* 评论状态默认值 */
+function ruleAceState(){
+	//添加select默认值
+	$("div#accessManagement table").find("select").each(function(){
+		//accessState='"+state+"'
+		$(this).val(Number($(this).parent().prev().attr("acestate")));
+	});
+}
+
+/* 订单状态默认值 */
+function ruleOrdState(){
+	$("div#orderManagement table").find("select").each(function(){
+		// ordstate='"+status+"'
+		$(this).val(Number($(this).parent().prev().attr("ordstate")));
 	});
 }
 
@@ -238,7 +255,7 @@ $(document).ready(function() {
 						var explain = JSON.parse(data).data[i].description;
 						var showtrHtml = "<tr><td>" + categoryId + "</td><td>" + categoryName + "</td><td>" + explain +
 							"</td><td>" +
-							"<button type='button' class='sortModify'>修改</button></td></tr>";
+							"<button type='button' class='sortModify'>修改</button><button type='button' class='sortDelete'>删除 </button></td></tr>";
 						var modtrHtml =
 							"<tr><td>类别名:<input type='text' class='form-control textRule' id='sortName' name='sortName' value='" +
 							categoryName + "'></td>" +
@@ -314,7 +331,7 @@ $(document).ready(function() {
 						var status = JSON.parse(data).data[i].orderInfo.status;
 						var trHtml = "<tr><td><a href='javascript:;'>" + orderNum + "</a></td><td>￥" + price + "</td><td>" +
 							userName + "</td><td>" +
-							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" +
+							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td ordstate='"+status+"'>" +
 							getStateInfo("order", status) + "</td><td>" +
 							"<select name='orderStatus' class='form-control'><option value='0'>"+getStateInfo("order", 0)+"</option><option value='1'>" +
 							getStateInfo("order", 1)+"</option><option value='2'>"+getStateInfo("order", 2)+"</option><option value='3'>"+getStateInfo("order", 3)+"</option></select></td>" +
@@ -323,6 +340,7 @@ $(document).ready(function() {
 						$("div#orderManagement table.table").append($new);
 					}
 					$("div#orderManagement div#paging").attr("page", 1);
+					ruleOrdState();
 				}
 			}
 		});
@@ -344,14 +362,15 @@ $(document).ready(function() {
 						var createTime = JSON.parse(data).data[i].comment.createTime;
 						var state = JSON.parse(data).data[i].state;
 						var trHtml = "<tr><td>" + productId + "</td><td>" + userName + "</td><td>" + accessId + "</td><td>" +
-							content + "</td><td>" + createTime + "</td><td>" + getStateInfo("access", state) +
+							content + "</td><td>" + createTime + "</td><td acestate='"+state+"'>" + getStateInfo("access", state) +
 							"</td><td><select name='accessStatus' class='form-control'><option value='1'>"+getStateInfo("access", 1)+"</option>" +
 							"<option value ='2'>"+getStateInfo("access", 2)+"</option></select></td><td><button type='button' class='accessDelete'>删除</button></td></tr>";
 						var $new = $(trHtml);
 						$("div#accessManagement table.table").append($new);
 					}
 					$("div#accessManagement div#paging").attr("page", 1);
-				}
+					ruleAceState();
+				}	
 			}
 		});
 	});
@@ -361,7 +380,7 @@ $(document).ready(function() {
 $(document).ready(function() {
 	/* 商品管理--商品 继续添加图片 */
 	$("div.addImages").on("click", "button#continueAddImage", function() {
-		var addimgHtml = "<input type='file' class='form-control' name='otherImages' id='image' value='' />";
+		var addimgHtml = "<input type='file' class='form-control' name='otherImages' id='image' accept='image/*' value='' />";
 		var $new = $(addimgHtml);
 		$("div.addImages").append($new);
 	});
@@ -440,11 +459,6 @@ $(document).ready(function() {
 
 /* 管理类功能实现 */
 $(document).ready(function() {
-	/* 商品管理——商品 修改 准备 */
-	$("div#product table.table").on("click", "button.productModify", function() {
-		uModify($(this).closest("tr").children());
-	})
-
 	/* 商品管理——商品 修改 提交 */
 	$("div.proModDiv").on("click", "button#proModSub", function() {
 		var productId = $(this).closest("tr").children().eq(0).text();
@@ -495,7 +509,12 @@ $(document).ready(function() {
 	$("div#product table.table").on("click", "button.productImg", function() {
 		$(this).closest("tr").next().toggle(300);
 	});
-
+	
+	/* 商品管理——商品 修改 准备 */
+	$("div#product table.table").on("click", "button.productModify", function() {
+		uModify($(this).closest("tr").children());
+	})
+	
 	/* 商品管理——分类 修改 状态切换操作*/
 	$("div#sort table.table").on("click", "button.sortModify", function() {
 		$(this).closest("tr").next().toggle(300);
@@ -530,6 +549,31 @@ $(document).ready(function() {
 		});
 	});
 
+	/* 商品管理——分类 删除信息 */
+	$("div#sort table.table").on("click", "button.sortDelete", function() {
+		var trObj=$(this).closest("tr");
+		var sortId = $(this).closest("tr").children().eq(0).text();
+		var data = {
+			"id": sortId
+		};
+		if (confirm("确认要删除吗？")) {
+			$.ajax({
+				type: "delete",
+				url: ctx+"/admin/categories",
+				contentType: "application/json; charset=utf-8",
+				data: JSON.stringify(data),
+				success: function(data) {
+					if (JSON.parse(data).success) {
+						trObj.remove();
+						alert("删除成功！！！");
+					} else {
+						alert(JSON.parse(data).error);
+					}
+				}
+			});
+		}
+	});
+	
 	/* 用户管理 修改用户信息 */
 	$("div#userManagement table.table").on("click", "button.saveChange", function() {
 		var trObj=$(this).closest("tr");
@@ -706,18 +750,32 @@ $(document).ready(function() {
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var productId = JSON.parse(data).data[i].product.id;
 						var productName = JSON.parse(data).data[i].product.productName;
+						var categoryId=JSON.parse(data).data[i].categoryId;
 						var categoryName = JSON.parse(data).data[i].categoryName;
 						var explain = JSON.parse(data).data[i].product.explain;
 						var shopPrice = JSON.parse(data).data[i].product.shopPrice;
 						var price = JSON.parse(data).data[i].product.price;
 						var quantity = JSON.parse(data).data[i].product.quantity;
-						var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td>" + categoryName +
-							"</td><td>" +
-							explain +
+						var imgtrHtml = "<tr><td colspan='9'>";;
+						
+						var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td categoryId='"+categoryId+"'>" + categoryName +
+							"</td><td>" +explain +
 							"</td><td>" + shopPrice + "</td><td>" + price + "</td><td>" + quantity +
 							"</td><td><button type='button' class='productImg'>图片</button></td>" +
 							"<td><button type='button' class='productModify' data-toggle='modal' data-target='.proModDiv'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
-						var imgtrHtml = "<tr><td colspan='9'>" + "</td></tr>";
+						var mainImage= ctxImg+JSON.parse(data).data[i].product.image;
+						var undefinedPath=ctxImg+"undefined";
+						if(mainImage!=undefinedPath){
+							imgtrHtml+="<img src='"+mainImage+"'>";
+						}
+						for(var j=0;j<JSON.parse(data).data[i].productImages.length;j++){
+							var images= ctxImg +JSON.parse(data).data[i].productImages[j].image;
+							if(images==ctxImg){
+								break;
+							}
+							imgtrHtml+="<img src='"+images+"'>";
+						}
+						imgtrHtml+="</td></tr>";
 						var trHtml = showtrHtml + imgtrHtml;
 						var $new = $(trHtml);
 						$("div#product table.table").append($new);
@@ -747,8 +805,8 @@ $(document).ready(function() {
 						var categoryName = JSON.parse(data).data[i].categoryName;
 						var explain = JSON.parse(data).data[i].description;
 						var showtrHtml = "<tr><td>" + categoryId + "</td><td>" + categoryName + "</td><td>" + explain +
-							"</td><td>" +
-							"<button type='button' class='sortModify'>修改</button></td></tr>";
+						"</td><td>" +
+						"<button type='button' class='sortModify'>修改</button><button type='button' class='sortDelete'>删除 </button></td></tr>";
 						var modtrHtml =
 							"<tr><td>类别名:<input type='text' class='form-control textRule' id='sortName' name='sortName'></td>" +
 							"<td colspan='2'>描述：<input type='text' class='form-control textRule' id='sortDetail' name='sortDetail'></td>" +
@@ -830,7 +888,7 @@ $(document).ready(function() {
 						var status = JSON.parse(data).data[i].orderInfo.status;
 						var trHtml = "<tr><td><a href='javascript:;'>" + orderNum + "</a></td><td>￥" + price + "</td><td>" +
 							userName + "</td><td>" +
-							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" +
+							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td ordstate='"+status+"'>" +
 							getStateInfo("order", status) + "</td><td>" +
 							"<select name='orderStatus' class='form-control'><option value='0'>"+getStateInfo("order", 0)+"</option><option value='1'>" +
 							+getStateInfo("order", 1)+"</option><option value='2'>"+getStateInfo("order", 2)+"</option><option value='3'>"+getStateInfo("order", 3)+"</option></select></td>" +
@@ -839,6 +897,7 @@ $(document).ready(function() {
 						$("div#orderManagement table.table").append($new);
 					}
 					$("div#orderManagement div#paging").attr("page", 1);
+					ruleOrdState();
 				}
 			}
 		});
@@ -865,24 +924,38 @@ $(document).ready(function() {
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var productId = JSON.parse(data).data[i].product.id;
 						var productName = JSON.parse(data).data[i].product.productName;
+						var categoryId=JSON.parse(data).data[i].categoryId;
 						var categoryName = JSON.parse(data).data[i].categoryName;
 						var explain = JSON.parse(data).data[i].product.explain;
 						var shopPrice = JSON.parse(data).data[i].product.shopPrice;
 						var price = JSON.parse(data).data[i].product.price;
 						var quantity = JSON.parse(data).data[i].product.quantity;
-						var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td>" + categoryName +
-							"</td><td>" +
-							explain +
+						var imgtrHtml = "<tr><td colspan='9'>";;
+						
+						var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td categoryId='"+categoryId+"'>" + categoryName +
+							"</td><td>" +explain +
 							"</td><td>" + shopPrice + "</td><td>" + price + "</td><td>" + quantity +
 							"</td><td><button type='button' class='productImg'>图片</button></td>" +
 							"<td><button type='button' class='productModify' data-toggle='modal' data-target='.proModDiv'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
-						var imgtrHtml = "<tr><td colspan='9'>" + "</td></tr>";
+						var mainImage= ctxImg+JSON.parse(data).data[i].product.image;
+						var undefinedPath=ctxImg+"undefined";
+						if(mainImage!=undefinedPath){
+							imgtrHtml+="<img src='"+mainImage+"'>";
+						}
+						for(var j=0;j<JSON.parse(data).data[i].productImages.length;j++){
+							var images= ctxImg +JSON.parse(data).data[i].productImages[j].image;
+							if(images==ctxImg){
+								break;
+							}
+							imgtrHtml+="<img src='"+images+"'>";
+						}
+						imgtrHtml+="</td></tr>";
 						var trHtml = showtrHtml + imgtrHtml;
 						var $new = $(trHtml);
 						$("div#product table.table").append($new);
-						proImgHide();
 					}
 					$("div#product div#paging").attr("page", nowPage);
+					proImgHide();
 				}
 			}
 		});
@@ -907,18 +980,32 @@ $(document).ready(function() {
 					for (var i = 0; i < JSON.parse(data).data.length; i++) {
 						var productId = JSON.parse(data).data[i].product.id;
 						var productName = JSON.parse(data).data[i].product.productName;
+						var categoryId=JSON.parse(data).data[i].categoryId;
 						var categoryName = JSON.parse(data).data[i].categoryName;
 						var explain = JSON.parse(data).data[i].product.explain;
 						var shopPrice = JSON.parse(data).data[i].product.shopPrice;
 						var price = JSON.parse(data).data[i].product.price;
 						var quantity = JSON.parse(data).data[i].product.quantity;
-						var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td>" + categoryName +
-							"</td><td>" +
-							explain +
+						var imgtrHtml = "<tr><td colspan='9'>";;
+						
+						var showtrHtml = "<tr><td>" + productId + "</td><td>" + productName + "</td><td categoryId='"+categoryId+"'>" + categoryName +
+							"</td><td>" +explain +
 							"</td><td>" + shopPrice + "</td><td>" + price + "</td><td>" + quantity +
 							"</td><td><button type='button' class='productImg'>图片</button></td>" +
 							"<td><button type='button' class='productModify' data-toggle='modal' data-target='.proModDiv'>修改</button><button type='button' class='productDelete'>删除 </button></td></tr>";
-						var imgtrHtml = "<tr><td colspan='9'>" + "</td></tr>";
+						var mainImage= ctxImg+JSON.parse(data).data[i].product.image;
+						var undefinedPath=ctxImg+"undefined";
+						if(mainImage!=undefinedPath){
+							imgtrHtml+="<img src='"+mainImage+"'>";
+						}
+						for(var j=0;j<JSON.parse(data).data[i].productImages.length;j++){
+							var images= ctxImg +JSON.parse(data).data[i].productImages[j].image;
+							if(images==ctxImg){
+								break;
+							}
+							imgtrHtml+="<img src='"+images+"'>";
+						}
+						imgtrHtml+="</td></tr>";
 						var trHtml = showtrHtml + imgtrHtml;
 						var $new = $(trHtml);
 						$("div#product table.table").append($new);
@@ -950,8 +1037,8 @@ $(document).ready(function() {
 						var categoryName = JSON.parse(data).data[i].categoryName;
 						var explain = JSON.parse(data).data[i].description;
 						var showtrHtml = "<tr><td>" + categoryId + "</td><td>" + categoryName + "</td><td>" + explain +
-							"</td><td>" +
-							"<button type='button' class='sortModify'>修改</button></td></tr>";
+						"</td><td>" +
+						"<button type='button' class='sortModify'>修改</button><button type='button' class='sortDelete'>删除 </button></td></tr>";
 						var modtrHtml =
 							"<tr><td>类别名:<input type='text' class='form-control textRule' id='sortName' name='sortName'></td>" +
 							"<td colspan='2'>描述：<input type='text' class='form-control textRule' id='sortDetail' name='sortDetail'></td>" +
@@ -979,7 +1066,7 @@ $(document).ready(function() {
 				if (JSON.parse(data).success) {
 					if(JSON.parse(data).data.length==0){
 						alert("已经是最后一页了~");
-						$("div#product div#paging").attr("page", (--nowPage));
+						$("div#sort div#paging").attr("page", (--nowPage));
 						return;
 					}
 					$("#sort table tr").not("tr.trTitle").remove();
@@ -988,8 +1075,8 @@ $(document).ready(function() {
 						var categoryName = JSON.parse(data).data[i].categoryName;
 						var explain = JSON.parse(data).data[i].description;
 						var showtrHtml = "<tr><td>" + categoryId + "</td><td>" + categoryName + "</td><td>" + explain +
-							"</td><td>" +
-							"<button type='button' class='sortModify'>修改</button></td></tr>";
+						"</td><td>" +
+						"<button type='button' class='sortModify'>修改</button><button type='button' class='sortDelete'>删除 </button></td></tr>";
 						var modtrHtml =
 							"<tr><td>类别名:<input type='text' class='form-control textRule' id='sortName' name='sortName'></td>" +
 							"<td colspan='2'>描述：<input type='text' class='form-control textRule' id='sortDetail' name='sortDetail'></td>" +
@@ -1064,7 +1151,7 @@ $(document).ready(function() {
 				if (JSON.parse(data).success) {
 					if(JSON.parse(data).data.length==0){
 						alert("已经是最后一页了~");
-						$("div#product div#paging").attr("page", (--nowPage));
+						$("div#userManagement div#paging").attr("page", (--nowPage));
 						return;
 					}
 					$("#userManagement table tr").not("tr.trTitle").remove();
@@ -1123,7 +1210,7 @@ $(document).ready(function() {
 						var status = JSON.parse(data).data[i].orderInfo.status;
 						var trHtml = "<tr><td><a href='javascript:;'>" + orderNum + "</a></td><td>￥" + price + "</td><td>" +
 							userName + "</td><td>" +
-							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" +
+							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td ordstate='"+status+"'>" +
 							getStateInfo("order", status) + "</td><td>" +
 							"<select name='orderStatus' class='form-control'><option value='0'>"+getStateInfo("order", 0)+"</option><option value='1'>" +
 							+getStateInfo("order", 1)+"</option><option value='2'>"+getStateInfo("order", 2)+"</option><option value='3'>"+getStateInfo("order", 3)+"</option></select></td>" +
@@ -1132,6 +1219,7 @@ $(document).ready(function() {
 						$("div#orderManagement table.table").append($new);
 					}
 					$("div#orderManagement div#paging").attr("page", nowPage);
+					ruleOrdState();
 				}
 			}
 		});
@@ -1149,7 +1237,7 @@ $(document).ready(function() {
 				if (JSON.parse(data).success) {
 					if(JSON.parse(data).data.length==0){
 						alert("已经是最后一页了~");
-						$("div#product div#paging").attr("page", (--nowPage));
+						$("div#orderManagement div#paging").attr("page", (--nowPage));
 						return;
 					}
 					$("div#orderManagement tr").not("tr.trTitle").remove();
@@ -1161,7 +1249,7 @@ $(document).ready(function() {
 						var status = JSON.parse(data).data[i].orderInfo.status;
 						var trHtml = "<tr><td><a href='javascript:;'>" + orderNum + "</a></td><td>￥" + price + "</td><td>" +
 							userName + "</td><td>" +
-							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" +
+							createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td>" + createTime + "</td><td ordstate='"+status+"'>" +
 							getStateInfo("order", status) + "</td><td>" +
 							"<select name='orderStatus' class='form-control'><option value='0'>"+getStateInfo("order", 0)+"</option><option value='1'>" +
 							+getStateInfo("order", 1)+"</option><option value='2'>"+getStateInfo("order", 2)+"</option><option value='3'>"+getStateInfo("order", 3)+"</option></select></td>" +
@@ -1170,6 +1258,7 @@ $(document).ready(function() {
 						$("div#orderManagement table.table").append($new);
 					}
 					$("div#orderManagement div#paging").attr("page", nowPage);
+					ruleOrdState();
 				}
 			}
 		});
@@ -1198,13 +1287,14 @@ $(document).ready(function() {
 						var createTime = JSON.parse(data).data[i].comment.createTime;
 						var state = JSON.parse(data).data[i].state;
 						var trHtml = "<tr><td>" + productId + "</td><td>" + userName + "</td><td>" + accessId + "</td><td>" +
-							content + "</td><td>" + createTime + "</td><td>" + getStateInfo("access", state) +
+							content + "</td><td>" + createTime + "</td><td acestate='"+state+"'>" + getStateInfo("access", state) +
 							"</td><td><select name='accessStatus' class='form-control'><option value='1'>"+getStateInfo("access", 1)+"</option>" +
 							"<option value ='2'>"+getStateInfo("access", 2)+"</option></select></td><td><button type='button' class='accessDelete'>删除</button></td></tr>";
 						var $new = $(trHtml);
 						$("div#accessManagement table.table").append($new);
 					}
 					$("div#accessManagement div#paging").attr("page", nowPage);
+					ruleAceState();
 				}
 			}
 		});
@@ -1222,7 +1312,7 @@ $(document).ready(function() {
 				if (JSON.parse(data).success) {
 					if(JSON.parse(data).data.length==0){
 						alert("已经是最后一页了~");
-						$("div#product div#paging").attr("page", (--nowPage));
+						$("div#accessManagement div#paging").attr("page", (--nowPage));
 						return;
 					}
 					$("div#accessManagement table tr").not("tr.trTitle").remove();
@@ -1234,13 +1324,14 @@ $(document).ready(function() {
 						var createTime = JSON.parse(data).data[i].comment.createTime;
 						var state = JSON.parse(data).data[i].state;
 						var trHtml = "<tr><td>" + productId + "</td><td>" + userName + "</td><td>" + accessId + "</td><td>" +
-							content + "</td><td>" + createTime + "</td><td>" + getStateInfo("access", state) +
+							content + "</td><td>" + createTime + "</td><td acestate='"+state+"'>" + getStateInfo("access", state) +
 							"</td><td><select name='accessStatus' class='form-control'><option value='1'>"+getStateInfo("access", 1)+"</option>" +
 							"<option value ='2'>"+getStateInfo("access", 2)+"</option></select></td><td><button type='button' class='accessDelete'>删除</button></td></tr>";
 						var $new = $(trHtml);
 						$("div#accessManagement table.table").append($new);
 					}
 					$("div#accessManagement div#paging").attr("page", nowPage);
+					ruleAceState();
 				}
 			}
 		});

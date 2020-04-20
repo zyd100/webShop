@@ -172,7 +172,7 @@ $(document).ready(function() {
 		var nowActivePage = $(this).closest("ul.pagination").find("li.active"); //现在活跃的页
 		var prevLi = $(this).closest("ul.pagination").find("li.prev"); //按钮：上一页
 		var nextLi = $(this).closest("ul.pagination").find("li.next"); //按钮：下一页
-		var keyword = $(":text").val(data.keyword);
+		var keyword = $(":text").val();
 		if ($(this).hasClass("prev")) {
 			if ($(this).next().text() == nowActivePage.text()) {
 				prevLi.addClass("disabled")
@@ -191,15 +191,15 @@ $(document).ready(function() {
 				$.ajax({
 					url: search_url,
 					type: "get",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify(product_text),
+					//contentType: "application/json; charset=utf-8",
+					//data: JSON.stringify(product_text),
 					success: function(data, status) {
 						$("div#sr_wares").find("div.bd").remove();
-						for (var i = 0; i < JSON.parse(data).productList.length; i++) {
-							var product_id = JSON.parse(data).productList[i].id;
-							var product_name = JSON.parse(data).productList[i].productName;
-							var product_price = JSON.parse(data).productList[i].shopPrice;
-							var product_img =  ctxImg +JSON.parse(data).productList[i].image;
+						for (var i = 0; i < JSON.parse(data).data.productList.length; i++) {
+							var product_id = JSON.parse(data).data.productList[i].id;
+							var product_name = JSON.parse(data).data.productList[i].productName;
+							var product_price = JSON.parse(data).data.productList[i].shopPrice;
+							var product_img =  ctxImg +JSON.parse(data).data.productList[i].image;
 							var wares_name = product_name + "<br>¥<b>" + product_price + "</b>";
 							var htmlText = "<div class='col-sm-3 col-xs-3 a3 bd fade'><a href='' product_id='" +
 								product_id +
@@ -232,15 +232,15 @@ $(document).ready(function() {
 				$.ajax({
 					url: search_url,
 					type: "get",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify(product_text),
+					//contentType: "application/json; charset=utf-8",
+					//data: JSON.stringify(product_text),
 					success: function(data, status) {
 						$("div#sr_wares").find("div.bd").remove();
-						for (var i = 0; i < JSON.parse(data).productList.length; i++) {
-							var product_id = JSON.parse(data).productList[i].id;
-							var product_name = JSON.parse(data).productList[i].productName;
-							var product_price = JSON.parse(data).productList[i].shopPrice;
-							var product_img =  ctxImg +JSON.parse(data).productList[i].image;
+						for (var i = 0; i < JSON.parse(data).data.productList.length; i++) {
+							var product_id = JSON.parse(data).data.productList[i].id;
+							var product_name = JSON.parse(data).data.productList[i].productName;
+							var product_price = JSON.parse(data).data.productList[i].shopPrice;
+							var product_img =  ctxImg +JSON.parse(data).data.productList[i].image;
 							var wares_name = product_name + "<br>¥<b>" + product_price + "</b>";
 							var htmlText = "<div class='col-sm-3 col-xs-3 a3 bd fade'><a href='' product_id='" +
 								product_id +
@@ -268,15 +268,15 @@ $(document).ready(function() {
 			$.ajax({
 				url: search_url,
 				type: "get",
-				contentType: "application/json; charset=utf-8",
-				data: JSON.stringify(product_text),
+				//contentType: "application/json; charset=utf-8",
+				//data: JSON.stringify(product_text),
 				success: function(data, status) {
 					$("div#sr_wares").find("div.bd").remove();
-					for (var i = 0; i < JSON.parse(data).productList.length; i++) {
-						var product_id = JSON.parse(data).productList[i].id;
-						var product_name = JSON.parse(data).productList[i].productName;
-						var product_price = JSON.parse(data).productList[i].shopPrice;
-						var product_img =  ctxImg +JSON.parse(data).productList[i].image;
+					for (var i = 0; i < JSON.parse(data).data.productList.length; i++) {
+						var product_id = JSON.parse(data).data.productList[i].id;
+						var product_name = JSON.parse(data).data.productList[i].productName;
+						var product_price = JSON.parse(data).data.productList[i].shopPrice;
+						var product_img =  ctxImg +JSON.parse(data).data.productList[i].image;
 						var wares_name = product_name + "<br>¥<b>" + product_price + "</b>";
 						var htmlText = "<div class='col-sm-3 col-xs-3 a3 bd fade'><a href='' product_id='" +
 							product_id +
@@ -306,6 +306,8 @@ $(document).ready(function() {
 		}
 		prevLi.children("span").attr("title", nowPage);
 		nextLi.children("span").attr("title", nowPage);
+		/* 设置页面位置  */
+		document.documentElement.scrollTop=0
 	});
 });
 

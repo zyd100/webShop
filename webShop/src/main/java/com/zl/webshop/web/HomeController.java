@@ -67,7 +67,7 @@ public class HomeController {
   /**
    * 首页产品滚动推荐数
    */
-  public static final int ROLLPRODUCTSCOUNT = 7;
+  public static final int ROLLPRODUCTSCOUNT = 9;
   /**
    * 随机商品展示类别数
    */
@@ -237,6 +237,7 @@ public class HomeController {
       logger.error(e.getMessage());
       result = new Result<>(false, e.getMessage());
     }
+    logger.info(JSON.toJSONString(result));
     return JSON.toJSONString(result);
   }
 
@@ -279,6 +280,9 @@ public class HomeController {
       productExecution = productService.getProduct(productId, null);
       // 获取10条此产品评论
       commentExecutions = commentService.getcommentsByProductId(productId, 0, 10);
+      commentExecutions =
+          commentExecutions.stream().filter(x -> x.getState() != CommentAuditEnum.AUDIT.getState())
+              .collect(Collectors.toList());
     } catch (NoProductException e) {
       throw e;
     } catch (NoCategoryException e) {
@@ -288,7 +292,8 @@ public class HomeController {
       throw e;
     }
     // 填装数据
-    logger.debug(productExecution.toString());
+    logger.info(productExecution.toString());
+    logger.info(JSON.toJSONString(commentExecutions));
     model.addAttribute("product", JSON.toJSONString(productExecution));
     model.addAttribute("comments", JSON.toJSONString(commentExecutions));
     // 前往商品详情页

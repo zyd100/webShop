@@ -47,7 +47,7 @@
 					<div class="row">
 						<div class="col-sm-2 col-xs-2"></div>
 						<div id="sr_logo" class="col-sm-4 col-xs-4">
-							<a href="Home.html" title="返回首页"><img src="${pageContext.request.contextPath }/resources/images/logo.png"></a>
+							<a href="${pageContext.request.contextPath }/home" title="返回首页"><img src="${pageContext.request.contextPath }/resources/images/logo.png"></a>
 						</div>
 						<div class="col-sm-1 col-xs-1"></div>
 						<div id="sr_search" class="col-sm-4 col-xs-4">

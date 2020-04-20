@@ -1,8 +1,9 @@
  function initProInfo(productInfo){
 	$("img.bigImg").attr("src",  ctxImg +productInfo.product.image);
+	$("img.bigImg").attr("myImg",  ctxImg +productInfo.product.image);
 	//预备展示图片填入
 	$("div.smallImgDiv").find("img").remove();
-	for (var i = 0; i < 6 && i < productInfo.productImages.length; i++) {
+	for (var i = 0; i < 5 && i < productInfo.productImages.length; i++) {
 		var product_image =  ctxImg +productInfo.productImages[i].image;
 		var smallImgHtml = "<img src='" + product_image + "' bigImageUrl='" + product_image + "' class='smallImg'>";
 		var $new = $(smallImgHtml);
@@ -78,7 +79,12 @@ function imgShow(){
 		var bigImageURL = $(this).attr("bigImageUrl");
 		$("img.bigImg").attr("src", bigImageURL);
 	});
-
+	
+	$("img.smallImg").mouseleave(function(){
+		var myImage=$("img.bigImg").attr("myImg");
+		$("img.bigImg").attr("src",myImage);
+	});
+	
 	/* 图片加载事件 */
 	$("img.bigImg").load(
 		function() {
@@ -256,15 +262,27 @@ $(document).ready(function() {
 
 	/* 立即下单 */
 	$("div.buyBtns").on("click", "button#buyBtn", function() {
-		/*var buyCount = $("input#buyCount").val();
-		var product_id = $("p.productName").attr("product_id");
 		var userName = $("div#wd_personal").attr("userName");
-		var buyText = {
-			"product_id": product_id,
-			"buyCount": buyCount
-		};
-		var order_url = ctx+"/users/" + userName + "/carts/order";*/
+		var buyCount = $("input#buyCount").val();
+		var product_id = $("p.productName").attr("product_id");
+		if(userName==""){
+			alert("请先登录！！！");
+			return;
+		}	
+		var order_url = ctx+"/users/" + userName + "/carts/order";
+		$("form#buyForm").attr("action",order_url);
 		
+		var nameHtml="<input type='hidden' name='userName' value='"+userName+"' />";
+		var $new=$(nameHtml);
+		$("form#buyForm").prepend($new);
+		idHtml="<input type='hidden' name='orderItemList[0].productId' value='"+product_id+"' />";
+		$new=$(idHtml);
+		$("form#buyForm").prepend($new);
+		countHtml="<input type='hidden' name='orderItemList[0].quantity' value="+buyCount+" />";
+		$new=$(countHtml);
+		$("form#buyForm").prepend($new);
+		
+		$("form#buyForm").submit();
 	});
 });
 

@@ -217,6 +217,11 @@ li a:hover {
 	padding-bottom: 40px;
 }
 
+img.adImg{
+	width: 200px;
+	height: 162px;
+}
+
 #adImg div:first-child {
 	margin-bottom: 40px;
 }

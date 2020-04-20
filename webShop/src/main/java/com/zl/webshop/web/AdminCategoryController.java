@@ -101,7 +101,7 @@ public class AdminCategoryController {
       result = new Result<Integer>(true, adminCategoryService.deleteCateGory(category));
     } catch (Exception e) {
       logger.error(e.getMessage());
-      result = new Result<>(false, e.getMessage());
+      result = new Result<>(false, "删除分类失败，请检查此分类下是否仍有产品存在");
     }
     return JSON.toJSONString(result);
   }

@@ -27,8 +27,8 @@ function initRollPro(dataRollProducts){
 		addImg(dataRollProducts[i]);
 	}
 	
-	for (var i = 4; i < 7 && i<dataRollProducts.length; i++) {
-		var imgObj = $("div#adImg").find("div a").eq(i-4);
+	for (var i = 6; i < 9 && i<dataRollProducts.length; i++) {
+		var imgObj = $("div#adImg").find("div a").eq(i-6);
 		var product_id = dataRollProducts[i].id;
 		var product_img =  ctxImg +dataRollProducts[i].image;
 		imgObj.attr("product_id", product_id);

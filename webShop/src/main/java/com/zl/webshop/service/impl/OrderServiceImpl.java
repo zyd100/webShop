@@ -446,6 +446,7 @@ public class OrderServiceImpl implements OrderService {
             .filter(x -> x.getStatus() != status.getState()).collect(Collectors.toList());
       } else {
           orderInfos=orderInfoDao.queryByUserName(userName, offset, limit);
+          logger.info(orderInfos.toString());
       }
       orderExecution=new OrderExecution();
       //×°ÌîÊý¾Ý
